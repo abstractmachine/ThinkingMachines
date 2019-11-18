@@ -30,4 +30,8 @@ function keyPressed() {
  * */
 function canvasToImageElement(canvasSelector, elementSelector) {
 	elementSelector.elt.src = canvasSelector.elt.toDataURL("image/png")
+
+
+	elementSelector.elt.width = canvasSelector.width
+	elementSelector.elt.height = canvasSelector.height
 }

@@ -18,14 +18,16 @@ function keyPressed() {
 
 		let p5Img = select("#p5Image")
 		canvasToImageElement(p5Canvas, p5Img)
-		p5Img.width = p5Canvas.width
-		p5Img.height = p5Canvas.height
 
 		Bindery.makeBook({ content: ".content" })
 	}
 }
 
-
+/**
+ * Save HTMLCanvasElement content to an img HTMLElement by query selector
+ * @param {p5.Renderer} canvasSelector		- p5 Renderer canvas to convert in to an HTMLImgElement
+ * @param {p5.Element|null} elementSelector - image element selected with select() P5 function
+ * */
 function canvasToImageElement(canvasSelector, elementSelector) {
 	elementSelector.elt.src = canvasSelector.elt.toDataURL("image/png")
 }

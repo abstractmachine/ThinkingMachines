@@ -14,7 +14,7 @@ function setup() {
 }
 
 function keyPressed() {
-	if (key == ' ') {
+	if (key === ' ') {
 
 		let p5Img = select("#p5Image")
 		canvasToImageElement(p5Canvas, p5Img)

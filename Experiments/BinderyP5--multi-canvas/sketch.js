@@ -1,5 +1,5 @@
-// create bindery UI
-const binderyUI = new BinderyControl();
+// create binderyControl
+const binderyControl = new BinderyControl();
 
 // Sketch One
 const p5_sketch_1 = (p5) => { // p5 could be any variable name

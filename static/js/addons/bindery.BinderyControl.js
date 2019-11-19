@@ -1,24 +1,21 @@
 class BinderyControl {
 
     constructor() {
-        this.makeBookUIButton = this._createUIButton(async () => {
-            this.makeBook()
-        })
+        this.makeBookUIButton = this._createUIButton()
         return this
     }
 
     async makeBook() {
-        await BinderyControl._canvasToImageElement()
+        await this._canvasToImageElement()
         await Bindery.makeBook({ content: ".content" })
     }
 
     /**
      * add button element to body html content with a click event listener
      * @private
-     * @param {function} onClick- function to execute on click event
      * @return {HTMLButtonElement} - HTMLButtonElement added to body element
      * */
-    async _createUIButton(onClick) {
+    async _createUIButton() {
         const uiButton = document.createElement("button")
         uiButton.textContent = "generate book"
 
@@ -36,22 +33,21 @@ class BinderyControl {
 
         document.body.appendChild(uiButton)
 
-        uiButton.addEventListener("click", () => {
-            onClick()
+        uiButton.addEventListener("click", async () => {
+            this.makeBook()
         })
 
         return  uiButton
     }
 
+    // todo: don't remove canvas element and save HTMLImageElement generated
     /**
      * Save HTMLCanvasElement content to an img HTMLElement by query selector
      * @private
      * */
-    static async _canvasToImageElement() {
+    async _canvasToImageElement() {
 
         const listOfCanvasElement = document.querySelectorAll("canvas")
-
-        console.log(listOfCanvasElement)
 
         for await (let canvas of listOfCanvasElement) {
 

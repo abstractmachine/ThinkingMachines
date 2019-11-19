@@ -2,6 +2,7 @@
 const p5_sketch_1 = (p5) => { // p5 could be any variable name
 	let x = 100
 	let y = 100
+	let speed = 2.5
 
 	p5.setup = () => {
 		p5.createCanvas(400, 200)
@@ -11,6 +12,11 @@ const p5_sketch_1 = (p5) => { // p5 could be any variable name
 		p5.background(0)
 		p5.fill(255)
 		p5.rect(x,y,50,50)
+		y -= speed
+
+		if(y < 0){
+			y = p5.height
+		}
 	}
 }
 const myP51 = new p5(p5_sketch_1, "p5-container-1")

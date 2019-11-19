@@ -8,6 +8,7 @@ class BinderyControl {
     async makeBook() {
         await this._canvasToImageElement()
         await Bindery.makeBook({ content: ".content" })
+        this.makeBookUIButton.style.display = "none"
     }
 
     /**
@@ -15,7 +16,7 @@ class BinderyControl {
      * @private
      * @return {HTMLButtonElement} - HTMLButtonElement added to body element
      * */
-    async _createUIButton() {
+    _createUIButton() {
         const uiButton = document.createElement("button")
         uiButton.textContent = "generate book"
 
@@ -47,7 +48,7 @@ class BinderyControl {
      * */
     async _canvasToImageElement() {
 
-        const listOfCanvasElement = document.querySelectorAll("canvas")
+        const listOfCanvasElement = document.querySelectorAll(".content canvas")
 
         for await (let canvas of listOfCanvasElement) {
 

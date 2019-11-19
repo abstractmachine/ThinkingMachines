@@ -1,14 +1,14 @@
-class BinderyUI {
+class BinderyControl {
 
     constructor() {
-        this.buttonToGenerateBinderyBook = this._createUIButton(async () => {
+        this.makeBookUIButton = this._createUIButton(async () => {
             this.makeBook()
         })
         return this
     }
 
     async makeBook() {
-        await BinderyUI._canvasToImageElement()
+        await BinderyControl._canvasToImageElement()
         await Bindery.makeBook({ content: ".content" })
     }
 

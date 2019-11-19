@@ -1,3 +1,6 @@
+// create bindery UI
+const binderyUI = new BinderyUI();
+
 // Sketch One
 const p5_sketch_1 = (p5) => { // p5 could be any variable name
 	let x = 100
@@ -45,27 +48,3 @@ const p5_sketch_2 = (p5) => { // p5 could be any variable name
 }
 const myP52 = new p5(p5_sketch_2, "p5-container-2")
 
-
-
-/**
- * Save HTMLCanvasElement content to an img HTMLElement by query selector
- * @param {p5.Renderer} canvasSelector		- p5 Renderer canvas to convert in to an HTMLImgElement
- * @param {p5.Element|null} elementSelector - image element selected with select() P5 function
- * */
-function canvasToImageElement(canvasSelector, elementSelector) {
-
-	const canvasParentElement = canvasSelector.parent()
-
-	if(canvasParentElement instanceof HTMLParagraphElement) {
-		const imgElement = new Image()
-
-		imgElement.width 	= canvasSelector.width
-		imgElement.height 	= canvasSelector.height
-		imgElement.src 		= canvasSelector.elt.toDataURL("image/png")
-
-		canvasParentElement.appendChild(imgElement)
-		canvasParentElement.removeChild(canvasSelector.elt)
-	} else {
-		console.error("p5 canvas elements must be placed in a HTMLParagraphElement parent node:\n<p><canvas id='p5-canvas'></canvas></p>\n", canvasSelector.elt)
-	}
-}

@@ -8,8 +8,8 @@ Each tag must have a unique identifier noted ```id="name-of-the-identifier"```
 
 example:
 ``` html
-<p id = "p5-1"> </ p>
-<p id = "p5-2"> </ p>
-<p id = "p5-3"> </ p>
+<p id = "p5-container-1"> </ p>
+<p id = "p5-container-2"> </ p>
+<p id = "p5-container-3"> </ p>
 ...
 ```

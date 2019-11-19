@@ -26,9 +26,8 @@ function keyPressed() {
 /**
  * Save HTMLCanvasElement content to an img HTMLElement by query selector
  * @param {p5.Renderer} canvasSelector		- p5 Renderer canvas to convert in to an HTMLImgElement
- * @param {p5.Element|null} elementSelector - image element selected with select() P5 function
  * */
-function canvasToImageElement(canvasSelector, elementSelector) {
+function canvasToImageElement(canvasSelector) {
 
 	const canvasParentElement = canvasSelector.parent()
 

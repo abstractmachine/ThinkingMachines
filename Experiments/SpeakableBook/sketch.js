@@ -8,7 +8,7 @@ function setup() {
 	speech.onResult = speechReceiver
 	// make sure I'm constantly detecting speech
 	speech.continuous = true
-	speech.iterimResults = true
+	speech.interimResults = true
 	// start the speech detection now
 	speech.start()
 }

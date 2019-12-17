@@ -1,4 +1,7 @@
 import io from './web_modules/socket.io-client/dist/socket.io.js'
+import paper from './web_modules/paper/dist/paper-full.js'
+import p5 from './web_modules/p5/lib/p5.js'
+console.log(paper, p5)
 
 const { protocol, hostname, port } = window.location
 const socket = io(`${protocol}//${hostname}:${port}`)

@@ -13,7 +13,7 @@ server.use(mount('/web_modules', serve('./web_modules')))
 io.on('connect', socket => {
   socket.on('hello', message => {
     console.log('Socket', socket.id, 'said hello:', message)
-    socket.emit('hello', 'Hello back!')
+    socket.emit('hello', 'Hello there, client!')
     socket.broadcast.emit('new-client', `Socket ${socket.id} has joined!`)
   })
 })

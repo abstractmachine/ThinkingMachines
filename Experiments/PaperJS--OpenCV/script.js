@@ -31,19 +31,19 @@ async function setupVideo() {
 }
 
 function filterPaths(paths) {
-  let tolerance = 16;
   for (path1 of paths) {
-    let found = false
+    let keepPath = false
     for (path2 of paths) {
       if (
         path1 !== path2 && 
-        path1.position.getDistance(path2.position) < tolerance &&
+        path1.position.getDistance(path2.position) < 16 &&
         path1.bounds.contains(path2.bounds)
       ) {
-        found = true
+        keepPath = true
+        break
       }
     }
-    if (!found) {
+    if (!keepPath) {
       path1.remove()
     }
   }

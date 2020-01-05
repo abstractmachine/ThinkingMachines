@@ -7,8 +7,7 @@ paper.setup('canvas')
 // The fillPathsWithText() algorithm below then uses these to add
 // visual hyphens in places where hyphenation actually happens.
 
-let hyphenChar = '\xad'
-let hyphenate = createHyphenator(hyphenationPatternsEnUs, { hyphenChar })
+let hypher = new Hypher(Hypher.languages['en-us'])
 
 let path1 = new Path.Circle({
   center: view.center.subtract([200, 200]),
@@ -75,7 +74,7 @@ function fillPathsWithText(paths, text, settings) {
   // Split text text at white-space characters as well as silent hyphens as
   // inserted by the hyphenator, but also capture these white-spaces and hyphens
   // so that line-breaks can be dealt with below.
-  let parts = hyphenate(text).split(/([\s\xad])/)
+  let parts = hypher.hyphenateText(text).split(/([\s\xad])/)
 
   for (let line of lines) {
     let lineParts = line.children || [line]
@@ -125,5 +124,5 @@ function fillPathsWithText(paths, text, settings) {
 }
 
 function setContent(textItem, content) {
-  textItem.content = content.endsWith(hyphenChar) ? `${content}-` : content
+  textItem.content = content.endsWith('\xad') ? `${content}-` : content
 }

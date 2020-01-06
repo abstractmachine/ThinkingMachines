@@ -1,6 +1,7 @@
 // Setup paper globally
+const paperCanvasSelector = "canvas"
 paper.install(window)
-paper.setup('canvas')
+paper.setup(paperCanvasSelector)
 
 // global status
 let getPathFromVideo = true
@@ -56,23 +57,30 @@ async function setupVideo(callOnVideoFrame) {
       if (getPathFromVideo) {
         const paths = findContourPaths(video, canvas)
         globalPaths = filterPaths(paths)
+
+        try {
+          let unconsumedText = fillPathsWithText(globalPaths, text, settings)
+          console.log('Uncosumed text:', unconsumedText)
+        }
+        catch (e) {
+          console.error(e)
+        }
       }
     }
   }
 }
 
 function initEventListenerToGenerateLayout() {
-  document.addEventListener('click', () => {
+  const buttonElement = document.querySelector("#button-send-layout");
 
-    getPathFromVideo = false
+  const initialText = "send layout"
+  const resetText   = "reset"
 
-    try {
-      let unconsumedText = fillPathsWithText(globalPaths, text, settings)
-      console.log('Uncosumed text:', unconsumedText)
-    }
-    catch (e) {
-      console.error(e)
-    }
+  buttonElement.innerText = initialText
+
+  buttonElement.addEventListener('click', () => {
+    getPathFromVideo = !getPathFromVideo
+    buttonElement.innerText = getPathFromVideo ? initialText : resetText
   })
 }
 

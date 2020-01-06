@@ -8,3 +8,9 @@ canvas[resize] {
   width: 100%;
   height: 100%;
 }
+
+#button-send-layout {
+  position: fixed;
+  top: 0;
+  right: 0;
+}

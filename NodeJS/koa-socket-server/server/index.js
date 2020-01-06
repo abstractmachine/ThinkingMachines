@@ -11,6 +11,9 @@ server.use(serve('./client'))
 server.use(mount('/web_modules', serve('./web_modules')))
 
 io.on('connect', socket => {
+
+  console.log("connected")
+
   socket.on('hello', message => {
     console.log('Socket', socket.id, 'said hello:', message)
     socket.emit('hello', 'Hello there, client!')

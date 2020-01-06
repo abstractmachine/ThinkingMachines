@@ -153,10 +153,9 @@ function convertContoursToPaths(contours, minArea = 0, pathProperties = {}) {
   return paths;
 }
 
+let hypher = new Hypher(Hypher.languages['en-us'])
+
 function fillPathsWithText(paths, text, settings) {
-
-  console.log(paths)
-
   let lines = []
 
   for (let path of paths) {
@@ -178,9 +177,10 @@ function fillPathsWithText(paths, text, settings) {
 
   }
 
-  // Split text text at white-space characters, but also capture the white-space
+  // Split text text at white-space characters as well as silent hyphens as
+  // inserted by the hyphenator, but also capture these white-spaces and hyphens
   // so that line-breaks can be dealt with below.
-  let parts = text.split(/(\s)/)
+  let parts = hypher.hyphenateText(text).split(/([\s\xad])/)
 
   for (let line of lines) {
     let lineParts = line.children || [line]
@@ -210,12 +210,12 @@ function fillPathsWithText(paths, text, settings) {
           break
         }
         content += part
-        text.content = content
+        setContent(text, content)
       }
       if (lineBreak) {
         break
       } else if (fittingContent) {
-        text.content = fittingContent
+        setContent(text, fittingContent)
         // Put the last non-fitting part back into the stack
         parts.unshift(part)
       } else {
@@ -227,4 +227,8 @@ function fillPathsWithText(paths, text, settings) {
   // Return the text that wasn't consumed yet
   let unconsumed = parts.join('')
   return unconsumed
+}
+
+function setContent(textItem, content) {
+  textItem.content = content.endsWith('\xad') ? `${content}-` : content
 }

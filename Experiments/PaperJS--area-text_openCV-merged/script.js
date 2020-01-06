@@ -55,8 +55,7 @@ async function setupVideo(callOnVideoFrame) {
     view.onFrame = () => {
       if (getPathFromVideo) {
         const paths = findContourPaths(video, canvas)
-        filterPaths(paths)
-        globalPaths = paths
+        globalPaths = filterPaths(paths)
       }
     }
   }
@@ -78,6 +77,7 @@ function initEventListenerToGenerateLayout() {
 }
 
 function filterPaths(paths) {
+  let filtered = []
   for (const path1 of paths) {
     let keepPath = false
     for (const path2 of paths) {
@@ -90,10 +90,13 @@ function filterPaths(paths) {
         break
       }
     }
-    if (!keepPath) {
+    if (keepPath) {
+      filtered.push(path1)
+    } else {
       path1.remove()
     }
   }
+  return filtered
 }
 
 /**
@@ -147,9 +150,6 @@ function convertContoursToPaths(contours, minArea = 0, pathProperties = {}) {
       paths.push(path);
     }
   }
-
-  console.log('convertContoursToPaths: ', paths)
-
   return paths;
 }
 

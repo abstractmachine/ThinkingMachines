@@ -76,73 +76,29 @@ function findCountourAndWarpImage(video, canvas) {
     })
     hierarchy.delete()
     contours.delete()
-    // Keep only the largest path for further processing
+    // Find the largest path, which should be the bounding box around the card:
     let bounds = findLargestPath(paths)
+    // Remove all other contour paths again:
     for (let path of paths) {
       if (path !== bounds) {
         path.remove()
       } 
     }
+    // Only carry on if the bounds consist of exactly 4 corners.
     if (bounds && bounds.segments.length === 4) {
-      let width = src.cols
-      let height = src.rows
-      let size = new cv.Size(width. height)
-      let points = bounds.segments.map(seg => seg.point)
-      let topPoints = [...points].sort((a, b) => a.y < b.y ? -1 : 1).slice(0, 2)
-      let topLeftPoint = topPoints.sort((a, b) => a.x < b.x ? -1 : 1)[0]
-      while (true) {
-        let point = points.shift()
-        if (point === topLeftPoint) {
-          points.unshift(point)
-          break
-        } else {
-          points.push(point)
-        }
-      }
-      bounds.segments = points
-      let [p1, p2, p3, p4] = points
-      new Path.Circle({
-        center: topLeftPoint,
-        radius: 10,
-        strokeColor: 'red'
-      })
-      let fromRect = cv.matFromArray(4, 1, cv.CV_32FC2, [p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y])
-      let toRect = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 0, height, width, height, width, 0])
-      let mx = cv.getPerspectiveTransform(fromRect, toRect)
-      fromRect.delete()
-      toRect.delete()
-      cv.warpPerspective(src, src, mx, size)
-      mx.delete()
+      warpImageToBounds(src, bounds)
       // Now bring the image to scannerScope through a Paper.js Raster in the
       // scannerScope
       cv.imshow(canvas, src)
       scannerScope.activate()
-      scannerRaster.size = { width, height }
+      scannerRaster.size = new Size(canvas)
       scannerRaster.drawImage(canvas)
       scannerRaster.position = scannerScope.view.center
-      scannerGrid.bounds = scannerRaster.bounds.expand(-8)
+      scannerGrid.bounds = scannerRaster.bounds
+      // Scale a little bit, to better match the actual bitmap positions:
+      scannerGrid.scale(1.005)
       scannerGrid.visible = true
-      let options = {}
-      // Loop through all boxes and assign the options based on their names in
-      // the SVG document.
-      for (const box of scannerBoxes) {
-        var chosen = scannerRaster.getAverageColor(box.bounds).gray > 0.5
-        box.fillColor = chosen ? 'green' : 'red'
-        if (box.name) {
-          let [groupKey, optionKey] = box.name.split(/(^|[A-Z][a-z0-9]*)/)
-          let group = options[groupKey] || (options[groupKey] = {})
-          group[optionKey.toLowerCase()] = chosen 
-        }
-      }
-      // Loop again through all option-groups, and process the random settings:
-      for (const group of Object.values(options)) {
-        if (group.random) {
-          const keys = Object.keys(group).filter(key => key !== 'random')
-          const randomKey = keys[Math.floor(Math.random() * keys.length)]
-          group[randomKey] = true
-        }
-      }
-      console.log('Options', options)
+      console.log('Options', getOptionsFromScannerBoxes())
     } else {
       scannerRaster.clear()
       scannerGrid.visible = false
@@ -167,6 +123,63 @@ function findLargestPath(paths) {
     }
   }
   return largestPath
+}
+
+function warpImageToBounds(image, bounds) {
+  let width = image.cols
+  let height = image.rows
+  let size = new cv.Size(width. height)
+  // Find the top-left corner, by ordering the points by y and x coords:
+  let points = bounds.segments.map(seg => seg.point)
+  let topPoints = [...points].sort((a, b) => a.y < b.y ? -1 : 1).slice(0, 2)
+  let topLeftPoint = topPoints.sort((a, b) => a.x < b.x ? -1 : 1)[0]
+  // Now rearrange the points so the top-left point comes first:
+  while (true) {
+    let point = points.shift()
+    if (point === topLeftPoint) {
+      points.unshift(point)
+      break
+    } else {
+      points.push(point)
+    }
+  }
+  let [p1, p2, p3, p4] = points
+  new Path.Circle({
+    center: topLeftPoint,
+    radius: 10,
+    strokeColor: 'red'
+  })
+  let fromRect = cv.matFromArray(4, 1, cv.CV_32FC2, [p1.x, p1.y, p2.x, p2.y, p3.x, p3.y, p4.x, p4.y])
+  let toRect = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, 0, height, width, height, width, 0])
+  let mx = cv.getPerspectiveTransform(fromRect, toRect)
+  fromRect.delete()
+  toRect.delete()
+  cv.warpPerspective(image, image, mx, size)
+  mx.delete()
+}
+
+function getOptionsFromScannerBoxes() {
+  let options = {}
+  // Loop through all boxes and assign the options based on their names in
+  // the SVG document.
+  for (const box of scannerBoxes) {
+    var chosen = scannerRaster.getAverageColor(box.bounds).gray > 0.5
+    box.fillColor = chosen ? 'green' : 'red'
+    if (box.name) {
+      let [groupKey, optionKey] = box.name.split(/(^|[A-Z][a-z0-9]*)/)
+      let group = options[groupKey] || (options[groupKey] = {})
+      group[optionKey.toLowerCase()] = chosen 
+    }
+  }
+  // Loop again through all option-groups, and process the random settings:
+  for (const group of Object.values(options)) {
+    if (group.random) {
+      const keys = Object.keys(group).filter(key => key !== 'random')
+      const randomKey = keys[Math.floor(Math.random() * keys.length)]
+      group[randomKey] = true
+    }
+  }
+  return options
 }
 
 function convertContoursToPaths(contours, minArea = 0, approxPolyEpsilon = 0, pathProperties = {}) {

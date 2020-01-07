@@ -63,7 +63,7 @@ function findCountourAndWarpImage(video, canvas) {
     if (false) {
       cv.adaptiveThreshold(src, src, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2)
     } else {
-      cv.threshold(src, src, 96, 255, cv.THRESH_BINARY_INV)
+      cv.threshold(src, src, 128, 255, cv.THRESH_BINARY_INV)
     }
     let contours = new cv.MatVector()
     let hierarchy = new cv.Mat()
@@ -123,11 +123,23 @@ function findCountourAndWarpImage(video, canvas) {
       scannerGrid.bounds = scannerRaster.bounds.expand(-8)
       scannerGrid.visible = true
       let options = {}
+      // Loop through all boxes and assign the options based on their names in
+      // the SVG document.
       for (const box of scannerBoxes) {
         var chosen = scannerRaster.getAverageColor(box.bounds).gray > 0.5
         box.fillColor = chosen ? 'green' : 'red'
         if (box.name) {
-          options[box.name] = chosen
+          let [groupKey, optionKey] = box.name.split(/(^|[A-Z][a-z0-9]*)/)
+          let group = options[groupKey] || (options[groupKey] = {})
+          group[optionKey.toLowerCase()] = chosen 
+        }
+      }
+      // Loop again through all option-groups, and process the random settings:
+      for (const group of Object.values(options)) {
+        if (group.random) {
+          const keys = Object.keys(group).filter(key => key !== 'random')
+          const randomKey = keys[Math.floor(Math.random() * keys.length)]
+          group[randomKey] = true
         }
       }
       console.log('Options', options)

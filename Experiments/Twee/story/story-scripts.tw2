@@ -1,0 +1,12 @@
+::StoryJS [script]
+
+window.getNamesOfPassages = function(tag) {
+	var tagged = Passages.getTagged(tag);
+	var names = tagged.map(function (el) {
+		return el.get('name');
+	});
+	return names;
+};
+
+let passages = getNamesOfPassages('');
+

@@ -1,5 +1,0 @@
-::StoryJS [script]
-
-function test() {
-	alert('test');
-}

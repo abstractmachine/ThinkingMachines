@@ -26,6 +26,10 @@ tw-story {
 	font-variation-settings: 'wght' 150, 'wdth' 80, 'opsz' 24, 'YTSE' 18;
 }
 
+tw-sidebar {
+	display: none;
+}
+
 b, em {
 	font-variation-settings: 'wght' 600, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 }
@@ -41,7 +45,32 @@ strong {
 	font-stretch: 50% 200%;
 	font-style: normal;
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">window.getNamesOfPassages = function(tag) {
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">// define access function from raw Javascrip to Twine
+
+window.getVariable = function(prop) {
+	if (typeof(prop) === typeof(undefined) ||
+			prop === '') {
+		return;
+	}	
+	return prop[0] === '$' ? 
+		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop];
+}
+
+
+window.setVariable = function(prop, val) {
+	if (typeof(prop) === typeof(undefined) ||
+			prop === '' ||
+			typeof(val) === typeof(undefined)) {
+		return; 
+	}
+	if (prop[0] === '$') {
+		prop = prop.slice(1, prop.length);  
+	}
+	_state.variables[prop] = val;
+}
+
+
+window.getNamesOfPassages = function(tag) {
 	var tagged = Passages.getTagged(tag);
 	var names = tagged.map(function (el) {
 		return el.get('name');
@@ -49,10 +78,20 @@ strong {
 	return names;
 };
 
+// define access variables
+
+let _state = State;
+window._state = _state;
+
 let passages = getNamesOfPassages('');
-</script><tw-passagedata pid="1" name="Start" tags="" position="">This text uses the *variable* font **Amstelvar**.
-(display: "Choices")</tw-passagedata><tw-passagedata pid="2" name="Started" tags="" position="">Here is your story.</tw-passagedata><tw-passagedata pid="3" name="Choices" tags="" position="">{
-	Please insert your story choices.
+window.passages = passages;
+</script><tw-passagedata pid="1" name="Start" tags="" position="">{
+	(display: "Setup-Variables")
+	(display: "Setup-Choices")
+	(goto: "Started")
+}</tw-passagedata><tw-passagedata pid="2" name="Started" tags="" position="">This text uses the *variable* font **Amstelvar**.</tw-passagedata><tw-passagedata pid="3" name="Ready" tags="" position="">Here is your story.</tw-passagedata><tw-passagedata pid="4" name="Setup-Choices" tags="" position="">{
+}</tw-passagedata><tw-passagedata pid="5" name="Setup-Variables" tags="" position="">{
+	(set: $frog to "prince")
 }</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**

@@ -1,5 +1,30 @@
 ::StoryJS [script]
 
+// define access function from raw Javascrip to Twine
+
+window.getVariable = function(prop) {
+	if (typeof(prop) === typeof(undefined) ||
+			prop === '') {
+		return;
+	}	
+	return prop[0] === '$' ? 
+		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop];
+}
+
+
+window.setVariable = function(prop, val) {
+	if (typeof(prop) === typeof(undefined) ||
+			prop === '' ||
+			typeof(val) === typeof(undefined)) {
+		return; 
+	}
+	if (prop[0] === '$') {
+		prop = prop.slice(1, prop.length);  
+	}
+	_state.variables[prop] = val;
+}
+
+
 window.getNamesOfPassages = function(tag) {
 	var tagged = Passages.getTagged(tag);
 	var names = tagged.map(function (el) {
@@ -8,5 +33,10 @@ window.getNamesOfPassages = function(tag) {
 	return names;
 };
 
-let passages = getNamesOfPassages('');
+// define access variables
 
+let _state = State;
+window._state = _state;
+
+let passages = getNamesOfPassages('');
+window.passages = passages;

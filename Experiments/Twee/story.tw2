@@ -2,13 +2,20 @@
 story/story-scripts.tw2
 story/story-stylesheet.tw2
 story/choices.tw2
+story/variables.tw2
 
 ::Configuration [twee2]
 Twee2::build_config.story_ifid = 'b2346f11-500d-480f-8824-274ceb0af5b5'
 
 ::Start
-This text uses the *variable* font **Amstelvar**.
-(display: "Choices")
+{
+	(display: "Setup-Variables")
+	(display: "Setup-Choices")
+	(goto: "Started")
+}
 
 ::Started
-	Here is your story.
+This text uses the *variable* font **Amstelvar**.
+
+::Ready
+Here is your story.

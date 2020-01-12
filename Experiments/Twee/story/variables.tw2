@@ -1,0 +1,4 @@
+::Setup-Variables
+{
+	(set: $frog to "prince")
+}

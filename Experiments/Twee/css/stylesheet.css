@@ -17,13 +17,13 @@ html, body {
 	text-align: center;
 }
 
-#twee {
+#twee_div {
 	overflow: hidden;
 	padding-top: 100%;
 	position: relative;
 }
 
-#twee iframe {
+#twee_frame {
 	border: 0;
 	height: 100%;
 	left: 0;

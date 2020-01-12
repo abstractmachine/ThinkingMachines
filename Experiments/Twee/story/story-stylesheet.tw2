@@ -15,6 +15,10 @@ tw-story {
 	font-variation-settings: 'wght' 150, 'wdth' 80, 'opsz' 24, 'YTSE' 18;
 }
 
+tw-sidebar {
+	display: none;
+}
+
 b, em {
 	font-variation-settings: 'wght' 600, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 }

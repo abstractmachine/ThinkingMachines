@@ -15,7 +15,7 @@ Twee2::build_config.story_ifid = 'b2346f11-500d-480f-8824-274ceb0af5b5'
 }
 
 ::Started
-This text uses the *variable* font **Amstelvar**.
+Loading *P5* speech **Engine**.
 
 ::Ready
 Here is your story.

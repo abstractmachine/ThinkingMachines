@@ -10,8 +10,6 @@ function start() {
 	
 	twee_div.style.display = "block";
 
-	var frog = twee.getVariable('frog');
-
-	console.log(frog);
+	twee.goToPassage("Ready");
 
 }

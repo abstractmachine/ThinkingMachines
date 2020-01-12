@@ -9,7 +9,7 @@ window.getVariable = function(prop) {
 	}	
 	return prop[0] === '$' ? 
 		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop];
-}
+};
 
 
 window.setVariable = function(prop, val) {
@@ -22,7 +22,12 @@ window.setVariable = function(prop, val) {
 		prop = prop.slice(1, prop.length);  
 	}
 	_state.variables[prop] = val;
-}
+};
+
+
+window.getStoreagePrefix = function() {
+	return "(Saved Game " + Engine.options.ifid + ") ";
+};
 
 
 window.getNamesOfPassages = function(tag) {
@@ -32,6 +37,11 @@ window.getNamesOfPassages = function(tag) {
 	});
 	return names;
 };
+
+
+window.goToPassage = function(id) {
+	Engine.goToPassage(id);
+}
 
 // define access variables
 

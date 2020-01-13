@@ -9,6 +9,7 @@ import {getTempData} from "./tempDataTools.js"
 
 export const SETTINGS = {
     DEBUG: true,
+    DEBUG_LOREM_TEXT: false,
     TEMP_DATA_FILE_NAME: ".tempData.json",
     TEMP_DATA_DIRECTORY: "./documents",
 }

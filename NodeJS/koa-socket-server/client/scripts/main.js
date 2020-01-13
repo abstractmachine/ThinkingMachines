@@ -1,31 +1,26 @@
 import {fillPathsWithText} from './textToPaht.js'
 import {setupVideo, findContourPaths, filterPaths} from "./contourDetection.js"
-
 import io from "../../web_modules/socket.io-client/dist/socket.io.js"
-
 import paper from "../../web_modules/paper/dist/paper-full.js"
 
-// Setup paper globally
-const paperCanvasSelector = "canvas"
-// paper.install(window)
-paper.setup(paperCanvasSelector)
-
-// global status
-let getPathFromVideo = true
-
-let globalPaths = []
-
-const socket = io()
-
-socket.emit('hello', "hello message from client")
-
-let settings = {
+// parameters
+let textToPathSettings = {
   leading: 22, // <- this is another word for line-height
   fontSize: 19,
   fontFamily: 'Helvetica Neue',
   fontWeight: 'normal',
   fillColor: 'black'
 }
+
+// paper init
+paper.setup("canvas")
+
+// socket init
+const socket = io()
+
+// global
+let updatePathLayoutFromVideo = true
+let globalPaths = []
 
 let text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in vulputate elit. Nunc efficitur ipsum venenatis, placerat ante eu, pharetra justo. Pellentesque consectetur justo malesuada lectus ullamcorper aliquet. Duis ultrices luctus diam quis molestie. Nunc augue eros, viverra non est in, placerat hendrerit metus. Phasellus aliquam dignissim nulla, ac commodo lectus placerat vitae. Aliquam tempus vel quam ac lacinia. Aenean vitae sodales eros.
 
@@ -35,18 +30,34 @@ Nulla convallis dolor et aliquet molestie. Nulla felis sem, auctor et pharetra e
 
 Morbi volutpat elit ac finibus porta. Nullam nulla erat, facilisis eu blandit at, accumsan a dui. Phasellus consectetur velit vel odio maximus imperdiet. Nulla purus justo, sagittis vitae placerat quis, convallis sed purus. Maecenas ullamcorper, augue laoreet varius ullamcorper, purus lectus cursus lorem, vel tristique lorem odio at leo. Maecenas maximus nunc eleifend leo suscipit dapibus. Pellentesque orci elit, mollis ut tempor quis, convallis sed ligula. Ut auctor est vel molestie fermentum. Donec mattis ut felis non eleifend. In eleifend nulla vel metus facilisis, a eleifend nunc interdum. Mauris malesuada condimentum lectus quis ultrices.`
 
+//-----
+// socket events
+//-----
+socket.on("connect", () => {
+  socket.emit("ioEventClientConnectedText")
+})
 
+socket.on("ioEventServerSendText", (textFromServer) => {
+  console.log("new text", textFromServer)
+
+  text = textFromServer
+
+  updatePathLayoutFromVideo = true
+})
+
+//-----
 // Setup video once OpenCV is ready:
+//-----
 cv.onRuntimeInitialized = () => {
   setupVideo().then(() => {
     paper.view.onFrame = () => {
-      if (getPathFromVideo) {
+
+      if (updatePathLayoutFromVideo) {
         const paths = findContourPaths(video, canvas)
         globalPaths = filterPaths(paths)
 
         try {
-          let unconsumedText = fillPathsWithText(globalPaths, text, settings)
-          console.log('Uncosumed text:', unconsumedText)
+          fillPathsWithText(globalPaths, text, textToPathSettings)
         } catch (e) {
           console.error(e)
         }
@@ -55,18 +66,38 @@ cv.onRuntimeInitialized = () => {
   })
 }
 
-initEventListenerToGenerateLayout();
+createButtonToSendLayout({
+  onSend: () => {
+    console.info("layout updating stoped")
 
-function initEventListenerToGenerateLayout() {
+    updatePathLayoutFromVideo = false
+
+    const unconsumedText = fillPathsWithText(globalPaths, text, textToPathSettings)
+
+    const svg = paper.project.exportSVG().outerHTML
+
+    socket.emit("ioEventClientTextNewLayout", {
+      unconsumedText: unconsumedText,
+      svg: svg,
+    })
+  }
+})
+
+/**
+ * @param {Function} onSend
+ */
+function createButtonToSendLayout({onSend: onSend}) {
   const buttonElement = document.querySelector("#button-send-layout");
 
   const initialText = "send layout"
-  const resetText   = "reset"
+  const dataSending = "layout saving…"
 
   buttonElement.innerText = initialText
 
   buttonElement.addEventListener('click', () => {
-    getPathFromVideo = !getPathFromVideo
-    buttonElement.innerText = getPathFromVideo ? initialText : resetText
+    if(updatePathLayoutFromVideo) {
+      onSend()
+      buttonElement.innerText = dataSending
+    }
   })
 }

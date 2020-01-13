@@ -3,28 +3,29 @@ import paper from "../../web_modules/paper/dist/paper-full.js"
 /**
  * @return {Promise<void>}
  */
-export async function setupVideo(callOnVideoFrame) {
+export async function setupVideo() {
+
     // Grab video element and associate it with the camera
     // See https://davidwalsh.name/browser-camera
     let video = document.getElementById('video');
+
     // Get access to the camera:
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+
         // Not adding `{ audio: true }` since we only want video now
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
+
         // Use a promise to wait until the video can play through.
         await new Promise(resolve => {
             video.addEventListener('canplaythrough', resolve);
         });
+
         // Create a canvas to draw video frames to, in order to find contours.
         let canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         video.play();
-
-        // view.onFrame = () => {
-        //     callOnVideoFrame()
-        // }
     }
 }
 

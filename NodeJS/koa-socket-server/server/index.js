@@ -2,23 +2,71 @@ import serve from 'koa-static'
 import mount from 'koa-mount'
 import IOServer from 'socket.io'
 import KoaSocketServer from './KoaSocketServer.js'
+import {processLayoutDataFromClient, getPathOfCurrentDirectory} from "./fromClientDataUtils.js"
+import {StoreData} from "./StoreData.js"
+import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
 
-const io = new IOServer()
-const server = new KoaSocketServer({ io })
+// ------
+// global status
+// ------
 
-server.use(serve('./client'))
-// Server the web-modules, built by Pika
-server.use(mount('/web_modules', serve('./web_modules')))
+/**
+ * @type {StoreData}
+ */
+export let storeData
 
-io.on('connect', socket => {
+async function main() {
+    // ------
+    // server init
+    // ------
+    const io = new IOServer()
+    const server = new KoaSocketServer({io})
 
-  console.log("connected")
+    server.use(serve('./client'))
 
-  socket.on('hello', message => {
-    console.log('Socket', socket.id, 'said hello:', message)
-    socket.emit('hello', 'Hello there, client!')
-    socket.broadcast.emit('new-client', `Socket ${socket.id} has joined!`)
-  })
-})
+    // Server the web-modules, built by Pika
+    server.use(mount('/web_modules', serve('./web_modules')))
 
-server.startOrExit()
+    // ------
+    // server start
+    // ------
+    await server.startOrExit()
+
+    // ------
+    // global store data init
+    // ------
+    storeData = new StoreData(
+        {
+            io: io,
+            onCurrentBookDirectoryChange: (newPath) => {
+                console.log("currentBookDirectory change", newPath)
+            },
+            onTextContentChange: (newText) => {
+                console.info("text has changed")
+                if (newText.length > 0) {
+                    sendTextToClients()
+                }
+            },
+        },
+    )
+
+    storeData.pathOfCurrentBookDirectory = await getPathOfCurrentDirectory()
+
+    // ------
+    // socket interaction
+    // ------
+    io.on('connect', socket => {
+        console.info("new connection")
+        startClientSocketInteractions(socket)
+    })
+
+}
+
+main().then(
+    () => {
+      console.info("main started")
+    },
+    reason => {
+      console.error("main can't correctly started", reason)
+    },
+)

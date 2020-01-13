@@ -4,6 +4,7 @@ import {storeData} from "./index.js"
 export function startClientSocketInteractions(socket) {
     socket.on("ioEventClientConnectedText", async () => {
         console.info("new client connection: text layout")
+        sendTextToClients()
     })
 
     socket.on('ioEventClientTextNewLayout', layoutData => {

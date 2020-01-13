@@ -25,19 +25,29 @@ b, em {
 
 strong {
 	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
-	animation: breathe 2000ms infinite both;
+	animation-name: breathe;
+	animation-iteration-count: infinite;
+	animation-duration: 4000ms;
+	animation-delay: 500ms;
+	animation-timing-function: ease;
+	animation-fill-mode: both;
 }
 
 @keyframes breathe {
 	0% {
-		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
-	60% {
-		font-variation-settings: 'wght' 1000, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	20% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
-	
+	50% {
+		font-variation-settings: 'wght' 1000, 'wdth' 60, 'opsz' 8, 'YTSE' 18;
+	}
+	80% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+	}
 	100% {
-		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
 }
 

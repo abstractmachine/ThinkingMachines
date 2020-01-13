@@ -27,18 +27,14 @@ function setupSpeech() {
 
 // Incoming Speech Recognition functions
 
-function speechStartListening() {
-	if (listening) {
-		console.log("speechRec is already listening!")
-		return
-	}
+function speechRecStart() {
 	speechRec.start() // start listening
 	// reset listening flags
 	listening = true
 	listeningError = false
 }
 
-function speechStopListening() {
+function speechRecStop() {
 	// reset listening flags
 	listening = false
 }
@@ -48,16 +44,20 @@ function speechRecStarted() {
 }
 
 function speechRecEnded() {
-	listening = false
 	// if we  had a problem
 	if (listeningError) {
 		// start listening again
-		speechStartListening()
-		console.log("starting to listen again")
+		speechRecStart()
 		return
 	}
-
+	// if should still be listening
+	if (listening) {
+		// start listening again
+		speechRecStart()
+		return
+	}
 	changeState("StoppedListening")
+	listening = false
 }
 
 function speechRecError() {
@@ -96,7 +96,7 @@ function speechLoaded() {
 
 function speak(phrase) {
 	// if we are currently listening, stop listening
-	if (listening) speechStopListening();
+	if (listening) speechRecStop();
 	// tell twee what we are saying
 	twee.setVariable("phrase", phrase)
 	// instructs the synthesizer to speak the string encoded in utterance
@@ -111,7 +111,7 @@ function cancelSpeaking() {
 
 function ask(phrase) {
 	// if we are currently listening, stop listening
-	if (listening) speechStopListening();
+	if (listening) speechRecStop();
 	askingQuestion = true
 	questionString = phrase
 	twee.setVariable("speechPhrase", questionString)
@@ -119,8 +119,8 @@ function ask(phrase) {
 }
 
 function speechStarted() {
-	if (askingQuestion) changeState("Asking")
-	else changeState("Speaking")
+	// if (askingQuestion) changeState("Asking")
+	// else changeState("Speaking")
 }
 
 function speechEnded() {
@@ -129,12 +129,12 @@ function speechEnded() {
 		return
 	}
 	if (askingQuestion) changeState("Asked")
-	else changeState("Spoke")
+	// else changeState("Spoke")
 }
 
 function resetSpeech() {
 	cancelSpeaking()
-	speechStopListening()
+	speechRecStop()
 	listening = false
 	listeningError = false
 	askingQuestion = false

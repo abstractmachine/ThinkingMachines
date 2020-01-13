@@ -36,19 +36,29 @@ b, em {
 
 strong {
 	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
-	animation: breathe 2000ms infinite both;
+	animation-name: breathe;
+	animation-iteration-count: infinite;
+	animation-duration: 4000ms;
+	animation-delay: 500ms;
+	animation-timing-function: ease;
+	animation-fill-mode: both;
 }
 
 @keyframes breathe {
 	0% {
-		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
-	60% {
-		font-variation-settings: 'wght' 1000, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	20% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
-	
+	50% {
+		font-variation-settings: 'wght' 1000, 'wdth' 60, 'opsz' 8, 'YTSE' 18;
+	}
+	80% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+	}
 	100% {
-		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
 }
 
@@ -138,13 +148,11 @@ Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid=
 }
 
 I am the **Story Generator**. I am ready for your story. Please insert your card and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-CardInserted" tags="" position="">Here is your story so far.</tw-passagedata><tw-passagedata pid="6" name="State-NewCard" tags="" position="">{
-	(set: $question to "Ah, a new card. Tell me, what is the name of this animal that so frightens you?")
+	(set: $question to "Oh. A new card. Tell me, what is the name of this animal that so frightens you?")
 	&lt;script&gt;askQuestion()&lt;/script&gt;
 }
 This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?</tw-passagedata><tw-passagedata pid="7" name="State-Listening" tags="" position="">The *Story* asked you the question: 
-
 *« (print: $question) »*
-
 Please respond now</tw-passagedata><tw-passagedata pid="8" name="State-Answered" tags="" position="">*You* answered
 
 **« (print: $answer) »**</tw-passagedata></tw-storydata>

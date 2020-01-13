@@ -13,16 +13,14 @@ Here is your story so far.
 
 ::State-NewCard
 {
-	(set: $question to "Ah, a new card. Tell me, what is the name of this animal that so frightens you?")
+	(set: $question to "Oh. A new card. Tell me, what is the name of this animal that so frightens you?")
 	<script>askQuestion()</script>
 }
 This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?
 
 ::State-Listening
 The *Story* asked you the question: 
-
 *« (print: $question) »*
-
 Please respond now
 
 ::State-Answered

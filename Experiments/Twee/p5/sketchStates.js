@@ -49,17 +49,17 @@ function newCard() {
 
 
 function stateListening() {
-	twee.goToPassage('State-Listening')
+	// twee.goToPassage('State-Listening')
 }
 
 
 function stateAsked() {
-	twee.goToPassage("State-Listening")
-	speechStartListening()
+	// twee.goToPassage("State-Listening")
+	speechRecStart()
 }
 
 
 function stateAnswered() {
 	twee.goToPassage("State-Answered")
-	speechStopListening()
+	speechRecStop()
 }

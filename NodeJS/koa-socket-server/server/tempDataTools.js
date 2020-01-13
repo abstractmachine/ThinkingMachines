@@ -9,9 +9,12 @@ import {SETTINGS} from "./index.js"
 export async function getTempData(fileDataPath) {
     const appHasTempDataFile = await fileExist(fileDataPath)
 
-    const defaultData = await generatedDefaultTempData()
-
-    return appHasTempDataFile ? await getRestoredData({fileDataPath: fileDataPath, defaultData: defaultData}) : defaultData
+    return appHasTempDataFile ? await getRestoredData({fileDataPath: fileDataPath}) : {
+        date:           generateDefaultDate(),
+        currentText:    generateDefaultText(),
+        bookDirectory:  await createBookDirectory(),
+        pageIndex:      0
+    }
 }
 
 /**
@@ -19,41 +22,41 @@ export async function getTempData(fileDataPath) {
  * @param defaultData {TempData}
  * @return {Promise<TempData>}
  */
-export async function getRestoredData({fileDataPath, defaultData}) {
+export async function getRestoredData({fileDataPath}) {
 
     try {
-        const dataToReturn  = await getJSObjectFromJSONFile(fileDataPath)
+        const dataToReturn = await getJSObjectFromJSONFile(fileDataPath)
 
         // test date
         try {
             const dateInstance = new Date(dataToReturn.date)
 
-            if(dateInstance instanceof Date && !isNaN( dateInstance.getDate() ) ) {
+            if (dateInstance instanceof Date && !isNaN(dateInstance.getDate())) {
                 dataToReturn.date = new Date(dataToReturn.date)
             } else {
                 console.error("can't restored saved date, new generated")
-                dataToReturn.date = new Date()
+                dataToReturn.date = generateDefaultDate()
             }
         } catch {
             console.error("can't restored saved date, new generated")
-            dataToReturn.date = new Date()
+            dataToReturn.date = generateDefaultDate()
         }
 
         // test currentText
         try {
-            if(typeof dataToReturn.currentText !== "string") {
+            if (typeof dataToReturn.currentText !== "string") {
                 console.error("can't restored saved currentText, new generated")
-                dataToReturn.currentText = defaultData.currentText
+                dataToReturn.currentText = generateDefaultText()
             }
         } catch {
             console.error("can't restored saved currentText, new generated")
-            dataToReturn.currentText = defaultData.currentText
+            dataToReturn.currentText = generateDefaultText()
         }
 
         // test bookDirectory
         try {
             const bookDirectoryExist = await fileExist(dataToReturn.bookDirectory)
-            if(! bookDirectoryExist) {
+            if (!bookDirectoryExist) {
                 console.error("can't restored saved bookDirectory, new generated")
                 dataToReturn.bookDirectory = createBookDirectory()
             }
@@ -64,20 +67,28 @@ export async function getRestoredData({fileDataPath, defaultData}) {
 
         // test pageIndex
         try {
-            if(typeof dataToReturn.pageIndex !== "number") {
+            if (typeof dataToReturn.pageIndex !== "number") {
                 console.error("can't restored saved pageIndex, new generated")
-                dataToReturn.pageIndex = defaultData.pageIndex
+                dataToReturn.pageIndex = 0
             }
         } catch {
             console.error("can't restored saved pageIndex, new generated")
-            dataToReturn.pageIndex = defaultData.pageIndex
+            dataToReturn.pageIndex = 0
         }
 
 
         return dataToReturn
 
-    } catch (e) {
-        return defaultData
+    } catch {
+
+        console.error("can't restored ALL saved data, new generated")
+
+        return {
+            date: generateDefaultDate(),
+            currentText: generateDefaultText(),
+            bookDirectory: await createBookDirectory(),
+            pageIndex: 0,
+        }
     }
 }
 
@@ -86,11 +97,16 @@ export async function getRestoredData({fileDataPath, defaultData}) {
  */
 export async function generatedDefaultTempData() {
     return {
-        date:           new Date(),
-        currentText:    SETTINGS.DEBUG && SETTINGS.DEBUG_LOREM_TEXT ? loremText : "",
-        bookDirectory:  await createBookDirectory(),
-        pageIndex:      0
+
     }
+}
+
+export function generateDefaultDate() {
+    return new Date()
+}
+
+export function generateDefaultText() {
+    return SETTINGS.DEBUG && SETTINGS.DEBUG_LOREM_TEXT ? loremText : ""
 }
 
 const loremText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in vulputate elit. Nunc efficitur ipsum venenatis, placerat ante eu, pharetra justo. Pellentesque consectetur justo malesuada lectus ullamcorper aliquet. Duis ultrices luctus diam quis molestie. Nunc augue eros, viverra non est in, placerat hendrerit metus. Phasellus aliquam dignissim nulla, ac commodo lectus placerat vitae. Aliquam tempus vel quam ac lacinia. Aenean vitae sodales eros.

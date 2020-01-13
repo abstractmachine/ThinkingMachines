@@ -5,8 +5,11 @@ import KoaSocketServer from './KoaSocketServer.js'
 import {StoreData} from "./StoreData.js"
 import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
 import path from "path"
-import {getTempData} from "./tempDataTools.js"
+import {getTempData, saveTempDataToFile} from "./tempDataTools.js"
 
+//-----
+// settings
+//-----
 export const SETTINGS = {
     DEBUG: true,
     DEBUG_LOREM_TEXT: false,
@@ -14,9 +17,7 @@ export const SETTINGS = {
     TEMP_DATA_DIRECTORY: "./documents",
 }
 
-// ------
-// global status
-// ------
+const tempDataFilePath = path.resolve(SETTINGS.TEMP_DATA_DIRECTORY, SETTINGS.TEMP_DATA_FILE_NAME)
 
 /**
  * @type {StoreData}
@@ -57,8 +58,8 @@ async function main() {
                     sendTextToClients()
                 }
             },
-            tempData: await getTempData(fileDataPath)
-        },
+            tempData: await getTempData(tempDataFilePath)
+        }
     )
 
     // ------

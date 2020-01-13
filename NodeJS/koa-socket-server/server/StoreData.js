@@ -28,18 +28,16 @@ export class StoreData {
      * @param onTextContentChange
      * @param tempData {TempData}
      */
-    constructor(
-        {
-            io,
-            onCurrentBookDirectoryChange = (newPath, tempData) => {
-                console.info("directory change event")
-            },
-            onTextContentChange = (newText, tempData) => {
-                console.info("text change event")
-            },
-            tempData,
-        },
-    ) {
+    constructor({
+                    io,
+                    onCurrentBookDirectoryChange = (newPath, tempData) => {
+                        console.info("directory change event")
+                    },
+                    onTextContentChange = (newText, tempData) => {
+                        console.info("text change event")
+                    },
+                    tempData,
+                }) {
         this.io = io
 
         this.onCurrentBookDirectoryChange = onCurrentBookDirectoryChange

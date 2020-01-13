@@ -2,14 +2,10 @@ import serve from 'koa-static'
 import mount from 'koa-mount'
 import IOServer from 'socket.io'
 import KoaSocketServer from './KoaSocketServer.js'
-import {
-    processLayoutDataFromClient,
-    fileExist, createBookDirectory, getJSObjectFromJSONFile,
-} from "./fromClientDataUtils.js"
 import {StoreData} from "./StoreData.js"
 import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
 import path from "path"
-import {generatedDefaultTempData, getTempData, getRestoredData} from "./tempDataTools.js"
+import {getTempData} from "./tempDataTools.js"
 
 export const SETTINGS = {
     DEBUG: true,

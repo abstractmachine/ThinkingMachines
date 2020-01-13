@@ -6,6 +6,10 @@ import {processLayoutDataFromClient, getPathOfCurrentDirectory} from "./fromClie
 import {StoreData} from "./StoreData.js"
 import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
 
+export const SETTINGS = {
+    DEBUG: true
+}
+
 // ------
 // global status
 // ------

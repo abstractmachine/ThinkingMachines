@@ -9,6 +9,20 @@
 
 I am the **Story Generator**. . Please insert your *card* and we will write your story.
 
+::State-Hello
+
+1.	Hello, let’s write a story. Place your card to start.
+2.	Welcome to the Loom project. Give me a card to start your story.
+3.	Nice to see you. If you have a card, insert it below the camera.
+4.	Hi. If you already filled your card, please show it to me.
+5.	If you are you ready to create your story, please insert your card.
+6.	Once you’ve made your choices, can you show them to me?
+7.	Can I see your card please?
+8.	Once upon a time… If you want to continue please insert your card.
+9.	Do you want to know the end of your story? Show me your card.
+10.	So tell me; are you more of a prince, a villain or a hero.
+
+
 ::State-NewCard
 This is a very interresting story. But I have a few questions.
 

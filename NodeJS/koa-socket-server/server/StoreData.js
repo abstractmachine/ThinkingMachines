@@ -1,22 +1,24 @@
 import {SETTINGS} from "./index.js"
 
 export class StoreData {
-
     /**
-     * @type {null || string}
+     * @type {TempData}
      */
-    #pathOfCurrentBookDirectory = null
-    get pathOfCurrentBookDirectory() {return this.#pathOfCurrentBookDirectory}
-    set pathOfCurrentBookDirectory(value) {
-        this.#pathOfCurrentBookDirectory = value
-        this.onCurrentBookDirectoryChange(this.#pathOfCurrentBookDirectory)
+    #tempData
+    get tempData() {
+        return this.#tempData
     }
 
-    #currentText = SETTINGS.DEBUG ? loremText : ""
-    get currentText() {return this.#currentText}
+    get pathOfCurrentBookDirectory() {return this.tempData.bookDirectory}
+    set pathOfCurrentBookDirectory(value) {
+        this.#tempData.bookDirectory = value
+        this.onCurrentBookDirectoryChange(this.tempData.bookDirectory, this.tempData)
+    }
+
+    get currentText() {return this.tempData.currentText}
     set currentText(value) {
-        this.#currentText = value
-        this.onTextContentChange(this.#currentText)
+        this.#tempData.currentText = value
+        this.onTextContentChange(this.tempData.currentText, this.tempData)
     }
 
     /**
@@ -24,22 +26,28 @@ export class StoreData {
      * @param io
      * @param onCurrentBookDirectoryChange
      * @param onTextContentChange
+     * @param tempData {TempData}
      */
     constructor(
         {
             io,
-            onCurrentBookDirectoryChange = (newPath) => {
+            onCurrentBookDirectoryChange = (newPath, tempData) => {
                 console.info("directory change event")
             },
-            onTextContentChange = (newText) => {
+            onTextContentChange = (newText, tempData) => {
                 console.info("text change event")
             },
+            tempData,
         },
     ) {
         this.io = io
 
         this.onCurrentBookDirectoryChange = onCurrentBookDirectoryChange
         this.onTextContentChange = onTextContentChange
+
+        this.#tempData = tempData
+
+        console.info(this.tempData)
     }
 }
 

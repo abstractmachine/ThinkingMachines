@@ -15,28 +15,6 @@ export async function processLayoutDataFromClient(layoutData) {
     storeData.currentText = layoutData.unconsumedText
 }
 
-/**
- * @return {Promise<string>}
- */
-export async function getPathOfCurrentDirectory() {
-
-    console.info('find current directory (last book was ended or not)')
-
-    const lastBookDirectory = await getLastBookDirectoryInDocuments()
-
-    const pathOfLastBookDirectory = path.resolve("./documents", lastBookDirectory)
-
-    const lastDirectoryHasTempDataFile = await directoryHasTempData(pathOfLastBookDirectory)
-
-    if(lastDirectoryHasTempDataFile) {
-        console.info("last directory has datafile")
-        return pathOfLastBookDirectory
-    } else {
-        console.info("last book finished")
-        return await createBookDirectory()
-    }
-}
-
 export async function getLastBookDirectoryInDocuments() {
     const documentsDirectory = await promises.readdir("./documents")
     return documentsDirectory[documentsDirectory.length - 1]
@@ -50,20 +28,9 @@ export async function createBookDirectory() {
 
         const pathOfNewBookDirectory = path.resolve('./documents', `book${bookDirectoryIndex}`)
 
-        console.log(pathOfNewBookDirectory)
-
         await promises.mkdir(pathOfNewBookDirectory, {recursive: true})
 
-        const date = new Date()
-        const dataDirectory = {
-            date: date,
-        }
-
-        const dataFilePath = path.resolve(pathOfNewBookDirectory, "data.json")
-
-        await promises.writeFile(dataFilePath, JSON.stringify(dataDirectory))
-
-        console.info("new book directory created")
+        console.info("new book directory created at: ", pathOfNewBookDirectory)
 
         return pathOfNewBookDirectory
     } catch (e) {
@@ -71,9 +38,11 @@ export async function createBookDirectory() {
     }
 }
 
-export async function directoryHasTempData(directory, tempDataFileName = ".tempData.txt") {
-    const tempFilePath = path.resolve(directory, tempDataFileName)
-
+/**
+ * @param tempFilePath
+ * @return {Promise<Boolean>}
+ */
+export async function fileExist(tempFilePath) {
     return new Promise(resolve => {
         promises.access(tempFilePath).then(
             value => {
@@ -86,6 +55,11 @@ export async function directoryHasTempData(directory, tempDataFileName = ".tempD
     })
 }
 
-export function setTempData() {
-
+export async function getJSObjectFromJSONFile(path) {
+    try {
+        const fileContent = await promises.readFile(path, {encoding: "utf8"})
+        return await JSON.parse(fileContent)
+    } catch (e) {
+        return await e
+    }
 }

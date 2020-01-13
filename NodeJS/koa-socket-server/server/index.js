@@ -2,12 +2,19 @@ import serve from 'koa-static'
 import mount from 'koa-mount'
 import IOServer from 'socket.io'
 import KoaSocketServer from './KoaSocketServer.js'
-import {processLayoutDataFromClient, getPathOfCurrentDirectory} from "./fromClientDataUtils.js"
+import {
+    processLayoutDataFromClient,
+    fileExist, createBookDirectory, getJSObjectFromJSONFile,
+} from "./fromClientDataUtils.js"
 import {StoreData} from "./StoreData.js"
 import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
+import path from "path"
+import {generatedDefaultTempData, getTempData, getRestoredData} from "./tempDataTools.js"
 
 export const SETTINGS = {
-    DEBUG: true
+    DEBUG: true,
+    TEMP_DATA_FILE_NAME: ".tempData.json",
+    TEMP_DATA_DIRECTORY: "./documents",
 }
 
 // ------
@@ -39,11 +46,13 @@ async function main() {
     // ------
     // global store data init
     // ------
+    const fileDataPath = path.resolve(SETTINGS.TEMP_DATA_DIRECTORY, SETTINGS.TEMP_DATA_FILE_NAME)
+
     storeData = new StoreData(
         {
             io: io,
             onCurrentBookDirectoryChange: (newPath) => {
-                console.log("currentBookDirectory change", newPath)
+                console.info("currentBookDirectory change", newPath)
             },
             onTextContentChange: (newText) => {
                 console.info("text has changed")
@@ -51,10 +60,9 @@ async function main() {
                     sendTextToClients()
                 }
             },
+            tempData: await getTempData()
         },
     )
-
-    storeData.pathOfCurrentBookDirectory = await getPathOfCurrentDirectory()
 
     // ------
     // socket interaction

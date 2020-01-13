@@ -10,11 +10,26 @@
 I am the **Story Generator**. . Please insert your *card* and we will write your story.
 
 ::State-NewCard
+This is a very interresting story. But I have a few questions.
+
+(display: "State-ChooseStory")
+
+::State-ChooseStory
 {
-	(set: $question to "Oh. A new card. Tell me, what is the name of this animal that so frightens you?")
+	(set: $question to "Add question here for the visitor?")
+	(print: $question)
 	<script>askQuestion()</script>
 }
-This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?
+
+::State-StoryChosen
+
+
+::State-DefineFood
+First, what food do you like best?
+{
+	(set: $question to "Tell me, what food do you want to eat?")
+	<script>askQuestion()</script>
+}
 
 ::State-Listening
 The *Story* asked you the question: 

@@ -148,13 +148,19 @@ Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid=
 	&lt;script&gt;speakPhrase()&lt;/script&gt;
 }(print: $helloPhrase)
 
-I am the **Story Generator**. . Please insert your *card* and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-NewCard" tags="" position="">{
-	(set: $question to "Oh. A new card. Tell me, what is the name of this animal that so frightens you?")
+I am the **Story Generator**. . Please insert your *card* and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-NewCard" tags="" position="">This is a very interresting story. But I have a few questions.
+
+(display: "State-ChooseStory")</tw-passagedata><tw-passagedata pid="6" name="State-ChooseStory" tags="" position="">{
+	(set: $question to "Add question here for the visitor?")
+	(print: $question)
 	&lt;script&gt;askQuestion()&lt;/script&gt;
-}
-This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?</tw-passagedata><tw-passagedata pid="6" name="State-Listening" tags="" position="">The *Story* asked you the question: 
+}</tw-passagedata><tw-passagedata pid="7" name="State-StoryChosen" tags="" position=""></tw-passagedata><tw-passagedata pid="8" name="State-DefineFood" tags="" position="">First, what food do you like best?
+{
+	(set: $question to "Tell me, what food do you want to eat?")
+	&lt;script&gt;askQuestion()&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="9" name="State-Listening" tags="" position="">The *Story* asked you the question: 
 *« (print: $question) »*
-Please respond now</tw-passagedata><tw-passagedata pid="7" name="State-Answered" tags="" position="">*You* answered
+Please respond now</tw-passagedata><tw-passagedata pid="10" name="State-Answered" tags="" position="">*You* answered
 
 **« (print: $answer) »**</tw-passagedata></tw-storydata>
 

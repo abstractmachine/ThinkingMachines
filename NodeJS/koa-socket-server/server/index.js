@@ -57,7 +57,7 @@ async function main() {
                     sendTextToClients()
                 }
             },
-            tempData: await getTempData()
+            tempData: await getTempData(fileDataPath)
         },
     )
 

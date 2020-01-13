@@ -26,7 +26,14 @@ export async function getRestoredData({fileDataPath, defaultData}) {
 
         // test date
         try {
-            dataToReturn.date = new Date(dataToReturn.date)
+            const dateInstance = new Date(dataToReturn.date)
+
+            if(dateInstance instanceof Date && !isNaN( dateInstance.getDate() ) ) {
+                dataToReturn.date = new Date(dataToReturn.date)
+            } else {
+                console.error("can't restored saved date, new generated")
+                dataToReturn.date = new Date()
+            }
         } catch {
             console.error("can't restored saved date, new generated")
             dataToReturn.date = new Date()

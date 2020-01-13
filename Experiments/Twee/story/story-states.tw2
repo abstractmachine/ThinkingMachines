@@ -6,20 +6,17 @@
 	<script>speakPhrase()</script>
 }
 
-I am the *Story Generator*. I am ready for your story. Please insert your card and we will write your story.
+I am the **Story Generator**. I am ready for your story. Please insert your card and we will write your story.
 
 ::State-CardInserted
 Here is your story so far.
 
 ::State-NewCard
 {
-	(set: $question to "Ah, a new card. This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?")
+	(set: $question to "Ah, a new card. Tell me, what is the name of this animal that so frightens you?")
 	<script>askQuestion()</script>
 }
-What is the name of this animal you are so frightened of?
-
-::State-Heard
-The *Visitor* just said, **(print: $answer)** to the *Story*.
+This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?
 
 ::State-Listening
 The *Story* asked you the question: 
@@ -31,4 +28,4 @@ Please respond now
 ::State-Answered
 *You* answered
 
-*« (print: $answer) »*
+**« (print: $answer) »**

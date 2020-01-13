@@ -8,7 +8,6 @@ function changeState(newState) {
 	currentState = newState
 
 	if (newState == "Ready") stateReady()
-	else if (newState == "Listening") stateListening()
 	else if (newState == "Answered") stateAnswered()
 	else if (newState == "CardInserted") stateCardInserted()
 	else if (newState == "CardRemoved") stateCardRemoved()

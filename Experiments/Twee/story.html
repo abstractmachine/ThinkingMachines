@@ -36,7 +36,20 @@ b, em {
 
 strong {
 	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	animation: breathe 2000ms infinite both;
+}
+
+@keyframes breathe {
+	0% {
+		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	}
+	60% {
+		font-variation-settings: 'wght' 1000, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	}
 	
+	100% {
+		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	}
 }
 
 @font-face {
@@ -124,17 +137,17 @@ Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid=
 	&lt;script&gt;speakPhrase()&lt;/script&gt;
 }
 
-I am the *Story Generator*. I am ready for your story. Please insert your card and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-CardInserted" tags="" position="">Here is your story so far.</tw-passagedata><tw-passagedata pid="6" name="State-NewCard" tags="" position="">{
-	(set: $question to "Ah, a new card. This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?")
+I am the **Story Generator**. I am ready for your story. Please insert your card and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-CardInserted" tags="" position="">Here is your story so far.</tw-passagedata><tw-passagedata pid="6" name="State-NewCard" tags="" position="">{
+	(set: $question to "Ah, a new card. Tell me, what is the name of this animal that so frightens you?")
 	&lt;script&gt;askQuestion()&lt;/script&gt;
 }
-What is the name of this animal you are so frightened of?</tw-passagedata><tw-passagedata pid="7" name="State-Heard" tags="" position="">The *Visitor* just said, **(print: $answer)** to the *Story*.</tw-passagedata><tw-passagedata pid="8" name="State-Listening" tags="" position="">The *Story* asked you the question: 
+This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?</tw-passagedata><tw-passagedata pid="7" name="State-Listening" tags="" position="">The *Story* asked you the question: 
 
 *« (print: $question) »*
 
-Please respond now</tw-passagedata><tw-passagedata pid="9" name="State-Answered" tags="" position="">*You* answered
+Please respond now</tw-passagedata><tw-passagedata pid="8" name="State-Answered" tags="" position="">*You* answered
 
-*« (print: $answer) »*</tw-passagedata></tw-storydata>
+**« (print: $answer) »**</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**
  * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.

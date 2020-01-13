@@ -25,7 +25,20 @@ b, em {
 
 strong {
 	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	animation: breathe 2000ms infinite both;
+}
+
+@keyframes breathe {
+	0% {
+		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	}
+	60% {
+		font-variation-settings: 'wght' 1000, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	}
 	
+	100% {
+		font-variation-settings: 'wght' 100, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	}
 }
 
 @font-face {

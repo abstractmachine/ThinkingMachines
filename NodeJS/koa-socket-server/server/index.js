@@ -12,12 +12,15 @@ import {getTempData, saveTempDataToFile} from "./tempDataTools.js"
 //-----
 export const SETTINGS = {
     DEBUG: true,
-    DEBUG_LOREM_TEXT: false,
+    DEBUG_LOREM_TEXT: true,
     TEMP_DATA_FILE_NAME: ".tempData.json",
     TEMP_DATA_DIRECTORY: "./documents",
 }
 
-const tempDataFilePath = path.resolve(SETTINGS.TEMP_DATA_DIRECTORY, SETTINGS.TEMP_DATA_FILE_NAME)
+/**
+ * @type {string}
+ */
+export const tempDataFilePath = path.resolve(SETTINGS.TEMP_DATA_DIRECTORY, SETTINGS.TEMP_DATA_FILE_NAME)
 
 /**
  * @type {StoreData}
@@ -44,23 +47,42 @@ async function main() {
     // ------
     // global store data init
     // ------
-    const fileDataPath = path.resolve(SETTINGS.TEMP_DATA_DIRECTORY, SETTINGS.TEMP_DATA_FILE_NAME)
-
     storeData = new StoreData(
         {
             io: io,
-            onCurrentBookDirectoryChange: (newPath) => {
+            onCurrentBookDirectoryChange: async (newPath, tempData) => {
                 console.info("currentBookDirectory change", newPath)
+
+                await saveTempDataToFile({
+                    tempFilePath: tempDataFilePath,
+                    tempData: tempData,
+                })
             },
-            onTextContentChange: (newText) => {
+            onTextContentChange: async (newText, tempData) => {
                 console.info("text has changed")
+
                 if (newText.length > 0) {
                     sendTextToClients()
+
+                    await saveTempDataToFile({
+                        tempFilePath: tempDataFilePath,
+                        tempData: tempData,
+                    })
+                } else {
+
                 }
+
             },
             tempData: await getTempData(tempDataFilePath)
         }
     )
+
+    await saveTempDataToFile({
+        tempData: storeData.tempData,
+        tempFilePath: tempDataFilePath,
+    })
+
+    console.log(storeData.tempData)
 
     // ------
     // socket interaction

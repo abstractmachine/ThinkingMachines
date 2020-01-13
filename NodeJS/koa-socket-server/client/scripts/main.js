@@ -22,7 +22,7 @@ const socket = io()
 let updatePathLayoutFromVideo = true
 let globalPaths = []
 
-let text = ""
+let text = "lorem ipsum"
 
 //-----
 // socket events

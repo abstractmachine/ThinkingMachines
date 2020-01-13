@@ -1,5 +1,6 @@
 import {createBookDirectory, fileExist, getJSObjectFromJSONFile} from "./fromClientDataUtils.js"
 import {SETTINGS} from "./index.js"
+import {writeFileSync} from "fs"
 
 /**
  * return restored and cleaned TempData or generate formatted one
@@ -58,11 +59,11 @@ export async function getRestoredData({fileDataPath}) {
             const bookDirectoryExist = await fileExist(dataToReturn.bookDirectory)
             if (!bookDirectoryExist) {
                 console.error("can't restored saved bookDirectory, new generated")
-                dataToReturn.bookDirectory = createBookDirectory()
+                dataToReturn.bookDirectory = await createBookDirectory()
             }
         } catch {
             console.error("can't restored saved bookDirectory, new generated")
-            dataToReturn.bookDirectory = createBookDirectory()
+            dataToReturn.bookDirectory = await createBookDirectory()
         }
 
         // test pageIndex
@@ -93,12 +94,13 @@ export async function getRestoredData({fileDataPath}) {
 }
 
 /**
- * @return {Promise<TempData>}
+ * @param tempData {TempData}
+ * @param tempFilePath {string}
+ * @return {Promise<void>}
  */
-export async function generatedDefaultTempData() {
-    return {
-
-    }
+export function saveTempDataToFile({tempFilePath, tempData}) {
+    console.log("data saved", tempFilePath)
+    writeFileSync(tempFilePath, JSON.stringify(tempData) )
 }
 
 export function generateDefaultDate() {

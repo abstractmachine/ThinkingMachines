@@ -5,6 +5,9 @@ export class StoreData {
      * @type {TempData}
      */
     #tempData
+    /**
+     * @return {TempData}
+     */
     get tempData() {
         return this.#tempData
     }
@@ -45,6 +48,5 @@ export class StoreData {
 
         this.#tempData = tempData
 
-        console.info(this.tempData)
     }
 }

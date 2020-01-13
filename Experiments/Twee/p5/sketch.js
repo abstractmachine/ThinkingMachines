@@ -1,67 +1,32 @@
-let soundActivated = false;
-let speechReady = false;
-let speech;
-let recognition;
+// twee/twine access
+let twee
 
 function setup() {
-	noCanvas();
+	// we're not going to draw anything with P5. We'll let Twee do all the visual communication
+	noCanvas()
+	// get access to twee frame
+	twee = document.getElementById("twee_frame").contentWindow
+	// tell twee how to acces this window
+	twee.setParentInstance(this)
 }
 
-function startSound() {
+// function draw() {
+// }
 
-	if (soundActivated) return;
-	soundActivated = true;
+function keyPressed() {
+	
+	switch(key) {
 
-	speech = new p5.Speech();
-	speech.onLoad = speechLoaded;
+		// card was inserted
+		case ('c'):
+		changeState("CardInserted")
+		break;
 
-	recognition = new p5.SpeechRec(); // speech recognition object (will prompt for mic access)
-	recognition.onResult = recognitionResult; // bind callback function to trigger when speech is recognized
-	recognition.onStart = recognitionStart;
-	recognition.onEnd = recognitionEnd;
-	recognition.onError = recognitionError;
-	recognition.continuous = true;
-	recognition.start(); // start listening
+		// card was inserted
+		case ('x'):
+		changeState("CardRemoved")
+		break;
 
-}
+	}
 
-function recognitionStart() {
-	console.log("recognitionStart");
-}
-
-function recognitionEnd() {
-	console.log("recognitionEnd");
-}
-
-function recognitionError() {
-	console.log("recognitionError");
-}
-
-function recognitionResult() {
-	console.log(recognition.resultString); // log the result
-	console.log(recognition.resultConfidence);
-	console.log(recognition.resultValue);
-}
-
-function speechLoaded() {
-	console.log("Speech Loaded");
-	speech.interrupt = true;
-	speech.onStart = speechStarted;
-	speech.onEnd = speechEnded;
-	// speech.listVoices();
-	speech.setVoice("Google UK English Male");
-	speak("Ready");
-}
-
-function speak(phrase) {
-	speech.speak(phrase);
-	speechReady = true;
-}
-
-function speechStarted() {
-	console.log("Speech Started");
-}
-
-function speechEnded() {
-	console.log("Speech Ended");
 }

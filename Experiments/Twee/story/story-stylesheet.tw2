@@ -25,6 +25,7 @@ b, em {
 
 strong {
 	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	
 }
 
 @font-face {

@@ -36,6 +36,7 @@ b, em {
 
 strong {
 	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	
 }
 
 @font-face {
@@ -45,7 +46,11 @@ strong {
 	font-stretch: 50% 200%;
 	font-style: normal;
 }
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">// define access function from raw Javascrip to Twine
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">let _state = State
+window._state = _state
+window.parentInstance = null
+
+// define access functions to communicate Javascript <> Twine
 
 window.getVariable = function(prop) {
 	if (typeof(prop) === typeof(undefined) ||
@@ -53,7 +58,7 @@ window.getVariable = function(prop) {
 		return;
 	}	
 	return prop[0] === '$' ? 
-		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop];
+		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop]
 };
 
 
@@ -61,48 +66,75 @@ window.setVariable = function(prop, val) {
 	if (typeof(prop) === typeof(undefined) ||
 			prop === '' ||
 			typeof(val) === typeof(undefined)) {
-		return; 
+		return
 	}
 	if (prop[0] === '$') {
-		prop = prop.slice(1, prop.length);  
+		prop = prop.slice(1, prop.length)
 	}
-	_state.variables[prop] = val;
+	_state.variables[prop] = val
 };
 
 
 window.getStoreagePrefix = function() {
-	return "(Saved Game " + Engine.options.ifid + ") ";
+	return "(Saved Game " + Engine.options.ifid + ") "
 };
 
 
 window.getNamesOfPassages = function(tag) {
-	var tagged = Passages.getTagged(tag);
+	var tagged = Passages.getTagged(tag)
 	var names = tagged.map(function (el) {
-		return el.get('name');
-	});
+		return el.get('name')
+	})
 	return names;
 };
+let passages = getNamesOfPassages('');
+window.passages = passages;
 
 
 window.goToPassage = function(id) {
-	Engine.goToPassage(id);
+	Engine.goToPassage(id)
 }
 
-// define access variables
 
-let _state = State;
-window._state = _state;
+window.setParentInstance = function(instance) {
+	window.parentInstance = instance
+}
 
-let passages = getNamesOfPassages('');
-window.passages = passages;
+window.speakPhrase = function() {
+	let phrase = getVariable("phrase")
+	window.parentInstance.speak(phrase)
+}
+
+window.askQuestion = function() {
+	let question = getVariable("question")
+	window.parentInstance.ask(question)
+}
 </script><tw-passagedata pid="1" name="Start" tags="" position="">{
 	(display: "Setup-Variables")
 	(display: "Setup-Choices")
-	(goto: "Started")
-}</tw-passagedata><tw-passagedata pid="2" name="Started" tags="" position="">Loading *P5* speech **Engine**.</tw-passagedata><tw-passagedata pid="3" name="Ready" tags="" position="">Here is your story.</tw-passagedata><tw-passagedata pid="4" name="Setup-Choices" tags="" position="">{
-}</tw-passagedata><tw-passagedata pid="5" name="Setup-Variables" tags="" position="">{
-	(set: $frog to "prince")
-}</tw-passagedata></tw-storydata>
+}
+Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Choices" tags="" position="">{
+}</tw-passagedata><tw-passagedata pid="3" name="Setup-Variables" tags="" position="">{
+	(set: $speechRecResult to "")
+	(set: $speechPhrase to "")
+}</tw-passagedata><tw-passagedata pid="4" name="State-Ready" tags="" position="">{
+	(set: $salutation to (either: "Hello.", "Hi.", "Hello there!"))
+	(set: $phrase to $salutation + "Let's write a story")
+	(print: $salutation)
+	&lt;script&gt;speakPhrase()&lt;/script&gt;
+}
+
+I am the *Story Generator*. I am ready for your story. Please insert your card and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-CardInserted" tags="" position="">Here is your story so far.</tw-passagedata><tw-passagedata pid="6" name="State-NewCard" tags="" position="">{
+	(set: $question to "Ah, a new card. This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?")
+	&lt;script&gt;askQuestion()&lt;/script&gt;
+}
+What is the name of this animal you are so frightened of?</tw-passagedata><tw-passagedata pid="7" name="State-Heard" tags="" position="">The *Visitor* just said, **(print: $answer)** to the *Story*.</tw-passagedata><tw-passagedata pid="8" name="State-Listening" tags="" position="">The *Story* asked you the question: 
+
+*« (print: $question) »*
+
+Please respond now</tw-passagedata><tw-passagedata pid="9" name="State-Answered" tags="" position="">*You* answered
+
+*« (print: $answer) »*</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**
  * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.

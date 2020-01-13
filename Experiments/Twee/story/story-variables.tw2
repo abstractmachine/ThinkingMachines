@@ -1,0 +1,5 @@
+::Setup-Variables
+{
+	(set: $speechRecResult to "")
+	(set: $speechPhrase to "")
+}

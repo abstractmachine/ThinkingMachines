@@ -10,13 +10,25 @@
 		<script src="p5/addons/p5.speech.js"></script>
 		<script src="p5/addons/p5.sound.min.js"></script>
 		<script src="p5/sketch.js"></script>
-		<script src="scripts/script.js"></script>
+		<script src="p5/sketchStates.js"></script>
+		<script src="p5/sketchSpeech.js"></script>
 	</head>
 </head>
 
 <body>
 	<div id="start"><button onclick="start();">Start</button></div>
 	<div id="twee_div" style="display:none;"><iframe id="twee_frame" src="story.html"></iframe></div>
+
+	<script>
+		function start() {
+			// deactivate start button
+			document.getElementById("start").style.display = "none"
+			// activate twee engine
+			document.getElementById("twee_div").style.display = "block"
+			// start the sound engine in P5
+			setupSpeech();
+		}
+	</script>
 </body>
 
 </html>

@@ -88,7 +88,7 @@
       if(that.isLoaded==0) { // run only once
         that.voices = window.speechSynthesis.getVoices();
         that.isLoaded = 1; // we're ready
-        console.log("p5.Speech: voices loaded!");
+        // console.log("p5.Speech: voices loaded!");
 
         if(that.initvoice!=undefined) {
           that.setVoice(that.initvoice); // set a custom initial voice

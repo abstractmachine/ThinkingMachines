@@ -1,6 +1,10 @@
 ::StoryJS [script]
 
-// define access function from raw Javascrip to Twine
+let _state = State
+window._state = _state
+window.parentInstance = null
+
+// define access functions to communicate Javascript <> Twine
 
 window.getVariable = function(prop) {
 	if (typeof(prop) === typeof(undefined) ||
@@ -8,7 +12,7 @@ window.getVariable = function(prop) {
 		return;
 	}	
 	return prop[0] === '$' ? 
-		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop];
+		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop]
 };
 
 
@@ -16,37 +20,46 @@ window.setVariable = function(prop, val) {
 	if (typeof(prop) === typeof(undefined) ||
 			prop === '' ||
 			typeof(val) === typeof(undefined)) {
-		return; 
+		return
 	}
 	if (prop[0] === '$') {
-		prop = prop.slice(1, prop.length);  
+		prop = prop.slice(1, prop.length)
 	}
-	_state.variables[prop] = val;
+	_state.variables[prop] = val
 };
 
 
 window.getStoreagePrefix = function() {
-	return "(Saved Game " + Engine.options.ifid + ") ";
+	return "(Saved Game " + Engine.options.ifid + ") "
 };
 
 
 window.getNamesOfPassages = function(tag) {
-	var tagged = Passages.getTagged(tag);
+	var tagged = Passages.getTagged(tag)
 	var names = tagged.map(function (el) {
-		return el.get('name');
-	});
+		return el.get('name')
+	})
 	return names;
 };
+let passages = getNamesOfPassages('');
+window.passages = passages;
 
 
 window.goToPassage = function(id) {
-	Engine.goToPassage(id);
+	Engine.goToPassage(id)
 }
 
-// define access variables
 
-let _state = State;
-window._state = _state;
+window.setParentInstance = function(instance) {
+	window.parentInstance = instance
+}
 
-let passages = getNamesOfPassages('');
-window.passages = passages;
+window.speakPhrase = function() {
+	let phrase = getVariable("phrase")
+	window.parentInstance.speak(phrase)
+}
+
+window.askQuestion = function() {
+	let question = getVariable("question")
+	window.parentInstance.ask(question)
+}

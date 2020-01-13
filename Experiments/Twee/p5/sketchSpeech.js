@@ -91,6 +91,7 @@ function speechLoaded() {
 	speech.onEnd = speechEnded
 	// speech.listVoices()
 	speech.setVoice("Google UK English Male")
+	// speech.setVoice("Google UK English Female")
 	changeState("Ready")
 }
 

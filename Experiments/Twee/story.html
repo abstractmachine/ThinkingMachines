@@ -17,7 +17,7 @@
 }
 
 body {
-	background-color: rgb(185, 149, 102);
+	background-color: black;
 }
 
 tw-story {
@@ -141,19 +141,20 @@ Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid=
 	(set: $speechRecResult to "")
 	(set: $speechPhrase to "")
 }</tw-passagedata><tw-passagedata pid="4" name="State-Ready" tags="" position="">{
-	(set: $salutation to (either: "Hello.", "Hi.", "Hello there!"))
-	(set: $phrase to $salutation + "Let's write a story")
-	(print: $salutation)
+	(set: $helloPhrase to (either: "Hello.", "Hi.", "Hello there!"))
+	(set: $letsWrite to (either: "I am ready for your story", "Let's write a story"))
+	
+	(set: $phrase to $helloPhrase + $letsWrite)
 	&lt;script&gt;speakPhrase()&lt;/script&gt;
-}
+}(print: $helloPhrase)
 
-I am the **Story Generator**. I am ready for your story. Please insert your card and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-CardInserted" tags="" position="">Here is your story so far.</tw-passagedata><tw-passagedata pid="6" name="State-NewCard" tags="" position="">{
+I am the **Story Generator**. . Please insert your *card* and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-NewCard" tags="" position="">{
 	(set: $question to "Oh. A new card. Tell me, what is the name of this animal that so frightens you?")
 	&lt;script&gt;askQuestion()&lt;/script&gt;
 }
-This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?</tw-passagedata><tw-passagedata pid="7" name="State-Listening" tags="" position="">The *Story* asked you the question: 
+This is a very interresting story. But I have a few questions. First, what is the name of this animal that frightens you so?</tw-passagedata><tw-passagedata pid="6" name="State-Listening" tags="" position="">The *Story* asked you the question: 
 *« (print: $question) »*
-Please respond now</tw-passagedata><tw-passagedata pid="8" name="State-Answered" tags="" position="">*You* answered
+Please respond now</tw-passagedata><tw-passagedata pid="7" name="State-Answered" tags="" position="">*You* answered
 
 **« (print: $answer) »**</tw-passagedata></tw-storydata>
 

@@ -6,7 +6,7 @@ html, body {
 }
 
 body {
-	background-color: rgb(185, 149, 102);
+	background-color: black;
 }
 
 tw-story {

@@ -1,15 +1,13 @@
 ::State-Ready
 {
-	(set: $salutation to (either: "Hello.", "Hi.", "Hello there!"))
-	(set: $phrase to $salutation + "Let's write a story")
-	(print: $salutation)
+	(set: $helloPhrase to (either: "Hello.", "Hi.", "Hello there!"))
+	(set: $letsWrite to (either: "I am ready for your story", "Let's write a story"))
+	
+	(set: $phrase to $helloPhrase + $letsWrite)
 	<script>speakPhrase()</script>
-}
+}(print: $helloPhrase)
 
-I am the **Story Generator**. I am ready for your story. Please insert your card and we will write your story.
-
-::State-CardInserted
-Here is your story so far.
+I am the **Story Generator**. . Please insert your *card* and we will write your story.
 
 ::State-NewCard
 {

@@ -6,6 +6,7 @@ import {StoreData} from "./StoreData.js"
 import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
 import path from "path"
 import {getTempData, saveTempDataToFile} from "./tempDataTools.js"
+import {generatePdf} from "./pdfTools.js"
 
 //-----
 // settings
@@ -69,7 +70,7 @@ async function main() {
                         tempData: tempData,
                     })
                 } else {
-
+                    io.emit("ioEventServer_end_text")
                 }
 
             },
@@ -91,6 +92,8 @@ async function main() {
         console.info("new connection")
         startClientSocketInteractions(socket)
     })
+
+    generatePdf()
 
 }
 

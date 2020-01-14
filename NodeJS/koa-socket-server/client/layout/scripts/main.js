@@ -61,9 +61,10 @@ cv.onRuntimeInitialized = () => {
 }
 
 createButtonToSendLayout({
-  onSend: () => {
+  onSend: (buttonElement) => {
     console.info("layout updating stoped")
 
+    buttonElement.innerText = "send layout"
     updatePathLayoutFromVideo = false
 
     const unconsumedText = fillPathsWithText(globalPaths, text, textToPathSettings)
@@ -83,15 +84,12 @@ createButtonToSendLayout({
 function createButtonToSendLayout({onSend: onSend}) {
   const buttonElement = document.querySelector("#button-send-layout");
 
-  const initialText = "send layout"
-  const dataSending = "layout saving…"
-
-  buttonElement.innerText = initialText
+  buttonElement.innerText = "send layout"
 
   buttonElement.addEventListener('click', () => {
     if(updatePathLayoutFromVideo) {
-      onSend()
-      buttonElement.innerText = dataSending
+      onSend(buttonElement)
+      buttonElement.innerText = "layout saving…"
     }
   })
 }

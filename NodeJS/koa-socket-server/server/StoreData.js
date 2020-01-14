@@ -24,6 +24,10 @@ export class StoreData {
         this.onTextContentChange(this.tempData.currentText, this.tempData)
     }
 
+    incrementPageIndex() {
+        this.#tempData.pageIndex++
+    }
+
     /**
      *
      * @param io

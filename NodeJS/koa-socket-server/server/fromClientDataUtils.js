@@ -4,15 +4,18 @@ import {pad} from './utlis.js'
 import {storeData} from "./index.js"
 
 /**
- * @param {{unconsumedText: string, svg: string}} layoutData
+ * @param {string} svgData
  * @return {Promise<boolean | string>} false if error, true if ended of text or unconsumedText
  */
-export async function processLayoutDataFromClient(layoutData) {
-    const pathOfNewPage = path.resolve(storeData.pathOfCurrentBookDirectory, "file.svg")
+export async function savePage_svgFormat(svgData) {
 
-    await promises.writeFile(pathOfNewPage, layoutData.svg)
+    const pageIndex = pad(storeData.tempData.pageIndex, 5)
 
-    storeData.currentText = layoutData.unconsumedText
+    const pathOfNewPage = path.resolve(storeData.pathOfCurrentBookDirectory, `${pageIndex}page.svg`)
+
+    storeData.incrementPageIndex()
+
+    await promises.writeFile(pathOfNewPage, svgData)
 }
 
 export async function getLastBookDirectoryInDocuments() {

@@ -93,17 +93,12 @@ window.stoppedListening = function() {
 	}
 }
 
-
-window.setParentInstance = function(instance) {
-	window.parentInstance = instance
-}
-
 window.speakPhrase = function() {
 	let phrase = getVariable("phrase")
-	window.parentInstance.speak(phrase)
+	window.parent.speak(phrase)
 }
 
 window.askQuestion = function() {
 	let question = getVariable("question")
-	window.parentInstance.ask(question)
+	window.parent.ask(question)
 }

@@ -194,19 +194,14 @@ window.stoppedListening = function() {
 	}
 }
 
-
-window.setParentInstance = function(instance) {
-	window.parentInstance = instance
-}
-
 window.speakPhrase = function() {
 	let phrase = getVariable("phrase")
-	window.parentInstance.speak(phrase)
+	window.parent.speak(phrase)
 }
 
 window.askQuestion = function() {
 	let question = getVariable("question")
-	window.parentInstance.ask(question)
+	window.parent.ask(question)
 }
 </script><tw-passagedata pid="1" name="Start" tags="" position="">Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Variables" tags="" position="">{
 	(set: $size to (either: "little", "medium", "large"))

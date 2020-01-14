@@ -15,6 +15,14 @@ let textSettings = {
   showBaseLine: false
 }
 
+// Adjust values once camera is well positioned:
+let crop = {
+  top: 0,
+  right: 0,
+  bottom: 40,
+  left: 40
+}
+
 let text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in vulputate elit. Nunc efficitur ipsum venenatis, placerat ante eu, pharetra justo. Pellentesque consectetur justo malesuada lectus ullamcorper aliquet. Duis ultrices luctus diam quis molestie. Nunc augue eros, viverra non est in, placerat hendrerit metus. Phasellus aliquam dignissim nulla, ac commodo lectus placerat vitae. Aliquam tempus vel quam ac lacinia. Aenean vitae sodales eros.
 
 Etiam est nisi, placerat eget interdum vel, bibendum non nisi. Aenean molestie, tortor pretium lobortis luctus, massa massa mollis tellus, dignissim blandit sem magna sed mauris. Ut ullamcorper libero lacus, tincidunt congue lorem tincidunt eget. Pellentesque sodales diam purus, sed tincidunt sapien ornare eu. Donec feugiat congue enim, ac sollicitudin eros aliquet sit amet. Mauris nec viverra lectus, hendrerit volutpat ligula. Nam pellentesque sollicitudin erat. Cras laoreet vehicula volutpat. Pellentesque vestibulum varius odio ut mattis.
@@ -52,15 +60,14 @@ async function setupVideo() {
     let canvas = document.createElement('canvas')
     canvas.width = video.videoWidth
     canvas.height = video.videoHeight
-    let videoSize = new Size(canvas)
+    let canvasSize = new Size(canvas).subtract(crop.left + crop.right, crop.top + crop.bottom)
     view.onFrame = () => {
-      let scale = view.viewSize.divide(videoSize)
-      console.log(view.viewSize)
+      let scale = view.viewSize.divide(canvasSize)
       view.zoom = Math.min(scale.width, scale.height)
-      view.center = videoSize.divide(2)
+      view.center = canvasSize.divide(2)
       project.clear()
       let pathLayer = project.activeLayer
-      let paths = findContourPaths(video, canvas)
+      let paths = findContourPaths(video, canvas, crop)
       let textLayer = new Layer()
       let { textItems, unconsumedText } = fillPathsWithText(paths, text, textSettings)
       let { pathSvg, textSvg } = exportSVG({ pathLayer, textLayer })

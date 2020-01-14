@@ -14,10 +14,22 @@ export async function captureVideo(video) {
   return false
 }
 
-export function findContourPaths(video, canvas) {
+export function findContourPaths(video, canvas, crop) {
   try {
     // Draw current video frame to canvas.
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+    canvas.getContext('2d').drawImage(
+      video,
+      // Source:
+      crop.left,
+      crop.top,
+      video.videoWidth - crop.left - crop.right,
+      video.videoHeight - crop.top - crop.bottom,
+      // Dest:
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    )
     // Use some thresholding on the frame, then find contours:
     let hierarchy = new cv.Mat()
     let contours = new cv.MatVector()
@@ -33,29 +45,30 @@ export function findContourPaths(video, canvas) {
     src.delete()
     contours.delete()
     hierarchy.delete()
-    return filterContourPaths(paths)
+    // paths = filterContourPaths(paths, canvas)
+    return paths
   }
   catch (error) {
     console.error(error)
   }
 }
 
-export function filterContourPaths(paths) {
+export function filterContourPaths(paths, canvas) {
   let results = []
-  let bounds = view.bounds
   for (const path of paths) {
     let remove = false
     for (const curve of path.curves) {
-      if (curve.isStraight()) {
+      if (curve.isStraight() && curve.length > 10) {
         let point = curve.point1
+        console.log(point, curve.isHorizontal(), curve.isVertical())
         if (
           curve.isHorizontal() && (
-            point.y === bounds.top ||
-            point.y === bounds.bottom - 1
+            point.y === 0 ||
+            point.y === canvas.width - 1
           ) ||
           curve.isVertical() && (
-            point.x === bounds.left ||
-            point.x === bounds.right - 1
+            point.x === 0 ||
+            point.x === canvas.height - 1
           )
           ) {
           remove = true
@@ -66,7 +79,6 @@ export function filterContourPaths(paths) {
     if (remove) {
       path.remove()
     } else {
-      // path.simplify(0.9)
       results.push(path)
     }
   }
@@ -89,6 +101,7 @@ export function convertContoursToPaths(contours, minArea = 0, pathProperties = {
         closed: true,
         ...pathProperties
       })
+      path.reduce({ simplify: true })
       paths.push(path)
     } 
   }

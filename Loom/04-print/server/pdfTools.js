@@ -14,7 +14,11 @@ export function generatePdf() {
             waitUntil: "load",
         })
 
-        const arrayOfPages = await promises.readdir(storeData.tempData.bookDirectory)
+        const arrayOfElementsInBookDirectory = await promises.readdir(storeData.tempData.bookDirectory)
+
+        const arrayOfPages = arrayOfElementsInBookDirectory.filter(value => {
+            return hasPngExtension(value) | hasSvgExtension(value)
+        })
 
         console.log(arrayOfPages)
 
@@ -61,4 +65,14 @@ export function generatePdf() {
             await browser.close()
         }, 500)
     })
+}
+
+function hasPngExtension(element) {
+    const extName = path.extname(element)
+    return extName === ".png"
+}
+
+function hasSvgExtension(element) {
+    const extName = path.extname(element)
+    return extName === ".svg"
 }

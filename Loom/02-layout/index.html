@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paper.js with OpenCV Example</title>
-    <style>
-      body {
-        padding: 0;
-        margin: 0
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>text layout</title>
+</head>
+<body>
+  <canvas id="canvas" resize></canvas>
+  <video id="video" width="640" height="480"></video>
+  <script>
+    // This is needed to always catch `cv.onRuntimeInitialized()`
+    const Module = {
+      onRuntimeInitialized() {
+        cv.runtimeInitialized = true
       }
-    </style>
-    <video id="video" width="640" height="480"></video>
-    <canvas id="canvas" width="640" height="480"></canvas>
-    <script src="lib/opencv.js"></script>
-    <script src="lib/paper.js"></script>
-    <script src="lib/socket.io.js"></script>
-    <script src="script.js"></script>
-  </head>
-  <body onclick="onClickBody" >
-  </body>
+    }
+  </script>
+  <script src="lib/opencv.js"></script>
+  <script src="lib/socket.io.js"></script>
+  <script src="lib/paper.js"></script>
+  <script src="lib/hypher.js"></script>
+  <script src="lib/hypher-en-us.js"></script>
+  <script src="main.js" type="module"></script>
+</body>
 </html>

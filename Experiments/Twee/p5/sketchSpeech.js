@@ -7,44 +7,49 @@ let askingQuestion = false, questionString = "", listening = false, listeningErr
 
 
 function setupSpeech() {
-
+	// if we've already setup the audio
 	if (soundIsActivated) return
 	soundIsActivated = true
-
+	// instantiate the text-to-speech engine of P5
 	speech = new p5.Speech()
 	speech.onLoad = speechLoaded
 	speech.interrupt = true
-
+	// instantiate the speech-to-text engine of P5
 	speechRec = new p5.SpeechRec() // speech recognition object (will prompt for mic access)
 	speechRec.onResult = speechRecResult // bind callback function to trigger when speech is recognized
 	speechRec.onStart = speechRecStarted
 	speechRec.onEnd = speechRecEnded
 	speechRec.onError = speechRecError
 	speechRec.continuous = false
-
 }
 
 
 // Incoming Speech Recognition functions
 
 function speechRecStart() {
-	speechRec.start() // start listening
+	 // start listening
+	speechRec.start()
 	// reset listening flags
 	listening = true
 	listeningError = false
+	// tell Twee we're listening (to turn on animation)
 	twee.startedListening()
 }
 
-function speechRecStop() {
-	// reset listening flags
-	listening = false
-	twee.stoppedListening()
-}
-
+// we currently listening
 function speechRecStarted() {
 	changeState("Listening")
 }
 
+// we're done listening
+function speechRecStop() {
+	// reset listening flags
+	listening = false
+	// tell Twee we've stopped listening (to turn off animation)
+	twee.stoppedListening()
+}
+
+// for whatever reason (error, response, etc) we've stopped listening
 function speechRecEnded() {
 	// if we had a problem
 	if (listeningError) {
@@ -58,8 +63,11 @@ function speechRecEnded() {
 		speechRecStart()
 		return
 	}
+	// change state flags to reflect new state
 	changeState("StoppedListening")
 	listening = false
+	// tell Twee we've stopped listening (to turn off animation)
+	twee.stoppedListening()
 }
 
 function speechRecError() {
@@ -67,6 +75,7 @@ function speechRecError() {
 	listeningError = true
 }
 
+// we got a speech result
 function speechRecResult() {
 	// make sure we still care about the results
 	if (!listening) {
@@ -88,8 +97,10 @@ function speechRecResult() {
 
 // Outgoing Speech functions
 
+// text-to-speech is loaded, configure it
 function speechLoaded() {
-	speech.interrupt = false
+	// we should be able to interrupt the speech
+	speech.interrupt = true
 	speech.onStart = speechStarted
 	speech.onEnd = speechEnded
 	// speech.listVoices()
@@ -122,20 +133,24 @@ function ask(phrase) {
 	speech.speak(questionString)
 }
 
+// the robot started speaking
 function speechStarted() {
 	// if (askingQuestion) changeState("Asking")
 	// else changeState("Speaking")
 }
 
+// the robot stopped speaking
 function speechEnded() {
+	// FIXME: this is pretty hacky and is related to speech-still-talking issues
 	if (resetting) {
 		resetting = false
 		return
 	}
+	// if we were asking a question, let the state machine know we had an answer
 	if (askingQuestion) changeState("Asked")
-	// else changeState("Spoke")
 }
 
+// reset all the current speech & flags
 function resetSpeech() {
 	cancelSpeaking()
 	speechRecStop()

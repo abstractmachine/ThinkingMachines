@@ -1,7 +1,8 @@
 
 // state variables
 let currentState = ''
-let cardIsInserted = false;
+let cardIsInserted = false
+let storyIndex = 0
 
 function changeState(newState) {
 
@@ -20,6 +21,8 @@ function changeState(newState) {
 
 
 function stateReady() {
+	// set the story index back to beginning
+	storyIndex = 0
 	// tell Twee to go to the Ready screen
 	twee.goToPassage('State-Ready')
 }
@@ -36,7 +39,6 @@ function stateCardInserted() {
 	if (cardIsInserted) {
 		console.log("Error. Card was re-inserted without prior removal.")
 	}
-
 	newCard()
 	cardIsInserted = true
 }

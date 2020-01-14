@@ -14,7 +14,7 @@
 
 <img src="images/loom-card.gif" />
 
-::State-NewCard
+::State-Ask-0
 {
 	(set: $thanks to (either: "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions"))
 	(set: $colors to (either: "Which of these colors do you prefer: red, pink, or blue?"))
@@ -27,22 +27,21 @@ Which of these colors do you prefer?
 - Pink
 - Blue
 
-::State-StoryChosen
-
-
-::State-DefineFood
-First, what food do you like best?
+::State-Answered-0
 {
-	(set: $question to "Tell me, what food do you want to eat?")
+	(set: $color to "**(print: $answer)**")
+	(set: $choice to (either: "is an excellent choice", "is a lovely color"))
+	(set: $verify to "Do you agree?", "Are you sure?")
+	(set: $question to $color + " " + $choice + " " + $verify)
 	<script>askQuestion()</script>
+
+	(print: $color + $choice)
 }
 
-::State-Listening
-The *Story* asked you the question: 
-*« (print: $question) »*
-Please respond now
+- Yes
+- No
 
-::State-Answered
-*You* answered
+::State-Verified-0
+{
 
-**« (print: $answer) »**
+}

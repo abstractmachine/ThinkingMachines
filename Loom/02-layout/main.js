@@ -6,9 +6,11 @@ paper.install(window)
 paper.setup('canvas')
 
 // Settings
+let fontSize = 12
+
 let textSettings = {
-  leading: 22, // <- this is another word for line-height
-  fontSize: 19,
+  leading: fontSize * 1.2, // <- this is another word for line-height
+  fontSize,
   fontFamily: 'Helvetica Neue',
   fontWeight: 'normal',
   fillColor: 'black',

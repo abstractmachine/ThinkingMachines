@@ -9,13 +9,32 @@ import {storeData} from "./index.js"
  */
 export async function savePage_svgFormat(svgData) {
 
-    const pageIndex = pad(storeData.tempData.pageIndex, 5)
-
-    const pathOfNewPage = path.resolve(storeData.pathOfCurrentBookDirectory, `${pageIndex}page.svg`)
+    const pathOfNewPage = path.resolve(storeData.pathOfCurrentBookDirectory, `${getPageIndex()}page.svg`)
 
     storeData.incrementPageIndex()
 
     await promises.writeFile(pathOfNewPage, svgData)
+}
+
+export async function savePage_pngFormat({pngDataBase64}) {
+
+    const pathOfNewPage = path.resolve(storeData.pathOfCurrentBookDirectory, `${getPageIndex()}page.png`)
+
+    try {
+        const base64Data = pngDataBase64.replace(/^data:image\/png;base64,/, "")
+
+        await promises.writeFile(pathOfNewPage, base64Data, {
+            encoding: "base64"
+        })
+
+        storeData.incrementPageIndex()
+    } catch(e) {
+        console.error("can't create new page", e)
+    }
+}
+
+function getPageIndex() {
+    return pad(storeData.tempData.pageIndex, 5)
 }
 
 export async function getLastBookDirectoryInDocuments() {

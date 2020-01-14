@@ -1,5 +1,5 @@
 import {storeData} from "./index.js"
-import {savePage_svgFormat} from "./fromClientDataUtils.js"
+import {savePage_pngFormat, savePage_svgFormat} from "./fromClientDataUtils.js"
 
 export function startClientSocketInteractions(socket) {
     socket.on("ioEventClient_connection_layout", async () => {
@@ -17,8 +17,11 @@ export function startClientSocketInteractions(socket) {
     })
 
     // illustration
-    socket.on("ioEventClient_illustration_newData", data => {
+    socket.on("ioEventClient_illustration_newData", async data => {
         console.log(data.imgBase64)
+        await savePage_pngFormat({
+            pngDataBase64: data.imgBase64
+        })
     })
 }
 

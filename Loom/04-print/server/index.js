@@ -69,6 +69,9 @@ async function main() {
                 }
 
             },
+            onNewPageAdded: (newIndex, tempDate) => {
+                console.info("page added", newIndex, tempDate)
+            },
             tempData: await getTempData(tempDataFilePath)
         }
     )

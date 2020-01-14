@@ -26,6 +26,7 @@ export class StoreData {
 
     incrementPageIndex() {
         this.#tempData.pageIndex++
+        this.onNewPageAdded(this.tempData.pageIndex, this.tempData)
     }
 
     /**
@@ -33,6 +34,7 @@ export class StoreData {
      * @param io
      * @param onCurrentBookDirectoryChange
      * @param onTextContentChange
+     * @param onNewPageAdded
      * @param tempData {TempData}
      */
     constructor({
@@ -43,12 +45,16 @@ export class StoreData {
                     onTextContentChange = (newText, tempData) => {
                         console.info("text change event")
                     },
+                    onNewPageAdded = (newIndex, tempDate) => {
+                        console.info("page added")
+                    },
                     tempData,
                 }) {
         this.io = io
 
         this.onCurrentBookDirectoryChange = onCurrentBookDirectoryChange
         this.onTextContentChange = onTextContentChange
+        this.onNewPageAdded = onNewPageAdded
 
         this.#tempData = tempData
 

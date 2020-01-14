@@ -23,8 +23,6 @@
 
 }
 
-<img src="images/loom-card.gif" />
-
 ::State-Verify
 {
 	(set: $choice to (either: "is an excellent choice", "is an original choice", "is an inspired choice", "is a lovely choice", "is an interresting choice", "is an intruiging choice", "is a curious choice", "is your choice"))

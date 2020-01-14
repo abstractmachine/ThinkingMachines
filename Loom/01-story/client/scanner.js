@@ -1,7 +1,3 @@
-import io from './web_modules/socket.io-client/dist/socket.io.js'
-const { protocol, hostname, port } = window.location
-const socket = io(`${protocol}//${hostname}:${port}`)
-
 // Setup Paper.js
 paper.install(window)
 
@@ -143,7 +139,8 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
           if (++cardDetectionDebounce >= 10) {
             scannerCard.visible = true
             cardDetected = true
-            console.log('Card Added', getOptionsFromScannerBoxes())
+            // console.log('Card Added', getOptionsFromScannerBoxes())
+            // window.parent.cardAdded(getOptionsFromScannerBoxes())
             scannerCanvas.style.display = 'block'
           }
         }
@@ -155,7 +152,8 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
       if (cardDetected) {
         cardDetected = false
         cardDetectionDebounce = 0
-        console.log('Card Removed')
+        // console.log('Card Removed')
+        // window.parent.cardRemoved()
       }
     }
     src.delete()

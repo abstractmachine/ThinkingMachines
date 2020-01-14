@@ -1,21 +1,31 @@
 // Setup Paper.js
 paper.install(this)
 
-let overlayScope = new PaperScope().setup('overlay')
+let overlayScope = new PaperScope().setup('video-overlay')
 let scannerScope = new PaperScope().setup('scanner')
+
+let crop = {
+  left: 160,
+  right: 160,
+  top: 120,
+  bottom: 120
+}
+
+let cardDetected = false
+let cardDetectionDebounce = 0
 
 scannerScope.activate()
 let scannerRaster = new Raster()
-let scannerGrid = scannerScope.project.importSVG('scanner-grid')
+let scannerCard = scannerScope.project.importSVG('scanner-grid')
 let scannerBoxes = []
-for (const box of scannerGrid.children) {
+for (const box of scannerCard.children) {
   if (box.strokeColor) {
     box.scale(0.5)
     box.strokeColor = 'green'
     scannerBoxes.push(box)
   }
 }
-
+let scannerThumb = scannerCard.children.thumb
 // Setup video once OpenCV is ready:
 cv.onRuntimeInitialized = setupVideo
 
@@ -28,6 +38,7 @@ async function setupVideo() {
   if(mediaDevices && mediaDevices.getUserMedia) {
     const stream = await mediaDevices.getUserMedia({
       video: {
+        facingMode: 'environment',
         width: { min: 1280 },
         height: { min: 720 }
       }
@@ -38,13 +49,22 @@ async function setupVideo() {
       video.addEventListener('canplaythrough', resolve)
     })
     // Create an invisible canvas to draw video frames to, in order to find contours.
-    let canvas = document.createElement('canvas')
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
+    let tempCanvas = document.createElement('canvas')
+    let videoCanvas = document.getElementById('video-canvas')
+    let debugCanvas = document.getElementById('video-debug')
+    let width = video.videoWidth - crop.left - crop.right
+    let height = video.videoHeight - crop.top - crop.bottom
+    videoCanvas.width = width
+    videoCanvas.height = height
+    scannerScope.view.viewSize = { width, height }
+    if (debugCanvas) {
+      debugCanvas.width = width
+      debugCanvas.height = height
+    }
     video.play()
 
     let processVideo = () => {
-      findCountourAndWarpImage(video, canvas)
+      findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas)
       requestAnimationFrame(processVideo)
     }
 
@@ -52,19 +72,26 @@ async function setupVideo() {
   }
 }
 
-function findCountourAndWarpImage(video, canvas) {
+function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
   try {
     // Draw current video frame to canvas.
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+    videoCanvas.getContext('2d').drawImage(
+      video,
+      crop.left,
+      crop.top,
+      video.videoWidth - crop.left - crop.right,
+      video.videoHeight - crop.top - crop.bottom,
+      0, 0, videoCanvas.width, videoCanvas.height)
     // Use some thresholding on the frame, then find contours:
-    let src = cv.imread(canvas)
+    let src = cv.imread(videoCanvas)
     cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0)
     // Sadly, I get memory leaks with adaptive thresholding:
     if (false) {
       cv.adaptiveThreshold(src, src, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY_INV, 11, 2)
     } else {
-      cv.threshold(src, src, 128, 255, cv.THRESH_BINARY_INV)
+      cv.threshold(src, src, 128, 255, cv.THRESH_BINARY)
     }
+    cv.imshow(debugCanvas, src)
     let contours = new cv.MatVector()
     let hierarchy = new cv.Mat()
     cv.findContours(src, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
@@ -89,19 +116,31 @@ function findCountourAndWarpImage(video, canvas) {
       warpImageToBounds(src, bounds)
       // Now bring the image to scannerScope through a Paper.js Raster in the
       // scannerScope
-      cv.imshow(canvas, src)
+      cv.imshow(tempCanvas, src)
       scannerScope.activate()
-      scannerRaster.size = new Size(canvas)
-      scannerRaster.drawImage(canvas)
+      scannerRaster.size = new Size(tempCanvas)
+      scannerRaster.drawImage(tempCanvas)
       scannerRaster.position = scannerScope.view.center
-      scannerGrid.bounds = scannerRaster.bounds
+      scannerCard.bounds = scannerRaster.bounds
       // Scale a little bit, to better match the actual bitmap positions:
-      scannerGrid.scale(1.005)
-      scannerGrid.visible = true
-      console.log('Options', getOptionsFromScannerBoxes())
-    } else {
+      scannerCard.scale(1.005, 1.02)
+      if (!cardDetected) {
+        // See if the thumb shape covers mostly black pixels):
+        let thumbColor = scannerRaster.getAverageColor(scannerThumb)
+        if (thumbColor && thumbColor.gray < 0.1) {
+          if (++cardDetectionDebounce >= 10) {
+            scannerCard.visible = true
+            cardDetected = true
+            console.log('Card Added', getOptionsFromScannerBoxes())
+          }
+        }
+      }
+    } else if (cardDetected) {
       scannerRaster.clear()
-      scannerGrid.visible = false
+      scannerCard.visible = false
+      cardDetected = false
+      cardDetectionDebounce = 0
+      console.log('Card Removed')
     }
     src.delete()
     return paths

@@ -99,7 +99,8 @@ async function setupVideo() {
   }
 }
 
-window.addEventListener("click", () => {
+window.addEventListener("mousedown", (e) => {
+  e.preventDefault()
   console.log(dataToSend)
 
   socket.emit("ioEventClient_layout_newData", dataToSend)

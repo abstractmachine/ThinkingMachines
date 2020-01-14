@@ -34,8 +34,6 @@
 	(set: $assistance to (either: "rescue", "wolf", "stranger"))
 	(set: $cheat to (either: "remaried", "murder", "elope"))
 
-
-	
 	(set: $valid to "false")
 	(set: $finished to "false")
 }

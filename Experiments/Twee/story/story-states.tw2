@@ -46,6 +46,9 @@ Which of these colors do you prefer?
 {
 	(if: (a: "red", "pink", "blue") contains $answer)[
 		(set: $valid to "true")
+		(if: $answer is "red")[(set: $storyChoice to "Little Red Riding Hood")]
+		(if: $answer is "pink")[(set: $storyChoice to "Cinderella")]
+		(if: $answer is "blue")[(set: $storyChoice to "Bluebeard")]
 		(display: "State-Verify")
 	](else:)[
 		(set: $valid to "false")
@@ -72,6 +75,8 @@ Name the flavour of your tea
 	(set: $finished to "true")
 	(set: $phrase to "Give me a minute to write your story")
 	<script>speakPhrase()</script>
+	
+	(display: "Generate-Text")
 }
 Ok. You choices are quite clear. I will now start writing your story.
 

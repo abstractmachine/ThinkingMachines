@@ -178,6 +178,6 @@ function speechEnded() {
 		else changeState("validate")
 
 	} else if (questionState == "validating") {
-		console.log("validating")
+		
 	}
 }

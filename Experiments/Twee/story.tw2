@@ -3,6 +3,7 @@ story/story-scripts.tw2
 story/story-stylesheet.tw2
 story/story-variables.tw2
 story/story-states.tw2
+story/story-generator.tw2
 
 ::Configuration [twee2]
 Twee2::build_config.story_ifid = 'b2346f11-500d-480f-8824-274ceb0af5b5'

@@ -25,6 +25,8 @@ function changeState(newState) {
 
 
 function stateReady() {
+	// set the story back to zero
+	resetStory()
 	// tell Twee to go to the Ready screen
 	twee.goToPassage('State-Ready')
 }
@@ -34,15 +36,12 @@ function stateReady() {
 function resetStory() {
 	// set the story index back to beginning
 	storyIndex = 0
+	// reset the finished flag
+	twee.setVariable("finished", "false")
 }
 
 
 function stateCardInserted() {
-	if (cardIsInserted) {
-		console.log("Error. Card was re-inserted without prior removal.")
-	}
-	// set the story back to zero
-	resetStory()
 	// ask first question
 	changeState("ask");
 	// card state flag
@@ -71,6 +70,8 @@ function stateAsk() {
 
 
 function stateAsked() {
+	// if we're all done
+	if (twee.getVariable("finished") == "true") return
 	// start recording answer
 	speechRecStart()
 }
@@ -118,6 +119,4 @@ function stateValidated() {
 
 function stateFinished() {
 	
-
-
 }

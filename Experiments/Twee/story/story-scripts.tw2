@@ -29,6 +29,17 @@ window.setVariable = function(prop, val) {
 };
 
 
+window.generateStory = function() {
+
+	let storyText = getVariable("storyText");
+
+	console.log("-------START|OF|TEXT-----------");
+	console.log(storyText);
+	console.log("--------END|OF|TEXT------------")
+
+}
+
+
 window.getStoreagePrefix = function() {
 	return "(Saved Game " + Engine.options.ifid + ") "
 };

@@ -1,22 +1,24 @@
 ::State-Ready
 {
 	(display: "Setup-Variables")
-	(set: $phrase to (either: "Hello, let’s write a story. Place your card to start.", "Welcome to the Loom project. Give me a card to start your story.", "Nice to see you. If you have a card, insert it below the camera.", "Hi. If you already filled your card, please show it to me.", "If you are ready to create your story, please insert your card.", "Once you’ve made your choices. Can you show them to me?", "Can I see your card please?", "If you want to continue please insert your card.", "Do you want to know the end of your story? Show me your card.", "So tell me; are you more of a prince, a villain or a hero?"))
+
+	(set: $phrase to (either: "Hello, let’s write a story. Place your card to start.", "Welcome to the Loom project. Give me a card to start your story.", "Nice to see you. If you have a card, insert it below the camera.", "Hi. If you already filled your card, please show it to me.", "If you are ready to create your story, please insert your card.", "Once you’ve made your choices. Can you show them to me?", "Can I see your card please?", "If you want to continue please insert your card.", "Do you want to know the end of your story? Show me your card.", "So show me: are you more of a prince, a villain or a hero?"))
 	<script>speakPhrase()</script>
+	
+	(print:$phrase)
 
 	(set: $counter to (random: 30,60))
 	(live: 1s)[
 		(set: $counter to it - 1)
 		(if: $counter is 0)[(go-to: "State-Ready")]
 	]
-	(print:$phrase)
 }
 
 <img src="images/loom-card.gif" />
 
 ::State-Verify
 {
-	(set: $choice to (either: "is an excellent choice", "is a lovely choice", "is an interresting choice", "is a curios choice", "is your choice"))
+	(set: $choice to (either: "is an excellent choice", "is a lovely choice", "is an interresting choice", "is a curious choice", "is your choice"))
 	(set: $verify to (either: "Do you agree?", "Are you sure?"))
 	(set: $question to $answer + " " + $choice + " " + $verify)
 	<script>askQuestion()</script>
@@ -51,9 +53,4 @@ Which of these colors do you prefer?
 		<script>speakPhrase()</script>
 		**(print: $answer)** is not a valid choice.
 	]
-}
-
-::State-Verified-0
-{
-	Verified.
 }

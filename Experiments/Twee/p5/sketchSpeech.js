@@ -56,7 +56,7 @@ function speechRecStart() {
 
 // we currently listening
 function speechRecStarted() {
-	changeState("Listening")
+	changeState("listening")
 }
 
 // we're done listening
@@ -73,19 +73,17 @@ function speechRecEnded() {
 	// if we had a problem
 	if (!resetting && listeningError) {
 		// start listening again
-		console.log("speechRecEnded() & listeningError")
 		speechRecStart()
 		return
 	}
 	// if should still be listening
 	if (!resetting && listening) {
 		// start listening again
-		console.log("speechRecEnded() & listening")
 		speechRecStart()
 		return
 	}
 	// change state flags to reflect new state
-	changeState("StoppedListening")
+	changeState("deaf")
 	listening = false
 	// tell Twee we've stopped listening (to turn off animation)
 	twee.stoppedListening()
@@ -106,18 +104,24 @@ function speechRecResult() {
 		listening = false
 		return;
 	}
-	// tell twee what the results were of the response
-	twee.setVariable("answer", speechRec.resultString)
+
 	// print out value confidence score
 	// console.log(speechRec.resultString) // log the result
 	// console.log(speechRec.resultConfidence)
 	// console.log(speechRec.resultValue)
-	// move to "Answered" state
-	// we have just answered the question
-	answeredQuestion = true
+
+	// tell twee what the results were of the response
+	twee.setVariable("answer", speechRec.resultString)
 	// turn off listening flag
 	listening = false
-	changeState("Answered");
+	// depending on whether this responding to validation or not
+	if (questionState == "validating") {
+		// move to the validated state
+		changeState("validated");
+	} else {
+		// move to "Answered" state
+		changeState("answered");
+	}
 }
 
 // Outgoing Speech functions
@@ -131,7 +135,7 @@ function speechLoaded() {
 	// speech.listVoices()
 	speech.setVoice("Google UK English Male")
 	// speech.setVoice("Google UK English Female")
-	changeState("Ready")
+	changeState("ready")
 }
 
 function speak(phrase) {
@@ -165,12 +169,12 @@ function speechStarted() {
 function speechEnded() {
 	// if we were asking a question, let the state machine know we had an answer
 	if (questionState == "asking") {
-		changeState("Asked")
+		changeState("asked")
 	} else if (questionState == "answered") {
 		// if the response was invalid, start over
-		if (twee.getVariable("valid") == "false") changeState("Ask")
+		if (twee.getVariable("valid") == "false") changeState("ask")
 		// the response was therefore valid, move on to validation
-		else changeState("Validate")
+		else changeState("validate")
 
 	} else if (questionState == "validating") {
 		console.log("validating")

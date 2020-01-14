@@ -8,16 +8,18 @@ function changeState(newState) {
 
 	currentState = newState
 
-	if (newState == "Ready") stateReady()
-	else if (newState == "CardInserted") stateCardInserted()
-	else if (newState == "CardRemoved") stateCardRemoved()
-	else if (newState == "Ask") stateAsk()
-	else if (newState == "Asked") stateAsked()
-	else if (newState == "Answered") stateAnswered()
-	else if (newState == "Validate") stateValidate()
-	else if (newState == "Listening") {}
-	else if (newState == "StoppedListening") {}
-	else console.log("Unhandled state: " + newState)
+	if (newState == "ready") stateReady()
+	else if (newState == "inserted") stateCardInserted()
+	else if (newState == "removed") stateCardRemoved()
+	else if (newState == "ask") stateAsk()
+	else if (newState == "asked") stateAsked()
+	else if (newState == "answered") stateAnswered()
+	else if (newState == "validate") stateValidate()
+	else if (newState == "validated") stateValidated()
+	else if (newState == "finished") stateFinished()
+	else if (newState == "listening") {}
+	else if (newState == "deaf") {}
+	else console.log("unhandled state: " + newState)
 
 }
 
@@ -42,7 +44,7 @@ function stateCardInserted() {
 	// set the story back to zero
 	resetStory()
 	// ask first question
-	changeState("Ask");
+	changeState("ask");
 	// card state flag
 	cardIsInserted = true
 }
@@ -53,7 +55,7 @@ function stateCardRemoved() {
 	// stop speaking, etc
 	resetSpeech()
 	// go back to waiting mode
-	changeState("Ready")
+	changeState("ready")
 	// card state flag
 	cardIsInserted = false
 }
@@ -82,9 +84,32 @@ function stateAnswered() {
 	speechRecStop()
 }
 
+
 function stateValidate() {
 	// set the question state to validating
 	questionState = "validating"
 	// start recording answer
 	speechRecStart()
+}
+
+
+function stateValidated() {
+	// set the question state to validating
+	questionState = ""
+	// what was the answer?
+	let answer = twee.getVariable("answer")
+	// anything other than a non-yes answer restarts question
+	if (answer != "yes") {
+		changeState("ask")
+	} else {
+		// check to see if we're at the end of the story
+		if (twee.getVariable("finished") == "true") changeState("finished")
+	}
+}
+
+
+function stateFinished() {
+	
+
+
 }

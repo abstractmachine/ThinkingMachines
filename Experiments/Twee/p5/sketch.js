@@ -19,12 +19,12 @@ function keyPressed() {
 
 		// card was inserted
 		case ('c'):
-		changeState("CardInserted")
+		changeState("inserted")
 		break;
 
 		// card was inserted
 		case ('x'):
-		changeState("CardRemoved")
+		changeState("removed")
 		break;
 
 	}

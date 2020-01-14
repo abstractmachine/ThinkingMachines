@@ -20,7 +20,7 @@ const gpt2 = spawn('python3',  [
     '--temperature', 0.8,
     '--length', 100
   ], {
-    cwd: '../gpt2-nshepperd'
+    cwd: '../gpt2'
 })
 
 gpt2.stdin.setEncoding('utf8')

@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "socket.io-client/dist/socket.io": "./socket.io-client/dist/socket.io.js",
+  }
+}

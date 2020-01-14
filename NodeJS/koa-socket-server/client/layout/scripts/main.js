@@ -71,10 +71,15 @@ createButtonToSendLayout({
 
     const svg = paper.project.exportSVG().outerHTML
 
-    socket.emit("ioEventClientTextNewLayout", {
+    /**
+     * svg: string of svg element, unconsumedText: text not used for layout
+     * @type {{svg: string, unconsumedText: string}}
+     */
+    const data = {
       unconsumedText: unconsumedText,
       svg: svg,
-    })
+    }
+    socket.emit("ioEventClientTextNewLayout", data)
   }
 })
 

@@ -1,32 +1,64 @@
 import puppeteer from "puppeteer"
-
+import {promises} from "fs"
+import {storeData} from "./index.js"
+import path from "path"
 
 export function generatePdf() {
+
+    const bookRoot = "book"
 
     puppeteer.launch().then(async browser => {
         const page = await browser.newPage()
 
-        await page.goto("http://localhost:8000/book", {
+        await page.goto(`http://localhost:8000/${bookRoot}`, {
             waitUntil: "load",
         })
 
-        await page.evaluate(data => {
-            const textElement = document.createElement("div")
-            textElement.innerText = data.text
+        const arrayOfPages = await promises.readdir(storeData.tempData.bookDirectory)
 
-            document.body.appendChild(textElement)
+        console.log(arrayOfPages)
 
-            return document.body.getBoundingClientRect().width
+        const returnedResult = await page.evaluate(dataFromNode => {
+
+            const arrayToReturn = []
+
+            for(const imagePath of dataFromNode.arrayOfPages) {
+
+                const pathInDirectory = `${dataFromNode.bookDirectory}/${imagePath}`
+
+                const imageElement = document.createElement("img")
+                imageElement.src = pathInDirectory
+
+                const page = document.createElement("div")
+                page.classList.add("page")
+
+                page.appendChild(imageElement)
+
+                document.body.appendChild(page)
+
+                arrayToReturn.push(pathInDirectory)
+            }
+
+            return arrayToReturn
         }, {
-            text: "hello js content",
+            bookDirectory: `${bookRoot}/${path.relative("./documents", storeData.tempData.bookDirectory)}`,
+            arrayOfPages,
         })
 
-        await page.pdf({
-            format: "A4",
-            landscape: true,
-            path: './document.pdf',
-        })
+        console.log(returnedResult)
 
-        await browser.close()
+        setTimeout(async () => {
+            await page.pdf({
+                format: "A4",
+                landscape: true,
+                path: './document.pdf',
+                printBackground: true,
+            })
+
+            console.log(await page.content())
+
+
+            await browser.close()
+        }, 500)
     })
 }

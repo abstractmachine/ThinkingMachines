@@ -35,6 +35,8 @@ async function main() {
     const io = new IOServer()
     const server = new KoaSocketServer({io})
 
+    server.use(mount('/book', serve('documents/')))
+
     // ------
     // server start
     // ------

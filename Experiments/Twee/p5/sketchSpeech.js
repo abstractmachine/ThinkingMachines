@@ -84,6 +84,7 @@ function speechRecEnded() {
 	}
 	// change state flags to reflect new state
 	changeState("deaf")
+	// reset listening flag
 	listening = false
 	// tell Twee we've stopped listening (to turn off animation)
 	twee.stoppedListening()

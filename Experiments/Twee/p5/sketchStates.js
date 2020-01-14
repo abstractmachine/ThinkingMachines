@@ -49,6 +49,7 @@ function stateCardInserted() {
 	cardIsInserted = true
 }
 
+
 function stateCardRemoved() {
 	// reset story variables
 	resetStory()
@@ -104,6 +105,13 @@ function stateValidated() {
 	} else {
 		// check to see if we're at the end of the story
 		if (twee.getVariable("finished") == "true") changeState("finished")
+		// otherwise, move on to next
+		else {
+			// increment story index
+			storyIndex++;
+			// ask next question
+			changeState("ask")
+		}
 	}
 }
 

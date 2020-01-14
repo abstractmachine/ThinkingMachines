@@ -54,3 +54,24 @@ Which of these colors do you prefer?
 		**(print: $answer)** is not a valid choice.
 	]
 }
+
+::State-Ask-1
+{
+	(set: $question to "What type of tea would you like in your cup?")
+	<script>askQuestion()</script>
+}\
+Name the flavour of your tea
+
+::State-Answered-1
+{
+	(display: "State-Verify")
+}
+
+::State-Ask-2
+{
+	(set: $finished to "true")
+	(set: $phrase to "Give me a minute to write your story")
+	<script>speakPhrase()</script>
+}
+Ok. You choices are quite clear. I will now start writing your story.
+

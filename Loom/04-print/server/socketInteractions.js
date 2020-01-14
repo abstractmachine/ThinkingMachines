@@ -15,6 +15,11 @@ export function startClientSocketInteractions(socket) {
 
         storeData.currentText = layoutData.unconsumedText
     })
+
+    // illustration
+    socket.on("ioEventClient_illustration_newData", data => {
+        console.log(data.imgBase64)
+    })
 }
 
 export function sendTextToClients() {

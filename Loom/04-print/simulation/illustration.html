@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>illustration</title>
+</head>
+<body>
+
+<img    src="https://images.unsplash.com/photo-1577998076239-ea6d9a7dcd82?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80"
+        alt="img"
+        id="source">
+
+<button id="sendButton">save image</button>
+
+<script type="module">
+    import io from "../web_modules/socket.io-client/dist/socket.io.js"
+
+    const socket = io("http://0.0.0.0:8000/")
+
+    console.log(socket)
+
+    const canvasWidth = 1000
+    const canvasHeight = 250
+
+    const canvas = document.createElement("canvas")
+
+    canvas.width    = canvasWidth
+    canvas.height   = canvasHeight
+
+    const ctx = canvas.getContext("2d")
+    const image = document.getElementById("source")
+
+    if(image instanceof HTMLImageElement) {
+        ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight)
+    }
+
+    sendButton.addEventListener("click", () => {
+        const dataImage = canvas.toDataURL()
+        console.log(dataImage)
+
+        socket.emit("ioEventClient_illustration_newData", {imgBase64: dataImage})
+    })
+
+</script>
+
+</body>
+</html>

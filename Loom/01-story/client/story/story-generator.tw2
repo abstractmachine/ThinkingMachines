@@ -1,9 +1,9 @@
 ::Generate-Text
 {
 	(set: $StoryTitle to $StoryChoice)
-	(set: $StoryLocation to "A Place")
+	(set: $StoryLocation to $StoryPlace)
 	
-	(set: $StoryText to $StoryTitle + "\n\n" + $StoryLocation)
+	(set: $gpt to "Choice: " + $StoryChoice + "\n\n" + "Hero: " + $StoryHero + "\n\n" + "Donor: " + $StoryDonor + "\n\n" + "MagicalObject: " + $StoryMagicalObject + "\n\n" + "Helper: " + $StoryHelper + "\n\n" + "Villain: " + $StoryVillain + "\n\n" + "Prince: " + $StoryPrince + "\n\n" + "Place: " + $StoryPlace)
 
 	<script>generateStory()</script>
 }

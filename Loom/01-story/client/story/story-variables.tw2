@@ -38,4 +38,5 @@
 	
 	(set: $valid to "false")
 	(set: $finished to "false")
+	(set: $gpt to "")
 }

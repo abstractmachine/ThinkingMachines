@@ -5,8 +5,11 @@ const socket = io(`${protocol}//${hostname}:${port}`)
 // Setup Paper.js
 paper.install(window)
 
+let scannerCanvas = document.getElementById('scanner-canvas')
+scannerCanvas.style.display = 'none'
+
 let overlayScope = new PaperScope().setup('video-overlay')
-let scannerScope = new PaperScope().setup('scanner')
+let scannerScope = new PaperScope().setup(scannerCanvas)
 
 let crop = {
   left: 160,
@@ -141,15 +144,19 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
             scannerCard.visible = true
             cardDetected = true
             console.log('Card Added', getOptionsFromScannerBoxes())
+            scannerCanvas.style.display = 'block'
           }
         }
       }
-    } else if (cardDetected) {
+    } else {
       scannerRaster.clear()
       scannerCard.visible = false
-      cardDetected = false
-      cardDetectionDebounce = 0
-      console.log('Card Removed')
+      scannerCanvas.style.display = 'none'
+      if (cardDetected) {
+        cardDetected = false
+        cardDetectionDebounce = 0
+        console.log('Card Removed')
+      }
     }
     src.delete()
     return paths

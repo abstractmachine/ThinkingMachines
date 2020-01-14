@@ -1,0 +1,104 @@
+::StoryJS [script]
+
+let _state = State
+window._state = _state
+window.parentInstance = null
+
+// define access functions to communicate Javascript <> Twine
+
+window.getVariable = function(prop) {
+	if (typeof(prop) === typeof(undefined) ||
+			prop === '') {
+		return;
+	}	
+	return prop[0] === '$' ? 
+		_state.variables[prop.slice(1, prop.length)] : _state.variables[prop]
+};
+
+
+window.setVariable = function(prop, val) {
+	if (typeof(prop) === typeof(undefined) ||
+			prop === '' ||
+			typeof(val) === typeof(undefined)) {
+		return
+	}
+	if (prop[0] === '$') {
+		prop = prop.slice(1, prop.length)
+	}
+	_state.variables[prop] = val
+};
+
+
+window.generateStory = function() {
+
+	let storyText = getVariable("StoryText");
+
+	console.log("-------START|OF|TEXT-----------");
+	console.log(storyText);
+	console.log("--------END|OF|TEXT------------")
+
+}
+
+
+window.getStoreagePrefix = function() {
+	return "(Saved Game " + Engine.options.ifid + ") "
+};
+
+
+window.getNamesOfPassages = function(tag) {
+	var tagged = Passages.getTagged(tag)
+	var names = tagged.map(function (el) {
+		return el.get('name')
+	})
+	return names;
+};
+let passages = getNamesOfPassages('');
+window.passages = passages;
+
+
+window.goToPassage = function(id) {
+	Engine.goToPassage(id)
+}
+
+window.startedListening = function() {
+
+	let backgroundPulse = "background-color: black; animation-name: backgroundPulse; animation-duration: 2s; animation-iteration-count: infinite;"
+	let forgroundPulse = "color: white; animation-name: forgroundPulse; animation-duration: 2s; animation-iteration-count: infinite;"
+
+	var x = document.getElementsByTagName("body");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = backgroundPulse
+	}
+
+	var x = document.getElementsByTagName("tw-story");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = forgroundPulse
+	}
+
+}
+
+window.stoppedListening = function() {
+
+	let backgroundPulse = "background-color: black; animation-name: none;"
+	let forgroundPulse = "color: white; animation-name: none;"
+
+	var x = document.getElementsByTagName("body");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = backgroundPulse
+	}
+
+	var x = document.getElementsByTagName("tw-story");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = forgroundPulse
+	}
+}
+
+window.speakPhrase = function() {
+	let phrase = getVariable("phrase")
+	window.parent.speak(phrase)
+}
+
+window.askQuestion = function() {
+	let question = getVariable("question")
+	window.parent.ask(question)
+}

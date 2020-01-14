@@ -1,0 +1,9 @@
+::Generate-Text
+{
+	(set: $StoryTitle to $StoryChoice)
+	(set: $StoryLocation to "A Place")
+	
+	(set: $StoryText to $StoryTitle + "\n\n" + $StoryLocation)
+
+	<script>generateStory()</script>
+}

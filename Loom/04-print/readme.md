@@ -104,3 +104,37 @@ const data = {
 }    
 socket.emit("ioEventClient_illustration_newData", data)
 ```
+
+## Loom default sequence
+
+![](img/LoomDefaultSequence.png)
+
+Copy-paste this code on https://www.websequencediagrams.com/ to generate the diagram
+
+
+```
+title Loom default Sequence
+
+note left of print: Initialization
+
+story->print:connect
+layout->print:connect
+illustration->print:connect
+
+note left of print: new story
+story->print:ioEventClient_story_newData
+print->layout:ioEventServer_send_text
+layout->print:ioEventClient_layout_newData
+layout->print:ioEventClient_layout_newData
+
+
+illustration->print:ioEventClient_illustration_newData
+illustration->print:ioEventClient_illustration_newData
+layout->print:ioEventClient_layout_newData
+
+note over print: End of book when all text fits in layout
+
+print->story:ioEventServer_endBook
+print->layout:ioEventServer_endBook
+print->illustration:ioEventServer_endBook
+```

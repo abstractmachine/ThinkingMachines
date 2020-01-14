@@ -1,6 +1,18 @@
+
+
 // Setup Paper.js
 paper.install(this)
 paper.setup('canvas')
+
+// Setup socket.io
+//var socket = io('http://socketchat.alda.prossel.info/');
+var socket = io("http://0.0.0.0:8000/");
+
+socket.on('connect', function(){
+  console.log("socket connected");
+
+  socket.emit("ioEventClient_connection_layout")
+});
 
 // Setup video once OpenCV is ready:
 cv.onRuntimeInitialized = setupVideo
@@ -27,6 +39,9 @@ async function setupVideo() {
       let paths = findContourPaths(video, canvas)
       paths = filterPaths(paths)
     }
+
+    // Setup socket
+
   }
 }
 
@@ -108,4 +123,9 @@ function convertContoursToPaths(contours, minArea = 0, pathProperties = {}) {
     } 
   }
   return paths
+}
+
+function onClickBody() {
+  console.log("click body");
+  
 }

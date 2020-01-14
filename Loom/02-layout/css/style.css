@@ -13,9 +13,3 @@ canvas[resize] {
 video {
   display: none;
 }
-
-#button-send-layout {
-  position: absolute;
-  top: 0;
-  right: 0;
-}

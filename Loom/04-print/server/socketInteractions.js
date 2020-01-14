@@ -1,5 +1,5 @@
 import {storeData} from "./index.js"
-import {savePage_pngFormat, savePage_svgFormat} from "./fromClientDataUtils.js"
+import {savePage_pngFormat, savePage_svgFormat, saveSvgForCover} from "./fromClientDataUtils.js"
 
 export function startClientSocketInteractions(socket) {
     socket.on("ioEventClient_connection_layout", async () => {
@@ -7,13 +7,15 @@ export function startClientSocketInteractions(socket) {
         sendTextToClients()
     })
 
-    socket.on('ioEventClient_layout_newData', async layoutData => {
+    socket.on('ioEventClient_layout_newData', async data => {
 
         console.info('Socket', socket.id, 'send data')
 
-        await savePage_svgFormat(layoutData.svg)
+        await savePage_svgFormat(data.textSvg)
 
-        storeData.currentText = layoutData.unconsumedText
+        await saveSvgForCover(data.pathSvg)
+
+        storeData.currentText = data.unconsumedText
     })
 
     // illustration

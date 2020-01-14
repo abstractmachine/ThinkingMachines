@@ -16,6 +16,27 @@ export async function savePage_svgFormat(svgData) {
     await promises.writeFile(pathOfNewPage, svgData)
 }
 
+export async function saveSvgForCover(svgData) {
+    const coverDirectoryPath = path.resolve(storeData.tempData.bookDirectory, "cover")
+
+    let coverDirectory
+
+    try {
+        coverDirectory = await promises.readdir(coverDirectoryPath)
+    } catch {
+        await promises.mkdir(coverDirectoryPath, {recursive: true})
+        coverDirectory = await promises.readdir(coverDirectoryPath)
+    }
+
+    console.log(coverDirectory)
+
+    const coverFileIndex = pad(coverDirectory.length, 5)
+
+    const pathOfNewCoverImage = path.resolve(coverDirectoryPath, `${coverFileIndex}cover.svg`)
+
+    await promises.writeFile(pathOfNewCoverImage, svgData)
+}
+
 export async function savePage_pngFormat({pngDataBase64}) {
 
     const pathOfNewPage = path.resolve(storeData.pathOfCurrentBookDirectory, `${getPageIndex()}page.png`)
@@ -24,11 +45,11 @@ export async function savePage_pngFormat({pngDataBase64}) {
         const base64Data = pngDataBase64.replace(/^data:image\/png;base64,/, "")
 
         await promises.writeFile(pathOfNewPage, base64Data, {
-            encoding: "base64"
+            encoding: "base64",
         })
 
         storeData.incrementPageIndex()
-    } catch(e) {
+    } catch (e) {
         console.error("can't create new page", e)
     }
 }

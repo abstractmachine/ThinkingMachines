@@ -1,6 +1,10 @@
 import { captureVideo, findContourPaths } from './scripts/contourPaths.js'
 import { fillPathsWithText } from './scripts/areaText.js'
 
+// global data to send
+
+let dataToSend
+
 // Setup Paper.js
 paper.install(window)
 paper.setup('canvas')
@@ -33,17 +37,17 @@ Nulla convallis dolor et aliquet molestie. Nulla felis sem, auctor et pharetra e
 
 Morbi volutpat elit ac finibus porta. Nullam nulla erat, facilisis eu blandit at, accumsan a dui. Phasellus consectetur velit vel odio maximus imperdiet. Nulla purus justo, sagittis vitae placerat quis, convallis sed purus. Maecenas ullamcorper, augue laoreet varius ullamcorper, purus lectus cursus lorem, vel tristique lorem odio at leo. Maecenas maximus nunc eleifend leo suscipit dapibus. Pellentesque orci elit, mollis ut tempor quis, convallis sed ligula. Ut auctor est vel molestie fermentum. Donec mattis ut felis non eleifend. In eleifend nulla vel metus facilisis, a eleifend nunc interdum. Mauris malesuada condimentum lectus quis ultrices.`
 
-/*
+
 // Setup socket.io
 //var socket = io('http://socketchat.alda.prossel.info/');
-var socket = io("http://0.0.0.0:8000/");
+const socket = io("http://0.0.0.0:8000/");
 
 socket.on('connect', function(){
   console.log("socket connected");
 
   socket.emit("ioEventClient_connection_layout")
 });
-*/
+
 
 // Setup once OpenCV is ready:
 cv.onRuntimeInitialized = setupVideo
@@ -71,7 +75,7 @@ async function setupVideo() {
       let pathLayer = project.activeLayer
       let paths = findContourPaths(
         video,
-        canvas, 
+        canvas,
         crop,
         {
           minArea: 32,
@@ -85,9 +89,21 @@ async function setupVideo() {
       let textLayer = new Layer()
       let { textItems, unconsumedText } = fillPathsWithText(paths, text, textSettings)
       let { pathSvg, textSvg } = exportSVG({ pathLayer, textLayer })
+
+      dataToSend = {
+        unconsumedText,
+        pathSvg,
+        textSvg,
+      }
     }
   }
 }
+
+window.addEventListener("click", () => {
+  console.log(dataToSend)
+
+  socket.emit("ioEventClient_layout_newData", dataToSend)
+})
 
 function exportSVG({ pathLayer, textLayer }) {
   textLayer.remove()

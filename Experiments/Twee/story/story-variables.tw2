@@ -1,6 +1,8 @@
 ::Setup-Variables
 {
-	<script>console.log("Resetting variables");</script>
+	(set: $valid to "false")
+	(set: $validated to "false")
+
 	(set: $size to (either: "little", "medium", "large"))
 	(set: $death to (either: "food", "antidote", "verveine"))
 	(set: $life to (either: "the woods", "desert", "pluto"))

@@ -23,6 +23,22 @@ function setupSpeech() {
 	speechRec.continuous = false
 }
 
+// reset all the current speech & flags
+function resetSpeech() {
+	// turn off outgoing
+	cancelSpeaking()
+	// turn off incoming
+	speechRecStop()
+	// reset all flags
+	listening = false
+	listeningError = false
+	askingQuestion = false
+	questionString = ""
+	resetting = true
+	// tell Twee we've stopped listening (to turn off animation)
+	twee.stoppedListening()
+}
+
 
 // Incoming Speech Recognition functions
 
@@ -51,6 +67,9 @@ function speechRecStop() {
 
 // for whatever reason (error, response, etc) we've stopped listening
 function speechRecEnded() {
+	console.log("speechRecEnded")
+	console.log(listeningError)
+	console.log(listening)
 	// if we had a problem
 	if (listeningError) {
 		// start listening again
@@ -144,19 +163,11 @@ function speechEnded() {
 	// FIXME: this is pretty hacky and is related to speech-still-talking issues
 	if (resetting) {
 		resetting = false
-		return
+		// return
 	}
 	// if we were asking a question, let the state machine know we had an answer
-	if (askingQuestion) changeState("Asked")
-}
-
-// reset all the current speech & flags
-function resetSpeech() {
-	cancelSpeaking()
-	speechRecStop()
-	listening = false
-	listeningError = false
-	askingQuestion = false
-	questionString = ""
-	resetting = true
+	if (askingQuestion) {
+		console.log("asking question: " + askingQuestion);
+		changeState("Asked")
+	}
 }

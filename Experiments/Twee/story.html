@@ -198,7 +198,9 @@ window.askQuestion = function() {
 	window.parentInstance.ask(question)
 }
 </script><tw-passagedata pid="1" name="Start" tags="" position="">Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Variables" tags="" position="">{
-	&lt;script&gt;console.log("Resetting variables");&lt;/script&gt;
+	(set: $valid to "false")
+	(set: $validated to "false")
+
 	(set: $size to (either: "little", "medium", "large"))
 	(set: $death to (either: "food", "antidote", "verveine"))
 	(set: $life to (either: "the woods", "desert", "pluto"))
@@ -242,32 +244,41 @@ window.askQuestion = function() {
 		(set: $counter to it - 1)
 		(if: $counter is 0)[(go-to: "State-Ready")]
 	]
-	(print: $phrase)
+	(print:$phrase)
 }
 
-&lt;img src="images/loom-card.gif" /&gt;</tw-passagedata><tw-passagedata pid="4" name="State-Ask-0" tags="" position="">{
-	(set: $thanks to (either: "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions"))
+&lt;img src="images/loom-card.gif" /&gt;</tw-passagedata><tw-passagedata pid="4" name="State-Verify" tags="" position="">{
+	(set: $choice to (either: "is an excellent choice", "is a lovely choice", "is an interresting choice", "is a curios choice", "is your choice"))
+	(set: $verify to (either: "Do you agree?", "Are you sure?"))
+	(set: $question to $answer + " " + $choice + " " + $verify)
+	&lt;script&gt;askQuestion()&lt;/script&gt;
+
+	(print: "**" + $answer + "**" + " " + $choice)
+}
+
+- Yes
+- No</tw-passagedata><tw-passagedata pid="5" name="State-Ask-0" tags="" position="">{
+	(set: $thanks to (either: "Thank you.", "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions."))
 	(set: $colors to (either: "Which of these colors do you prefer: red, pink, or blue?"))
-	(set: $question to $thanks + $colors)
+	(set: $question to $thanks + " " + $colors)
 	&lt;script&gt;askQuestion()&lt;/script&gt;
 }\
 Which of these colors do you prefer?
 
 - Red
 - Pink
-- Blue</tw-passagedata><tw-passagedata pid="5" name="State-Answered-0" tags="" position="">{
-	(set: $color to "**(print: $answer)**")
-	(set: $choice to (either: "is an excellent choice", "is a lovely color"))
-	(set: $verify to "Do you agree?", "Are you sure?")
-	(set: $question to $color + " " + $choice + " " + $verify)
-	&lt;script&gt;askQuestion()&lt;/script&gt;
-
-	(print: $color + $choice)
-}
-
-- Yes
-- No</tw-passagedata><tw-passagedata pid="6" name="State-Verified-0" tags="" position="">{
-
+- Blue</tw-passagedata><tw-passagedata pid="6" name="State-Answered-0" tags="" position="">{
+	(if: (a: "red", "pink", "blue") contains $answer)[
+		(set: $valid to "true")
+		(display: "State-Verify")
+	](else:)[
+		(set: $valid to "false")
+		(set: $phrase to "Sorry" + $answer + "" + "is not a valid choice.")
+		&lt;script&gt;speakPhrase()&lt;/script&gt;
+		**(print: $answer)** is not a valid choice.
+	]
+}</tw-passagedata><tw-passagedata pid="7" name="State-Verified-0" tags="" position="">{
+	Verified.
 }</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**

@@ -9,16 +9,29 @@
 		(set: $counter to it - 1)
 		(if: $counter is 0)[(go-to: "State-Ready")]
 	]
-	(print: $phrase)
+	(print:$phrase)
 }
 
 <img src="images/loom-card.gif" />
 
+::State-Verify
+{
+	(set: $choice to (either: "is an excellent choice", "is a lovely choice", "is an interresting choice", "is a curios choice", "is your choice"))
+	(set: $verify to (either: "Do you agree?", "Are you sure?"))
+	(set: $question to $answer + " " + $choice + " " + $verify)
+	<script>askQuestion()</script>
+
+	(print: "**" + $answer + "**" + " " + $choice)
+}
+
+- Yes
+- No
+
 ::State-Ask-0
 {
-	(set: $thanks to (either: "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions"))
+	(set: $thanks to (either: "Thank you.", "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions."))
 	(set: $colors to (either: "Which of these colors do you prefer: red, pink, or blue?"))
-	(set: $question to $thanks + $colors)
+	(set: $question to $thanks + " " + $colors)
 	<script>askQuestion()</script>
 }\
 Which of these colors do you prefer?
@@ -29,19 +42,18 @@ Which of these colors do you prefer?
 
 ::State-Answered-0
 {
-	(set: $color to "**(print: $answer)**")
-	(set: $choice to (either: "is an excellent choice", "is a lovely color"))
-	(set: $verify to "Do you agree?", "Are you sure?")
-	(set: $question to $color + " " + $choice + " " + $verify)
-	<script>askQuestion()</script>
-
-	(print: $color + $choice)
+	(if: (a: "red", "pink", "blue") contains $answer)[
+		(set: $valid to "true")
+		(display: "State-Verify")
+	](else:)[
+		(set: $valid to "false")
+		(set: $phrase to "Sorry" + $answer + "" + "is not a valid choice.")
+		<script>speakPhrase()</script>
+		**(print: $answer)** is not a valid choice.
+	]
 }
-
-- Yes
-- No
 
 ::State-Verified-0
 {
-
+	Verified.
 }

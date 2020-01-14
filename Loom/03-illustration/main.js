@@ -71,14 +71,12 @@ function draw() {
   }
 }
 
-function keyPressed() {
-  if (keyCode === 32) {
-    let img = imagesDict[classResult];
-    if (img) {
-      let image = img.canvas.toDataURL()
-      let contour = contourGraphics.canvas.toDataURL()
-      console.log('PNGs send to print', image, contour)
-    }
+function mousePressed() {
+  let img = imagesDict[classResult];
+  if (img) {
+    let image = img.canvas.toDataURL()
+    let contour = contourGraphics.canvas.toDataURL()
+    console.log('PNGs send to print', image, contour)
   }
 }
 

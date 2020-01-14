@@ -66,11 +66,21 @@ async function main() {
                     })
                 } else {
                     io.emit("ioEventServer_end_text")
+
+                    await saveTempDataToFile({
+                        tempFilePath: tempDataFilePath,
+                        tempData: tempData,
+                    })
                 }
 
             },
-            onNewPageAdded: (newIndex, tempDate) => {
-                console.info("page added", newIndex, tempDate)
+            onNewPageAdded: async (newIndex, tempData) => {
+                console.info("page added", newIndex, tempData)
+
+                await saveTempDataToFile({
+                    tempFilePath: tempDataFilePath,
+                    tempData: tempData,
+                })
             },
             tempData: await getTempData(tempDataFilePath)
         }

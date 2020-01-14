@@ -14,6 +14,7 @@ function changeState(newState) {
 	else if (newState == "Ask") stateAsk()
 	else if (newState == "Asked") stateAsked()
 	else if (newState == "Answered") stateAnswered()
+	else if (newState == "Validate") stateValidate()
 	else if (newState == "Listening") {}
 	else if (newState == "StoppedListening") {}
 	else console.log("Unhandled state: " + newState)
@@ -59,6 +60,8 @@ function stateCardRemoved() {
 
 
 function stateAsk() {
+	// set the question state
+	questionState = "asking"
 	// ask a question
 	twee.goToPassage("State-Ask-" + storyIndex)
 }
@@ -71,8 +74,17 @@ function stateAsked() {
 
 
 function stateAnswered() {
+	// set the question state
+	questionState = "answered"
 	// show response
 	twee.goToPassage("State-Answered-" + storyIndex)
 	// stop listening
 	speechRecStop()
+}
+
+function stateValidate() {
+	// set the question state to validating
+	questionState = "validating"
+	// start recording answer
+	speechRecStart()
 }

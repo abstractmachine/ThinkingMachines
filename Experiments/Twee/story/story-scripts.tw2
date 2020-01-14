@@ -49,6 +49,39 @@ window.goToPassage = function(id) {
 	Engine.goToPassage(id)
 }
 
+window.startedListening = function() {
+
+	let backgroundPulse = "background-color: black; animation-name: backgroundPulse; animation-duration: 2s; animation-iteration-count: infinite;"
+	let forgroundPulse = "color: white; animation-name: forgroundPulse; animation-duration: 2s; animation-iteration-count: infinite;"
+
+	var x = document.getElementsByTagName("body");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = backgroundPulse
+	}
+
+	var x = document.getElementsByTagName("tw-story");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = forgroundPulse
+	}
+
+}
+
+window.stoppedListening = function() {
+
+	let backgroundPulse = "background-color: black; animation-name: none;"
+	let forgroundPulse = "color: white; animation-name: none;"
+
+	var x = document.getElementsByTagName("body");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = backgroundPulse
+	}
+
+	var x = document.getElementsByTagName("tw-story");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = forgroundPulse
+	}
+}
+
 
 window.setParentInstance = function(instance) {
 	window.parentInstance = instance

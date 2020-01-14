@@ -30,6 +30,14 @@ tw-sidebar {
 	display: none;
 }
 
+img {
+	display: block;
+	position: absolute;
+	left: -7vw;
+	top: 10vw;
+	width: 75vw;
+}
+
 b, em {
 	font-variation-settings: 'wght' 600, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 }
@@ -60,6 +68,30 @@ strong {
 	100% {
 		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
+}
+
+@keyframes backgroundPulse {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+@keyframes forgroundPulse {
+  0% {
+	color: white;
+  }
+  50% {
+    color: black;
+  }
+  100% {
+    color: white;
+  }
 }
 
 @font-face {
@@ -118,6 +150,39 @@ window.goToPassage = function(id) {
 	Engine.goToPassage(id)
 }
 
+window.startedListening = function() {
+
+	let backgroundPulse = "background-color: black; animation-name: backgroundPulse; animation-duration: 2s; animation-iteration-count: infinite;"
+	let forgroundPulse = "color: white; animation-name: forgroundPulse; animation-duration: 2s; animation-iteration-count: infinite;"
+
+	var x = document.getElementsByTagName("body");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = backgroundPulse
+	}
+
+	var x = document.getElementsByTagName("tw-story");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = forgroundPulse
+	}
+
+}
+
+window.stoppedListening = function() {
+
+	let backgroundPulse = "background-color: black; animation-name: none;"
+	let forgroundPulse = "color: white; animation-name: none;"
+
+	var x = document.getElementsByTagName("body");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = backgroundPulse
+	}
+
+	var x = document.getElementsByTagName("tw-story");
+	for (var i = 0; i < x.length; i++) {
+		x[i].style = forgroundPulse
+	}
+}
+
 
 window.setParentInstance = function(instance) {
 	window.parentInstance = instance
@@ -132,35 +197,71 @@ window.askQuestion = function() {
 	let question = getVariable("question")
 	window.parentInstance.ask(question)
 }
-</script><tw-passagedata pid="1" name="Start" tags="" position="">{
+</script><tw-passagedata pid="1" name="Start" tags="" position="">Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Variables" tags="" position="">{
+	&lt;script&gt;console.log("Resetting variables");&lt;/script&gt;
+	(set: $size to (either: "little", "medium", "large"))
+	(set: $death to (either: "food", "antidote", "verveine"))
+	(set: $life to (either: "the woods", "desert", "pluto"))
+	(set: $kill to (either: "valley", "beach", "market"))
+	(set: $vacation to (either: "the lake", "the fair"))
+	(set: $time to (either: "jumping", "running", "singing"))
+	(set: $room to (either: "knock", "slam", "slide"))
+	(set: $enemies to (either: "lure", "kill", "eat"))
+	(set: $hide to (either: "swallowing", "bite", "hiding"))
+	(set: $birds to (either: "hear", "look", "pass"))
+	(set: $friends to (either: "help", "save", "release"))
+	(set: $weapon to (either: "knife", "stones", "hammer"))
+	(set: $lost to (either: "prince", "wolf", "stranger"))
+	(set: $wish to (either: "child", "kingdom", "gold"))
+	(set: $day to (either: "bath", "dinner", "wine"))
+	(set: $valentine to (either: "gift", "flower", "chocolate"))
+	(set: $wedding to (either: "everyone", "wolf", "witch"))
+	(set: $gift to (either: "beauty", "intelligence", "kindness"))
+	(set: $die to (either: "prick", "punched", "poisoned"))
+	(set: $sunday to (either: "sleeping", "dancing", "singing"))
+	(set: $defeat to (either: "needles", "bed", "microphone"))
+	(set: $chased to (either: "old tower", "quiet room", "basement"))
+	(set: $monster to (either: "kiss", "slap", "cuddle"))
+	(set: $ex to (either: "happy", "break up", "fight"))
+	(set: $life to (either: "wifes", "gold", "metal"))
+	(set: $mariage to (either: "favourite actor", "let go", "surprise"))
+	(set: $activity to (either: "travelling", "hunting", "swimming"))
+	(set: $death to (either: "hanged", "cut", "strangled"))
+	(set: $rather to (either: "missing", "stolen", "hidden"))
+	(set: $ennemies to (either: "hill", "slice", "cut"))
+	(set: $hide to (either: "tower", "balcony", "basement"))
+	(set: $assistance to (either: "rescue", "wolf", "stranger"))
+	(set: $cheat to (either: "remaried", "murder", "elope"))
+}</tw-passagedata><tw-passagedata pid="3" name="State-Ready" tags="" position="">{
 	(display: "Setup-Variables")
-	(display: "Setup-Choices")
-}
-Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Choices" tags="" position="">{
-}</tw-passagedata><tw-passagedata pid="3" name="Setup-Variables" tags="" position="">{
-	(set: $speechRecResult to "")
-	(set: $speechPhrase to "")
-}</tw-passagedata><tw-passagedata pid="4" name="State-Ready" tags="" position="">{
-	(set: $helloPhrase to (either: "Hello.", "Hi.", "Hello there!"))
-	(set: $letsWrite to (either: "I am ready for your story", "Let's write a story"))
-	
-	(set: $phrase to $helloPhrase + $letsWrite)
+	(set: $phrase to (either: "Hello, let’s write a story. Place your card to start.", "Welcome to the Loom project. Give me a card to start your story.", "Nice to see you. If you have a card, insert it below the camera.", "Hi. If you already filled your card, please show it to me.", "If you are ready to create your story, please insert your card.", "Once you’ve made your choices. Can you show them to me?", "Can I see your card please?", "If you want to continue please insert your card.", "Do you want to know the end of your story? Show me your card.", "So tell me; are you more of a prince, a villain or a hero?"))
 	&lt;script&gt;speakPhrase()&lt;/script&gt;
-}(print: $helloPhrase)
 
-I am the **Story Generator**. . Please insert your *card* and we will write your story.</tw-passagedata><tw-passagedata pid="5" name="State-NewCard" tags="" position="">This is a very interresting story. But I have a few questions.
+	(set: $counter to (random: 30,60))
+	(live: 1s)[
+		(set: $counter to it - 1)
+		(if: $counter is 0)[(go-to: "State-Ready")]
+	]
+	(print: $phrase)
+}
 
-(display: "State-ChooseStory")</tw-passagedata><tw-passagedata pid="6" name="State-ChooseStory" tags="" position="">{
-	(set: $question to "Add question here for the visitor?")
-	(print: $question)
+&lt;img src="images/loom-card.gif" /&gt;</tw-passagedata><tw-passagedata pid="4" name="State-NewCard" tags="" position="">{
+	(set: $thanks to (either: "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions"))
+	(set: $colors to (either: "Which of these colors do you prefer: red, pink, or blue?"))
+	(set: $question to $thanks + $colors)
 	&lt;script&gt;askQuestion()&lt;/script&gt;
-}</tw-passagedata><tw-passagedata pid="7" name="State-StoryChosen" tags="" position=""></tw-passagedata><tw-passagedata pid="8" name="State-DefineFood" tags="" position="">First, what food do you like best?
+}\
+Which of these colors do you prefer?
+
+- Red
+- Pink
+- Blue</tw-passagedata><tw-passagedata pid="5" name="State-StoryChosen" tags="" position=""></tw-passagedata><tw-passagedata pid="6" name="State-DefineFood" tags="" position="">First, what food do you like best?
 {
 	(set: $question to "Tell me, what food do you want to eat?")
 	&lt;script&gt;askQuestion()&lt;/script&gt;
-}</tw-passagedata><tw-passagedata pid="9" name="State-Listening" tags="" position="">The *Story* asked you the question: 
+}</tw-passagedata><tw-passagedata pid="7" name="State-Listening" tags="" position="">The *Story* asked you the question: 
 *« (print: $question) »*
-Please respond now</tw-passagedata><tw-passagedata pid="10" name="State-Answered" tags="" position="">*You* answered
+Please respond now</tw-passagedata><tw-passagedata pid="8" name="State-Answered" tags="" position="">*You* answered
 
 **« (print: $answer) »**</tw-passagedata></tw-storydata>
 

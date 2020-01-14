@@ -19,6 +19,14 @@ tw-sidebar {
 	display: none;
 }
 
+img {
+	display: block;
+	position: absolute;
+	left: -7vw;
+	top: 10vw;
+	width: 75vw;
+}
+
 b, em {
 	font-variation-settings: 'wght' 600, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 }
@@ -49,6 +57,30 @@ strong {
 	100% {
 		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
 	}
+}
+
+@keyframes backgroundPulse {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+@keyframes forgroundPulse {
+  0% {
+	color: white;
+  }
+  50% {
+    color: black;
+  }
+  100% {
+    color: white;
+  }
 }
 
 @font-face {

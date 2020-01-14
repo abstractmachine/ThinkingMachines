@@ -32,11 +32,13 @@ function speechRecStart() {
 	// reset listening flags
 	listening = true
 	listeningError = false
+	twee.startedListening()
 }
 
 function speechRecStop() {
 	// reset listening flags
 	listening = false
+	twee.stoppedListening()
 }
 
 function speechRecStarted() {
@@ -44,7 +46,7 @@ function speechRecStarted() {
 }
 
 function speechRecEnded() {
-	// if we  had a problem
+	// if we had a problem
 	if (listeningError) {
 		// start listening again
 		speechRecStart()
@@ -61,6 +63,7 @@ function speechRecEnded() {
 }
 
 function speechRecError() {
+	// activate error flag
 	listeningError = true
 }
 
@@ -74,9 +77,9 @@ function speechRecResult() {
 	// tell twee what the results were of the response
 	twee.setVariable("answer", speechRec.resultString)
 	// print out value confidence score
-	console.log(speechRec.resultString) // log the result
-	console.log(speechRec.resultConfidence)
-	console.log(speechRec.resultValue)
+	// console.log(speechRec.resultString) // log the result
+	// console.log(speechRec.resultConfidence)
+	// console.log(speechRec.resultValue)
 	// move to "Answered" state
 	changeState("Answered");
 	// turn off listening flag

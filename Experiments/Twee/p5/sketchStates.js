@@ -101,7 +101,7 @@ function stateValidated() {
 	// what was the answer?
 	let answer = twee.getVariable("answer")
 	// anything other than a non-yes answer restarts question
-	if (answer != "yes") {
+	if (!answer.includes("yes")) {
 		changeState("ask")
 	} else {
 		// check to see if we're at the end of the story

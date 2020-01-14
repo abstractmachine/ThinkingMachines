@@ -47,7 +47,7 @@ Which of these colors do you prefer?
 	(if: (a: "red", "pink", "blue") contains $answer)[
 		(set: $valid to "true")
 		(if: $answer is "red")[(set: $storyChoice to "Little Red Riding Hood")]
-		(if: $answer is "pink")[(set: $storyChoice to "Cinderella")]
+		(if: $answer is "pink")[(set: $storyChoice to "Sleeping Beauty")]
 		(if: $answer is "blue")[(set: $storyChoice to "Bluebeard")]
 		(display: "State-Verify")
 	](else:)[

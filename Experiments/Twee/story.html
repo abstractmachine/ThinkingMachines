@@ -209,9 +209,6 @@ window.askQuestion = function() {
 	window.parentInstance.ask(question)
 }
 </script><tw-passagedata pid="1" name="Start" tags="" position="">Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Variables" tags="" position="">{
-	(set: $valid to "false")
-	(set: $finished to "false")
-
 	(set: $size to (either: "little", "medium", "large"))
 	(set: $death to (either: "food", "antidote", "verveine"))
 	(set: $life to (either: "the woods", "desert", "pluto"))
@@ -245,6 +242,11 @@ window.askQuestion = function() {
 	(set: $hide to (either: "tower", "balcony", "basement"))
 	(set: $assistance to (either: "rescue", "wolf", "stranger"))
 	(set: $cheat to (either: "remaried", "murder", "elope"))
+
+
+	
+	(set: $valid to "false")
+	(set: $finished to "false")
 }</tw-passagedata><tw-passagedata pid="3" name="State-Ready" tags="" position="">{
 	(display: "Setup-Variables")
 
@@ -284,7 +286,7 @@ Which of these colors do you prefer?
 	(if: (a: "red", "pink", "blue") contains $answer)[
 		(set: $valid to "true")
 		(if: $answer is "red")[(set: $storyChoice to "Little Red Riding Hood")]
-		(if: $answer is "pink")[(set: $storyChoice to "Cinderella")]
+		(if: $answer is "pink")[(set: $storyChoice to "Sleeping Beauty")]
 		(if: $answer is "blue")[(set: $storyChoice to "Bluebeard")]
 		(display: "State-Verify")
 	](else:)[

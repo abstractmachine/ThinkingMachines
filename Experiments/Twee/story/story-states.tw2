@@ -30,7 +30,7 @@
 - No
 
 ::State-Ask-0
-{
+{	<!-- Define Story -->
 	(set: $thanks to (either: "Thank you.", "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions."))
 	(set: $colors to (either: "Which of these colors do you prefer: red, pink, or blue?"))
 	(set: $question to $thanks + " " + $colors)
@@ -43,7 +43,7 @@ Which of these colors do you prefer?
 - Blue
 
 ::State-Answered-0
-{
+{	<!-- Define $StoryChoice -->
 	(if: (a: "red", "pink", "blue") contains $answer)[
 		(set: $valid to "true")
 		(if: $answer is "red")[(set: $storyChoice to "Little Red Riding Hood")]
@@ -59,15 +59,14 @@ Which of these colors do you prefer?
 }
 
 ::State-Ask-1
-{
-	(set: $question to "What type of tea would you like in your cup?")
-	<script>askQuestion()</script>
-}\
-Name the flavour of your tea
+{	<!-- Define $StoryHero -->
+
+}
+
 
 ::State-Answered-1
-{
-	(display: "State-Verify")
+{	<!-- Define $StoryHero -->
+
 }
 
 ::State-Ask-2
@@ -80,3 +79,16 @@ Name the flavour of your tea
 }
 Ok. You choices are quite clear. I will now start writing your story.
 
+
+
+::State-Ask-99
+{
+	(set: $question to "What type of tea would you like in your cup?")
+	<script>askQuestion()</script>
+}\
+Name the flavour of your tea
+
+::State-Answered-99
+{
+	(display: "State-Verify")
+}

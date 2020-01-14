@@ -1,9 +1,9 @@
 ::Generate-Text
 {
-	(set: $storyTitle to $storyChoice)
-	(set: $storyLocation to "A Place")
+	(set: $StoryTitle to $StoryChoice)
+	(set: $StoryLocation to "A Place")
 	
-	(set: $storyText to $storyTitle + "\n\n" + $storyLocation)
+	(set: $StoryText to $StoryTitle + "\n\n" + $StoryLocation)
 
 	<script>generateStory()</script>
 }

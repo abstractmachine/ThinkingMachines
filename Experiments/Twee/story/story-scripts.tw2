@@ -31,7 +31,7 @@ window.setVariable = function(prop, val) {
 
 window.generateStory = function() {
 
-	let storyText = getVariable("storyText");
+	let storyText = getVariable("StoryText");
 
 	console.log("-------START|OF|TEXT-----------");
 	console.log(storyText);

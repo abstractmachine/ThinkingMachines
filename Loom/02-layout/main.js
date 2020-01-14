@@ -63,12 +63,12 @@ async function setupVideo() {
       let paths = findContourPaths(video, canvas)
       let textLayer = new Layer()
       let { textItems, unconsumedText } = fillPathsWithText(paths, text, textSettings)
-      let { pathSvg, textSvg } = getSVGData({ pathLayer, textLayer })
+      let { pathSvg, textSvg } = exportSVG({ pathLayer, textLayer })
     }
   }
 }
 
-function getSVGData({ pathLayer, textLayer }) {
+function exportSVG({ pathLayer, textLayer }) {
   textLayer.remove()
   let pathSvg = project.exportSVG({ asString: true })
   pathLayer.remove()

@@ -255,11 +255,15 @@ window.askQuestion = function() {
 	
 	(print:$phrase)
 
+	(set: $HeroIndex to (random:1,10))
+	(set: $DonorIndex to (random:1,10))
+
 	(set: $counter to (random: 30,60))
 	(live: 1s)[
 		(set: $counter to it - 1)
 		(if: $counter is 0)[(go-to: "State-Ready")]
 	]
+
 }
 
 &lt;img src="images/loom-card.gif" /&gt;</tw-passagedata><tw-passagedata pid="4" name="State-Verify" tags="" position="">{
@@ -285,9 +289,9 @@ Which of these colors do you prefer?
 - Blue</tw-passagedata><tw-passagedata pid="6" name="State-Answered-0" tags="" position="">{	&lt;!-- Define $StoryChoice --&gt;
 	(if: (a: "red", "pink", "blue") contains $answer)[
 		(set: $valid to "true")
-		(if: $answer is "red")[(set: $storyChoice to "Little Red Riding Hood")]
-		(if: $answer is "pink")[(set: $storyChoice to "Sleeping Beauty")]
-		(if: $answer is "blue")[(set: $storyChoice to "Bluebeard")]
+		(if: $answer is "red")[(set: $StoryChoice to "Little Red Riding Hood")]
+		(if: $answer is "pink")[(set: $StoryChoice to "Sleeping Beauty")]
+		(if: $answer is "blue")[(set: $StoryChoice to "Bluebeard")]
 		(display: "State-Verify")
 	](else:)[
 		(set: $valid to "false")
@@ -296,23 +300,46 @@ Which of these colors do you prefer?
 		**(print: $answer)** is not a valid choice.
 	]
 }</tw-passagedata><tw-passagedata pid="7" name="State-Ask-1" tags="" position="">{	&lt;!-- Define $StoryHero --&gt;
+	(set: $PossibleQuestions to (a: "Oh son of Zeus or daughter, what is your name?", "You came down this road by yourself, but it still don’t know your name.", "Hello creature of the forest what is your name?", "Son of Odin, state your name.", "Daughter of the luminescent sun, do you have a name?", "Baba yaga would like to know your name, can you tell her?", "If you need a key, please give me your name. If you give me a name, I’ll give you the key", "Vasalisa The Wise seems not to know your name. Is your name?", "The Goddess Nike is asking for your help. But what is your name?", "The old lady suffers from mental confusion, can you remind her your name?"))
 
-}</tw-passagedata><tw-passagedata pid="8" name="State-Answered-1" tags="" position="">{	&lt;!-- Define $StoryHero --&gt;
+	(set: $PossibleNames to (a: (a: "Xenon", "Psyche", "Aphrodite"), (a: "Alice", "Oshun", "Belle"), (a: "Beyoncé", "Rihanna", "Mary J"), (a: "Thor", "Loki", "Hel"), (a: "Medusa", "Hermione", "Yemanja"), (a: "Isis", "Cronos", "Inkubus"), (a: "Elisabeth", "Angela", "Helena"), (a: "Galadriel", "Artemis", "Katniss"), (a: "Primrose", "Eshu", "Virginia"), (a: "Mona Lisa", "Venus", "Pachamama")))
 
-}</tw-passagedata><tw-passagedata pid="9" name="State-Ask-2" tags="" position="">{
+	(set: $HeroQuestion to $PossibleQuestions's $HeroIndex)
+	(set: $HeroNames to $PossibleNames's $HeroIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $HeroQuestion + $instructions)
+	&lt;script&gt;askQuestion()&lt;/script&gt;
+}\
+(print: $HeroQuestion)
+- (print: $HeroNames's 1)
+- (print: $HeroNames's 2)
+- (print: $HeroNames's 3)</tw-passagedata><tw-passagedata pid="8" name="State-Answered-1" tags="" position="">{	&lt;!-- Define $StoryHero --&gt;
+	(if: $answer is "pint")[(set: $answer to "pink")]
+	(if: $answer is "print")[(set: $answer to "pink")]
+	(display: "State-Verify")
+}</tw-passagedata><tw-passagedata pid="9" name="State-Ask-2" tags="" position="">{	&lt;!-- Define $StoryDonor --&gt;
+	(set: $PossibleQuestions to (a: "Who would give you the things you need the most?", "You were given the magical key by...", "Do you remember who gave you your glass slippers?", "Tell me, who gave you this invisibility cap?", "From whom did you receive this gift?", "Who took care of you when you were young?", "Who gave you this magical ring?", "You were granted immortal life by...", "Rapunzel got her long hair from...", "Who gave this nose hair for you?"))
+
+	(set: $instructions to "Let me ask you a question. Answer whatever you like.")
+	(set: $DonorQuestion to $PossibleQuestions's $DonorIndex)
+
+	(set: $question to $instructions + " " + $DonorQuestion)
+	&lt;script&gt;askQuestion()&lt;/script&gt;
+}\
+(print: $DonorQuestion)
+
+____________________</tw-passagedata><tw-passagedata pid="10" name="State-Answered-2" tags="" position="">{	&lt;!-- Define $StoryDonor --&gt;
+	(if: $answer is "issue")[(set: $answer to "Eshu")]
+	(display: "State-Verify")
+}</tw-passagedata><tw-passagedata pid="11" name="State-Ask-3" tags="" position="">{	&lt;!-- Final --&gt;
 	(set: $finished to "true")
 	(set: $phrase to "Give me a minute to write your story")
 	&lt;script&gt;speakPhrase()&lt;/script&gt;
 	
 	(display: "Generate-Text")
 }
-Ok. You choices are quite clear. I will now start writing your story.</tw-passagedata><tw-passagedata pid="10" name="State-Ask-99" tags="" position="">{
-	(set: $question to "What type of tea would you like in your cup?")
-	&lt;script&gt;askQuestion()&lt;/script&gt;
-}\
-Name the flavour of your tea</tw-passagedata><tw-passagedata pid="11" name="State-Answered-99" tags="" position="">{
-	(display: "State-Verify")
-}</tw-passagedata><tw-passagedata pid="12" name="Generate-Text" tags="" position="">{
+Ok. You choices are quite clear. I will now start writing your story.</tw-passagedata><tw-passagedata pid="12" name="State-Answered-3" tags="" position="">I will now start writing your story.</tw-passagedata><tw-passagedata pid="13" name="Generate-Text" tags="" position="">{
 	(set: $StoryTitle to $StoryChoice)
 	(set: $StoryLocation to "A Place")
 	

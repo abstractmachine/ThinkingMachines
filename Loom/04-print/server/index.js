@@ -35,11 +35,6 @@ async function main() {
     const io = new IOServer()
     const server = new KoaSocketServer({io})
 
-    server.use(serve('./client'))
-
-    // Server the web-modules, built by Pika
-    server.use(mount('/web_modules', serve('./web_modules')))
-
     // ------
     // server start
     // ------

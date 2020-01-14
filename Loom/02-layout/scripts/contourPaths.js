@@ -14,7 +14,7 @@ export async function captureVideo(video) {
   return false
 }
 
-export function findContourPaths(video, canvas, crop) {
+export function findContourPaths(video, canvas, crop, contourProperties, pathProperties) {
   try {
     // Draw current video frame to canvas.
     canvas.getContext('2d').drawImage(
@@ -38,10 +38,7 @@ export function findContourPaths(video, canvas, crop) {
     cv.threshold(src, src, 110, 255, cv.THRESH_BINARY_INV)
     cv.findContours(src, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     // Convert the countours to Paper.js paths
-    let paths = convertContoursToPaths(contours, 32, {
-      strokeColor: 'black',
-      strokeScaling: false
-    })
+    let paths = convertContoursToPaths(contours, contourProperties, pathProperties)
     src.delete()
     contours.delete()
     hierarchy.delete()
@@ -85,13 +82,20 @@ export function filterContourPaths(paths, canvas) {
   return results
 }
 
-export function convertContoursToPaths(contours, minArea = 0, pathProperties = {}) {
+export function convertContoursToPaths(contours, contourProperties = {}, pathProperties = {}) {
   let paths = []
+  let { minArea = 0, approxPolyEpsilon = 0 } = contourProperties
   for (let i = 0; i < contours.size(); i++) {
-    let cnt = contours.get(i)
-    if (cv.contourArea(cnt) > minArea) {
+    let contour = contours.get(i)
+    if (cv.contourArea(contour) > minArea) {
+      let approx = null
+      if (approxPolyEpsilon > 0) {
+        approx = new cv.Mat()
+        cv.approxPolyDP(contour, approx, approxPolyEpsilon, true)
+        contour = approx
+      }
       let points = []
-      let data = cnt.data32S
+      let data = contour.data32S
       for (let j = 0; j < data.length; j += 2){
         let pt = new Point(data[j], data[j + 1])
         points.push(pt)
@@ -101,6 +105,9 @@ export function convertContoursToPaths(contours, minArea = 0, pathProperties = {
         closed: true,
         ...pathProperties
       })
+      if (approx) {
+        approx.delete()
+      }
       path.reduce({ simplify: true })
       paths.push(path)
     } 

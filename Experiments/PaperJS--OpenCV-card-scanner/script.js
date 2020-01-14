@@ -77,11 +77,17 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
     // Draw current video frame to canvas.
     videoCanvas.getContext('2d').drawImage(
       video,
+      // Source:
       crop.left,
       crop.top,
       video.videoWidth - crop.left - crop.right,
       video.videoHeight - crop.top - crop.bottom,
-      0, 0, videoCanvas.width, videoCanvas.height)
+      // Dest:
+      0,
+      0,
+      videoCanvas.width,
+      videoCanvas.height
+    )
     // Use some thresholding on the frame, then find contours:
     let src = cv.imread(videoCanvas)
     cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0)

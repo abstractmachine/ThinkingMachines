@@ -67,7 +67,19 @@ async function setupVideo() {
       view.center = canvasSize.divide(2)
       project.clear()
       let pathLayer = project.activeLayer
-      let paths = findContourPaths(video, canvas, crop)
+      let paths = findContourPaths(
+        video,
+        canvas, 
+        crop,
+        {
+          minArea: 32,
+          approxPolyEpsilon: 1
+        },
+        {
+          strokeColor: 'black',
+          strokeScaling: false
+        }
+      )
       let textLayer = new Layer()
       let { textItems, unconsumedText } = fillPathsWithText(paths, text, textSettings)
       let { pathSvg, textSvg } = exportSVG({ pathLayer, textLayer })

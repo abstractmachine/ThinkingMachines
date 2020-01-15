@@ -33,13 +33,11 @@ let scannerThumb = scannerCard.children.thumb
 cv.onRuntimeInitialized = setupVideo
 
 async function setupVideo() {
-  console.log('setupVideo')
   // Grab video element and associate it with the camera
   // See https://davidwalsh.name/browser-camera
   let video = document.getElementById('video')
   // Get access to the camera:
   let mediaDevices = navigator.mediaDevices
-  console.log('mediaDevices', mediaDevices)
   if(mediaDevices && mediaDevices.getUserMedia) {
     let stream = await mediaDevices.getUserMedia({
       video: {
@@ -48,7 +46,6 @@ async function setupVideo() {
         height: { min: 720 }
       }
     })
-    console.log('stream', stream)
     video.srcObject = stream
     // Use a promise to wait until the video can play through.
     await new Promise(resolve => {

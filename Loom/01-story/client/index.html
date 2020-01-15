@@ -13,7 +13,7 @@
 
 	<div id="start"><button onclick="start();">Start</button></div>
 	<div id="twee_div" style="display:none;"><iframe id="twee_frame" src="story.html"></iframe></div>
-	<div id="scanner_div"><iframe id="scanner_frame" src="scanner.html"></iframe></div>
+	<div id="scanner_div" style="display:none;"><iframe id="scanner_frame" src="scanner.html"></iframe></div>
 
 	<script>
 		window.appStarted = false
@@ -22,6 +22,7 @@
 			document.getElementById("start").style.display = "none"
 			// activate twee engine
 			document.getElementById("twee_div").style.display = "block"
+			document.getElementById("scanner_div").style.display = "block"
 			// start the sound engine in P5
 			setupSpeech()
 			window.appStarted = true

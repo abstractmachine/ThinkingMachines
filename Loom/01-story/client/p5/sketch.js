@@ -35,11 +35,23 @@ function keyPressed() {
 }
 
 function cardAdded(options) {
-	console.log('cardAdded', options)
-	changeState("inserted")
+	setTimeout(() => {
+		// console.log('cardAdded', options)
+		setOptions(options)
+		changeState("inserted")
+	}, 2000)
 }
 
 function cardRemoved() {
 	console.log('cardRemoved')
 	changeState("removed")
+}
+
+
+function setOptions(options) {
+
+	for(let i=0; i<options.length; i++) {
+		console.log(options[i])
+	}
+
 }

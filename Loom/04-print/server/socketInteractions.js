@@ -11,11 +11,13 @@ export function startClientSocketInteractions(socket) {
 
         console.info('Socket', socket.id, 'send data')
 
-        await savePage_svgFormat(data.textSvg)
+        if(data !== null) {
+            await savePage_svgFormat(data.textSvg)
 
-        await saveSvgForCover(data.pathSvg)
+            await saveSvgForCover(data.pathSvg)
 
-        storeData.currentText = data.unconsumedText
+            storeData.currentText = data.unconsumedText
+        }
     })
 
     // illustration

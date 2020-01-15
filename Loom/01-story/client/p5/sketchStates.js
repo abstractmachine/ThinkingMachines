@@ -47,8 +47,12 @@ function stateCardInserted() {
 	changeState("ask");
 	// card state flag
 	cardIsInserted = true
+	showScanner(false)
 }
 
+function showScanner(show) {
+	document.getElementById('scanner_div').style.display = show ? 'block' : 'none'
+}
 
 function stateCardRemoved() {
 	// reset story variables
@@ -59,6 +63,7 @@ function stateCardRemoved() {
 	changeState("ready")
 	// card state flag
 	cardIsInserted = false
+	showScanner(true)
 }
 
 

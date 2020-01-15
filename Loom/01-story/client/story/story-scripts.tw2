@@ -47,7 +47,8 @@ window.passages = passages;
 
 window.goToPassage = function(id) {
 	Engine.goToPassage(id)
-}
+};
+
 
 window.startedListening = function() {
 
@@ -64,7 +65,8 @@ window.startedListening = function() {
 		x[i].style = forgroundPulse
 	}
 
-}
+};
+
 
 window.stoppedListening = function() {
 
@@ -80,19 +82,42 @@ window.stoppedListening = function() {
 	for (var i = 0; i < x.length; i++) {
 		x[i].style = forgroundPulse
 	}
-}
+};
+
 
 window.speakPhrase = function() {
 	let phrase = getVariable("phrase")
 	window.parent.speak(phrase)
-}
+};
+
 
 window.askQuestion = function() {
 	let question = getVariable("question")
 	window.parent.ask(question)
-}
+};
+
+
+window.resetGenerator = function() {
+	
+	window.parent.resetGenerator()
+
+	// set all the replacement keys
+	window.parent.defineReplacement("$Hero", getVariable("StoryHero"));
+	window.parent.defineReplacement("$Donor", getVariable("StoryDonor"));
+	window.parent.defineReplacement("$MagicalObject", getVariable("StoryMagicalObject"));
+	window.parent.defineReplacement("$Helper", getVariable("StoryHelper"));
+	window.parent.defineReplacement("$Villain", getVariable("StoryVillain"));
+	window.parent.defineReplacement("$Prince", getVariable("StoryPrince"));
+	window.parent.defineReplacement("$Place", getVariable("StoryPlace"));
+};
+
+
+window.generatorAddPrompt = function() {
+	let prompt = getVariable("prompt");
+	window.parent.generatorAddPrompt(prompt)
+};
+
 
 window.generateStory = function() {
-	let query = getVariable("gpt");
-	window.parent.sendPrompt(query)
-}
+	window.parent.generateStory()
+};

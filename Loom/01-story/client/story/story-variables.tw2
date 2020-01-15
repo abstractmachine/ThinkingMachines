@@ -1,14 +1,19 @@
 ::Setup-Variables
 {
+	<!-- State variables -->
+	(set: $generating to "off")
+	(set: $valid to "false")
+	(set: $finished to "false")
+
 	<!-- Variables used to fill in specific characters and objects -->
 	(set: $StoryChoice to (either: "red", "pink", "blue"))
 	(set: $StoryHero to "our hero")
-	(set: $StoryDonor to "the donor")
+	(set: $StoryDonor to "donor")
 	(set: $StoryMagicalObject to "magical object")
-	(set: $StoryHelper to "the helper")
-	(set: $StoryVillain to "the villain")
-	(set: $StoryPrince to "the prince")
-	(set: $StoryPlace to "the place")
+	(set: $StoryHelper to "helper")
+	(set: $StoryVillain to "villain")
+	(set: $StoryPrince to "prince")
+	(set: $StoryPlace to "place")
 
 	<!-- Variables used to influence the story -->
 	(set: $size to (either: "little", "medium", "large"))
@@ -44,9 +49,4 @@
 	(set: $hide to (either: "tower", "balcony", "basement"))
 	(set: $assistance to (either: "rescue", "wolf", "stranger"))
 	(set: $cheat to (either: "remaried", "murder", "elope"))
-
-	<!-- State variables -->
-	(set: $generating to "off")
-	(set: $valid to "false")
-	(set: $finished to "false")
 }

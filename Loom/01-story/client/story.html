@@ -148,7 +148,8 @@ window.passages = passages;
 
 window.goToPassage = function(id) {
 	Engine.goToPassage(id)
-}
+};
+
 
 window.startedListening = function() {
 
@@ -165,7 +166,8 @@ window.startedListening = function() {
 		x[i].style = forgroundPulse
 	}
 
-}
+};
+
 
 window.stoppedListening = function() {
 
@@ -181,32 +183,60 @@ window.stoppedListening = function() {
 	for (var i = 0; i < x.length; i++) {
 		x[i].style = forgroundPulse
 	}
-}
+};
+
 
 window.speakPhrase = function() {
 	let phrase = getVariable("phrase")
 	window.parent.speak(phrase)
-}
+};
+
 
 window.askQuestion = function() {
 	let question = getVariable("question")
 	window.parent.ask(question)
-}
+};
+
+
+window.resetGenerator = function() {
+	
+	window.parent.resetGenerator()
+
+	// set all the replacement keys
+	window.parent.defineReplacement("$Hero", getVariable("StoryHero"));
+	window.parent.defineReplacement("$Donor", getVariable("StoryDonor"));
+	window.parent.defineReplacement("$MagicalObject", getVariable("StoryMagicalObject"));
+	window.parent.defineReplacement("$Helper", getVariable("StoryHelper"));
+	window.parent.defineReplacement("$Villain", getVariable("StoryVillain"));
+	window.parent.defineReplacement("$Prince", getVariable("StoryPrince"));
+	window.parent.defineReplacement("$Place", getVariable("StoryPlace"));
+};
+
+
+window.generatorAddPrompt = function() {
+	let prompt = getVariable("prompt");
+	window.parent.generatorAddPrompt(prompt)
+};
+
 
 window.generateStory = function() {
-	let query = getVariable("gpt");
-	window.parent.sendPrompt(query)
-}
+	window.parent.generateStory()
+};
 </script><tw-passagedata pid="1" name="Start" tags="" position="">Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Variables" tags="" position="">{
+	&lt;!-- State variables --&gt;
+	(set: $generating to "off")
+	(set: $valid to "false")
+	(set: $finished to "false")
+
 	&lt;!-- Variables used to fill in specific characters and objects --&gt;
 	(set: $StoryChoice to (either: "red", "pink", "blue"))
 	(set: $StoryHero to "our hero")
-	(set: $StoryDonor to "the donor")
+	(set: $StoryDonor to "donor")
 	(set: $StoryMagicalObject to "magical object")
-	(set: $StoryHelper to "the helper")
-	(set: $StoryVillain to "the villain")
-	(set: $StoryPrince to "the prince")
-	(set: $StoryPlace to "the place")
+	(set: $StoryHelper to "helper")
+	(set: $StoryVillain to "villain")
+	(set: $StoryPrince to "prince")
+	(set: $StoryPlace to "place")
 
 	&lt;!-- Variables used to influence the story --&gt;
 	(set: $size to (either: "little", "medium", "large"))
@@ -242,11 +272,6 @@ window.generateStory = function() {
 	(set: $hide to (either: "tower", "balcony", "basement"))
 	(set: $assistance to (either: "rescue", "wolf", "stranger"))
 	(set: $cheat to (either: "remaried", "murder", "elope"))
-
-	&lt;!-- State variables --&gt;
-	(set: $generating to "off")
-	(set: $valid to "false")
-	(set: $finished to "false")
 }</tw-passagedata><tw-passagedata pid="3" name="State-Ready" tags="" position="">{
 	(display: "Setup-Variables")
 
@@ -437,44 +462,107 @@ Ok. You choices are quite clear. I will now start writing your story.</tw-passag
 	(display: "Generate-Random")
 }
 Generating story using random values...</tw-passagedata><tw-passagedata pid="24" name="Generate-Text" tags="" position="">{
+	&lt;script&gt;resetGenerator()&lt;/script&gt;
+
+	(set: $generating to "on")
+
 	(if: $StoryChoice is "blue")[(display: "Generate-Blue")]
 	(else-if: $StoryChoice is "red")[(display: "Generate-Red")]
 	(else-if: $StoryChoice is "pink")[(display: "Generate-Pink")]
-	(else:)[Error. There was no story choice.]
 
 	&lt;script&gt;generateStory()&lt;/script&gt;
 }</tw-passagedata><tw-passagedata pid="25" name="Generate-Random" tags="" position="">{
 	(display: "Setup-Variables")
 	(display: "Generate-Text")
-}</tw-passagedata><tw-passagedata pid="26" name="Generate-Pink" tags="" position="">$Parents wanted to have a (either: “child”, “kingdom”, “gold”)
-When $Parent was having a (either: “bath”, “dinner”, “wine”) $Helper told her she was going to have a (either: “gift”, “flowers”, “chocolate”)
-What $Helper said came true and $Hero was born, $Parents organized a feast inviting (either: “everyone”, “the wolf”, “the witch”) even the $Donors except one.
-The feast was splendid and all $Donors gave $Hero $MagicalObjects (either: “beauty”, “intelligence”, “kindness”)
-When all $Donors where done, $Villain came in mad because she wasn’t invited cursing $Hero saying that she will (either: “prick”, “punch”, “poison”) herself and die.
-The last $Donor came forward and said that $Hero will (either: “fall asleep”, “dance”, “sing”) for a hundred years.
-$Parent decided that all (either: “needles”, “beds”, “microphones”) of the castle should be burned, meanwhile $Hero was loved by everyone.
-The day she turned 15, $Hero went to the (either: “old tower”, “quiet room”, “basement”), where she found $Villain using and old prick. $Villain lured $Hero to use the prick, when she did $Hero (either: “fell asleep”, “died”, “fainted”). When she did everyone around the castle (either: “ran”, “froze”) fell asleep too.
-After long years $Prince heard about the beautiful $Hero story, since many tried to enter the castle without success. Since the 100 years passed the flowers parted to let the prince in. When $Prince saw $Hero, he (either: “kissed”, “slapped”, “cuddled”) her to awaken her.
-Thanks to $Prince all the castle was awake, they celebrated $Hero’s and $Prince marriage (either: “they lived happily ever after”, “they brook up”, “had a fight”.</tw-passagedata><tw-passagedata pid="27" name="Generate-Blue" tags="" position="">$Villain lived in a fair land in France, he was very wealthy and had lots (either: “of young beautiful wives”, “of gold”, “of metal”)
-&lt;script&gt;generateStory()&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="26" name="Generate-Pink" tags="" position="">(set: $prompt to "`$`Hero's parents wanted to have " + (either: "a child", "kingdom", "gold") + ".")
+(print: $prompt)
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
 
-$Villain was (either: “marrying”, “letting go”, “surprise”) $Hero, who didn’t know what was going to happen to her once she was bound to the man.
-$Villain was going (either: “to travel”, “to hunt”, “to swim”) and asked $Hero not to go in one of the rooms of the castle.
-Not listening what $Villain said, $Hero went into the little room and discovered the bodies of all the wife’s (either: “hanged”, “cutted”, “strangled”) on the walls. Without realizing it $Hero dropped the $MagicalObject staining it in blood.
-$Villain came back and asked $Hero for the keys he gave her. But $MagicalObject was (either: “missing”, “stolen”, “hidden”). Realizing that $Hero didn’t listen and went to the room, $Villain decided to punish her by (either: “killing”, “slicing”, “cutting”) her.
-$Hero went with her sister on the (either: “tower”, “balcony”, basement”) to talk to her. She heard $Helpers coming, but $Villain threatened to kill them all.
-Trying to kill $Hero, Villain was defeated by $Helpers who came to (either: “rescue”, “save”, “help”) their sister before she was killed.
-$Hero (either: “remarried”, “murdered”, “eloped with”) a young honest man and lost all sense of curiosity.</tw-passagedata><tw-passagedata pid="28" name="Generate-Red" tags="" position="">$Hero was given by $Donor a (either: “little", "medium", "large") $MagicalObject, and she never wore anything else.
-$Hero needs to bring (either: “food", "antidote", "verveine") to $Donor that is ill. $Hero goes to the (either: “woods", "desert", "pluton") and meets $Villain on the way.
-$Villain tries to tell $Hero to go to the (either: “valley", "beach", "market") so he can get to the destination before her.
-$Hero gives to $Villain information’s about (either: "lake", "fair", "") where she is going. //$Villain messes with $Hero’s (try to steal time before Hero get to the destination)
-$Villain goes to $Donor’s house (either: "run", "jumps", "sings") and is mistaken by the $Hero
-$Hero gets to $Donor’s house but (either: "knocks", "slams", "slides") at the door but something doesn’t feel right
-$Hero is defeated by the $Villain who (either: "eats", "kills", "lure") her and $Donor
-$Villain thinks he won by (either: "swallowing", "hiding", "biting") $Hero and $Donor. $Helper was (either: "passing”, “looking", "hearing") by realising that something might be wrong. $Helper goes inside and (either: "help", "get", "release") $Hero and $Donor, $Hero get (either: "stones", "knife", "hammer") to defeat $Villain.
-$Hero knows that she can’t trust (either: "strangers", "wolf", "prince")
+&lt;!--
+When `$`Parent was having a (either: "bath", "dinner", "wine") `$`Helper told her she was going to have a (either: "gift", "flowers", "chocolate")
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
 
-$Hero returned home</tw-passagedata></tw-storydata>
+What `$`Helper said came true and `$`Hero was born, `$`Parents organized a feast inviting (either: "everyone", "the wolf", "the witch") even the `$`Donors except one.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+The feast was splendid and all `$`Donors gave `$`Hero `$`MagicalObjects (either: "beauty", "intelligence", "kindness")
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+When all `$`Donors where done, `$`Villain came in mad because she wasn’t invited cursing `$`Hero saying that she will (either: "prick", "punch", "poison") herself and die.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+The last `$`Donor came forward and said that `$`Hero will (either: "fall asleep", "dance", "sing") for a hundred years.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Parent decided that all (either: "needles", "beds", "microphones") of the castle should be burned, meanwhile `$`Hero was loved by everyone.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+The day she turned 15, `$`Hero went to the (either: "old tower", "quiet room", "basement"), where she found `$`Villain using and old prick. `$`Villain lured `$`Hero to use the prick, when she did `$`Hero (either: "fell asleep", "died", "fainted"). When she did everyone around the castle (either: "ran", "froze") fell asleep too.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+After long years `$`Prince heard about the beautiful `$`Hero story, since many tried to enter the castle without success. Since the 100 years passed the flowers parted to let the prince in. When `$`Prince saw `$`Hero, he (either: "kissed", "slapped", "cuddled") her to awaken her.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+Thanks to `$`Prince all the castle was awake, they celebrated `$`Hero’s and `$`Prince marriage (either: "they lived happily ever after", "they brook up", "had a fight".
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+--&gt;</tw-passagedata><tw-passagedata pid="27" name="Generate-Blue" tags="" position="">(set: $prompt to "`$`Villain lived in a fair land in France, he was very wealthy and had lots " + (either: "of young beautiful wives", "of gold", "of metal") + "")
+(print: $prompt)
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+&lt;!--
+`$`Villain was (either: "marrying", "letting go", "surprise") `$`Hero, who didn’t know what was going to happen to her once she was bound to the man.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Villain was going (either: "to travel", "to hunt", "to swim") and asked `$`Hero not to go in one of the rooms of the castle.
+&lt;script&gt;generategeneratorAddPromptPrompt()&lt;/script&gt;
+
+Not listening what `$`Villain said, `$`Hero went into the little room and discovered the bodies of all the wife’s (either: "hanged", "cutted", "strangled") on the walls. Without realizing it `$`Hero dropped the `$`MagicalObject staining it in blood.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Villain came back and asked `$`Hero for the keys he gave her. But `$`MagicalObject was (either: "missing", "stolen", "hidden"). Realizing that `$`Hero didn’t listen and went to the room, `$`Villain decided to punish her by (either: "killing", "slicing", "cutting") her.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero went with her sister on the (either: "tower", "balcony", basement") to talk to her. She heard `$`Helpers coming, but `$`Villain threatened to kill them all.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+Trying to kill `$`Hero, Villain was defeated by `$`Helpers who came to (either: "rescue", "save", "help") their sister before she was killed.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero (either: "remarried", "murdered", "eloped with") a young honest man and lost all sense of curiosity.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+--&gt;</tw-passagedata><tw-passagedata pid="28" name="Generate-Red" tags="" position="">(set: $prompt to "`$`Hero was given by `$`Donor a " + (either: "little", "medium", "large") + " `$`MagicalObject, and she never wore anything else.")
+(print: $prompt)
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+&lt;!--
+`$`Hero needs to bring (either: "food", "antidote", "verveine") to `$`Donor that is ill. `$`Hero goes to the (either: "woods", "desert", "pluton") and meets `$`Villain on the way.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Villain tries to tell `$`Hero to go to the (either: "valley", "beach", "market") so he can get to the destination before her.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero gives to `$`Villain information’s about (either: "lake", "fair", "") where she is going. //`$`Villain messes with `$`Hero’s (try to steal time before Hero get to the destination)
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Villain goes to `$`Donor’s house (either: "run", "jumps", "sings") and is mistaken by the `$`Hero
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero gets to `$`Donor’s house but (either: "knocks", "slams", "slides") at the door but something doesn’t feel right
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero is defeated by the `$`Villain who (either: "eats", "kills", "lure") her and `$`Donor
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Villain thinks he won by (either: "swallowing", "hiding", "biting") `$`Hero and `$`Donor. `$`Helper was (either: "passing", "looking", "hearing") by realising that something might be wrong. `$`Helper goes inside and (either: "help", "get", "release") `$`Hero and `$`Donor, `$`Hero get (either: "stones", "knife", "hammer") to defeat `$`Villain.
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero knows that she can’t trust (either: "strangers", "wolf", "prince")
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+`$`Hero returned home
+&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+
+--&gt;</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**
  * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.

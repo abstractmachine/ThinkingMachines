@@ -39,7 +39,7 @@ function keyPressed() {
 		break;
 
 		// force generation of the story
-		case ('r'):
+		case ('g'):
 		changeState("random")
 		break;
 

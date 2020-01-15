@@ -38,6 +38,11 @@ function keyPressed() {
 		changeState("removed")
 		break;
 
+		// force generation of the story
+		case ('r'):
+		changeState("random")
+		break;
+
 	}
 
 }

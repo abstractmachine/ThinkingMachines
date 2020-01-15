@@ -11,6 +11,7 @@ function changeState(newState) {
 	if (newState == "ready") stateReady()
 	else if (newState == "inserted") stateCardInserted()
 	else if (newState == "removed") stateCardRemoved()
+	else if (newState == "random") stateRandom()
 	else if (newState == "ask") stateAsk()
 	else if (newState == "asked") stateAsked()
 	else if (newState == "answered") stateAnswered()
@@ -119,4 +120,10 @@ function stateValidated() {
 
 function stateFinished() {
 	
+}
+
+
+function stateRandom() {
+	// tell Twee to go to the Ready screen
+	twee.goToPassage('State-Random')
 }

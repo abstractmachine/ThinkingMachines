@@ -1,23 +1,43 @@
 <!DOCTYPE html>
-<html lang="">
+<html>
+
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Loom-Story</title>
-	<style>
-		#scanner_frame {
-        	position: absolute;
-       		top: 0;
-       	 	left: 0;
-        	right: 0;
-        	bottom: 0;
-			width: 1280;
-			height: 720;
-			border: 0;
-		}
-	</style>
+
+	<head>
+		<link rel="stylesheet" href="css/stylesheet.css">
+	</head>
 </head>
+
 <body>
-	<iframe id="scanner_frame" src="scanner.html"></iframe>
+
+	<div id="start"><button onclick="start();">Start</button></div>
+	<div id="twee_div" style="display:none;"><iframe id="twee_frame" src="story.html"></iframe></div>
+	<div id="scanner_div"><iframe id="scanner_frame" src="scanner.html"></iframe></div>
+
+	<script>
+		function start() {
+			// deactivate start button
+			document.getElementById("start").style.display = "none"
+			// activate twee engine
+			document.getElementById("twee_div").style.display = "block"
+			// start the sound engine in P5
+			setupSpeech()
+		}
+	</script>
+
+	<!-- P5 stuff -->
+	<script src="p5/p5.min.js"></script>
+	<script src="p5/addons/p5.speech.js"></script>
+	<script src="p5/addons/p5.sound.min.js"></script>
+	<script src="p5/sketch.js"></script>
+	<script src="p5/sketchStates.js"></script>
+	<script src="p5/sketchSpeech.js"></script>
+
+	<!-- Socket.io stuff -->
+  <script src="lib/socket.io.js"></script>
+  <script src="scripts/gpt2.js"></script>
+
 </body>
+
 </html>

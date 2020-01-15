@@ -38,8 +38,8 @@ gpt2.stdout.on('data', data => {
     }
   } else if (gpt2Socket) {
     const text = data.match(/={20,} SAMPLE 1 ={20,}([\s\S]*?)={20,}/)[1].trim()
-    console.log('response:', text)
-    gpt2Socket.emit('response', text)
+    console.log('gpt2-response:', text)
+    gpt2Socket.emit('gpt2-response', text)
     gpt2Socket = null
   }
 })
@@ -49,12 +49,12 @@ gpt2.on('close', code => {
 });
 
 io.on('connect', socket => {
-  socket.on('prompt', message => {
+  socket.on('gpt2-prompt', message => {
     if (gpt2Ready) {
       if (gpt2Socket) {
         socket.emit('gpt2-error', 'Still waiting.')
       } else {
-        console.log('prompt:', message)
+        console.log('gpt2-prompt:', message)
         gpt2.stdin.write(`${message}\n`)
         gpt2Socket = socket
       }

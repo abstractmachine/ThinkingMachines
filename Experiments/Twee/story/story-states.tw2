@@ -122,7 +122,7 @@ _______________________
 {	<!-- Define $StoryMagicalObject -->
 	(set: $MagicalObjectQuestions to (a: "What is your fetish object?", "What a surprise! There is a small door that’s locked. Give me an object to open it.", "In the land of Baba Yaga there are objects that fly at night and are standing at sunrise, could you name one?", "The mountain bear have something to give you. choose one of these objects:", "The old healer needs something for her potion, can you help her?", "The forest spirits await you but you need to give them a sacred object", "Someone stole Vasalisa’s magical object, can you choose another for her?", "The wolf was chasing and accidentally found some strange object in the forest", "The devil is behind the flowering apple tree, looking for something that belongs to him"))
 
-	(set: $MagicalObjectAnswers to (a: (a: "a bag", "a broom", "a light"), (a: "a key", "a card", "a print"), (a: "a cup", "a book", "a pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "a crystal", "the moon", "the stars"), (a: "a doll", "magic staff", "chicken foot"), (a: "a sword", "a paper", "herbs"), (a: "a fork", "a coca cola", "glasses")))
+	(set: $MagicalObjectAnswers to (a: (a: "bag", "broom", "light"), (a: "key", "card", "print"), (a: "cup", "book", "pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "crystal", "the moon", "the stars"), (a: "doll", "magic staff", "chicken foot"), (a: "sword", "paper", "herbs"), (a: "fork", "coca cola", "glasses")))
 
 	(set: $MagicalObjectQuestion to $MagicalObjectQuestions's $MagicalObjectIndex)
 	(set: $MagicalObjectAnswer to $MagicalObjectAnswers's $MagicalObjectIndex)

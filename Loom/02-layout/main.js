@@ -23,10 +23,10 @@ let textSettings = {
 
 // Adjust values once camera is well positioned:
 let crop = {
-  top: 0,
-  right: 0,
-  bottom: 40,
-  left: 40
+  top: 25,
+  right: 100,
+  bottom: 25,
+  left: 100
 }
 
 let text = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce in vulputate elit. Nunc efficitur ipsum venenatis, placerat ante eu, pharetra justo. Pellentesque consectetur justo malesuada lectus ullamcorper aliquet. Duis ultrices luctus diam quis molestie. Nunc augue eros, viverra non est in, placerat hendrerit metus. Phasellus aliquam dignissim nulla, ac commodo lectus placerat vitae. Aliquam tempus vel quam ac lacinia. Aenean vitae sodales eros.
@@ -63,10 +63,11 @@ async function setupVideo() {
   // Get access to the camera:
   if (await (captureVideo(video))) {
     // Create a canvas to draw video frames to, in order to find contours.
-    let canvas = document.createElement('canvas')
-    canvas.width = video.videoWidth
-    canvas.height = video.videoHeight
-    let canvasSize = new Size(canvas).subtract(crop.left + crop.right, crop.top + crop.bottom)
+    let canvas = document.getElementById('video-canvas')
+    let videoSize = new Size(video.videoWidth, video.videoHeight)
+    let canvasSize = videoSize.subtract([crop.left + crop.right, crop.top + crop.bottom])
+    canvas.width = canvasSize.width
+    canvas.height = canvasSize.height
     view.onFrame = () => {
       let scale = view.viewSize.divide(canvasSize)
       view.zoom = Math.min(scale.width, scale.height)

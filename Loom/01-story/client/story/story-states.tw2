@@ -1,0 +1,281 @@
+::State-Ready
+{
+	(display: "Setup-Variables")
+
+	(set: $phrase to (either: "Hello, let’s write a story. Place your card to start.", "Welcome to the Loom project. Give me a card to start your story.", "Nice to see you. If you have a card, insert it below the camera.", "Hi. If you already filled your card, please show it to me.", "If you are ready to create your story, please insert your card.", "Once you’ve made your choices. Can you show them to me?", "Can I see your card please?", "If you want to continue please insert your card.", "Do you want to know the end of your story? Show me your card.", "So show me: are you more of a prince, a villain or a hero?"))
+	<script>speakPhrase()</script>
+	
+	(print:$phrase)
+
+	(set: $HeroIndex to (random:1,10))
+	(set: $DonorIndex to (random:1,10))
+	(set: $MagicalObjectIndex to (random:1,9))
+	(set: $HelperIndex to (random:1,10))
+	(set: $VillainIndex to (random:1,10))
+	(set: $PrinceIndex to (random:1,4))
+	(set: $PlaceIndex to (random:1,10))
+
+	(set: $counter to (random: 30,60))
+	(live: 1s)[
+		(set: $counter to it - 1)
+		(if: $counter is 0)[(go-to: "State-Ready")]
+	]
+
+}
+
+::State-Verify
+{
+	(set: $choice to (either: "is an excellent choice", "is an original choice", "is an inspired choice", "is a lovely choice", "is an interresting choice", "is an intruiging choice", "is a curious choice", "is your choice"))
+	(set: $verify to (either: "Do you agree?", "Are you sure?", "Yes or no?", "Shall I use this?"))
+	(set: $question to $answer + " " + $choice + " " + $verify)
+	<script>askQuestion()</script>
+
+	(print: "**" + $answer + "**" + " " + $choice)
+}
+
+- Yes
+- No
+
+::State-Ask-0
+{	<!-- Define Story -->
+	(set: $thanks to (either: "Thank you.", "Thank you. Let us explore your choices.", "Interresting choices. But I have a few questions."))
+	(set: $colors to (either: "Which of these colors do you prefer: red, pink, or blue?"))
+	(set: $question to $thanks + " " + $colors)
+	<script>askQuestion()</script>
+}\
+Which of these colors do you prefer?
+
+- Red
+- Pink
+- Blue
+
+::State-Answered-0
+{	<!-- Define $StoryChoice -->
+	(if: (a: "red", "pink", "blue") contains $answer)[
+		(set: $valid to "true")
+		(if: $answer is "red")[(set: $StoryChoice to "Little Red Riding Hood")]
+		(if: $answer is "pink")[(set: $StoryChoice to "Sleeping Beauty")]
+		(if: $answer is "blue")[(set: $StoryChoice to "Bluebeard")]
+		(display: "State-Verify")
+	](else:)[
+		(set: $valid to "false")
+		(set: $phrase to "Sorry" + $answer + "" + "is not a valid choice.")
+		<script>speakPhrase()</script>
+		**(print: $answer)** is not a valid choice.
+	]
+}
+
+::State-Ask-1
+{	<!-- Define $StoryHero -->
+	(set: $PossibleQuestions to (a: "Oh son of Zeus or daughter, what is your name?", "You came down this road by yourself, but it still don’t know your name.", "Hello creature of the forest what is your name?", "Son of Odin, state your name.", "Daughter of the luminescent sun, do you have a name?", "Baba yaga would like to know your name, can you tell her?", "If you need a key, please give me your name. If you give me a name, I’ll give you the key", "Vasalisa The Wise seems not to know your name. Is your name?", "The Goddess Nike is asking for your help. But what is your name?", "The old lady suffers from mental confusion, can you remind her your name?"))
+
+	(set: $PossibleNames to (a: (a: "Xenon", "Psyche", "Aphrodite"), (a: "Alice", "Oshun", "Belle"), (a: "Beyoncé", "Rihanna", "Mary J"), (a: "Thor", "Loki", "Hel"), (a: "Medusa", "Hermione", "Yemanja"), (a: "Isis", "Cronos", "Inkubus"), (a: "Elisabeth", "Angela", "Helena"), (a: "Galadriel", "Artemis", "Katniss"), (a: "Primrose", "Eshu", "Virginia"), (a: "Mona Lisa", "Venus", "Pachamama")))
+
+	(set: $HeroQuestion to $PossibleQuestions's $HeroIndex)
+	(set: $HeroNames to $PossibleNames's $HeroIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $HeroQuestion + $instructions)
+	<script>askQuestion()</script>
+}\
+(print: $HeroQuestion)
+- (print: $HeroNames's 1)
+- (print: $HeroNames's 2)
+- (print: $HeroNames's 3)
+
+
+::State-Answered-1
+{	<!-- Define $StoryHero -->
+	(set: $StoryHero to $answer)
+	(display: "State-Verify")
+}
+
+
+
+
+::State-Ask-2
+{	<!-- Define $StoryDonor -->
+	(set: $PossibleQuestions to (a: "Who would give you the things you need the most?", "You were given the magical key by...", "Do you remember who gave you your glass slippers?", "Tell me, who gave you this invisibility cap?", "From whom did you receive this gift?", "Who took care of you when you were young?", "Who gave you this magical ring?", "You were granted immortal life by...", "Rapunzel got her long hair from...", "Who gave you this tatoo?"))
+
+	(set: $instructions to "Let me ask you a question. Answer whatever you like.")
+	(set: $DonorQuestion to $PossibleQuestions's $DonorIndex)
+
+	(set: $question to $instructions + " " + $DonorQuestion)
+	<script>askQuestion()</script>
+}\
+(print: $DonorQuestion)
+
+_______________________
+
+::State-Answered-2
+{	<!-- Define $StoryDonor -->
+	(set: $StoryDonor to $answer)
+	(display: "State-Verify")
+}
+
+
+
+
+::State-Ask-3
+{	<!-- Define $StoryMagicalObject -->
+	(set: $MagicalObjectQuestions to (a: "What is your fetish object?", "What a surprise! There is a small door that’s locked. Give me an object to open it.", "In the land of Baba Yaga there are objects that fly at night and are standing at sunrise, could you name one?", "The mountain bear have something to give you. choose one of these objects:", "The old healer needs something for her potion, can you help her?", "The forest spirits await you but you need to give them a sacred object", "Someone stole Vasalisa’s magical object, can you choose another for her?", "The wolf was chasing and accidentally found some strange object in the forest", "The devil is behind the flowering apple tree, looking for something that belongs to him"))
+
+	(set: $MagicalObjectAnswers to (a: (a: "a bag", "a broom", "a light"), (a: "a key", "a card", "a print"), (a: "a cup", "a book", "a pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "a crystal", "the moon", "the stars"), (a: "a doll", "magic staff", "chicken foot"), (a: "a sword", "a paper", "herbs"), (a: "a fork", "a coca cola", "glasses")))
+
+	(set: $MagicalObjectQuestion to $MagicalObjectQuestions's $MagicalObjectIndex)
+	(set: $MagicalObjectAnswer to $MagicalObjectAnswers's $MagicalObjectIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $MagicalObjectQuestion + $instructions)
+	<script>askQuestion()</script>
+}\
+(print: $MagicalObjectQuestion)
+- (print: $MagicalObjectAnswer's 1)
+- (print: $MagicalObjectAnswer's 2)
+- (print: $MagicalObjectAnswer's 3)
+
+::State-Answered-3
+{	<!-- Define $StoryMagicalObject -->
+	(set: $StoryMagicalObject to $answer)
+	(display: "State-Verify")
+}
+
+
+
+
+::State-Ask-4
+{	<!-- Define $StoryHelper -->
+	(set: $HelperQuestions to (a: "Who would you call if you were in difficulty?", "While you were in great danger, someone came to your rescue, do you remember her name?", "Who made your dress for the ball with the prince?", "Who gave you your kindness, intelligence and beauty?", "Who helped you escape from the fat cat?", "Who would help you if you’re stuck in a room with no doors or window?", "Ursula took you into the abysse of the sea, who are you waiting for to rescue you?", "Sauron captured you, but you know that someone is coming to save you. Who is that?", "Lord Voldemort captured your parents, whose help do you need to rescue them?", "In Kinder Land they are waiting for the help of..."))
+
+	(set: $instructions to "Let me ask you a question. Answer whatever you wish.")
+	(set: $HelperQuestion to $HelperQuestions's $HelperIndex)
+
+	(set: $question to $instructions + " " + $HelperQuestion)
+	<script>askQuestion()</script>
+}\
+(print: $HelperQuestion)
+
+_______________________
+
+::State-Answered-4
+{	<!-- Define $StoryHelper -->
+	(set: $StoryHelper to $answer)
+	(display: "State-Verify")
+}
+
+
+
+
+::State-Ask-5
+{	<!-- Define $StoryVillain -->
+	(set: $VillainQuestions to (a: "Cruella de Ville said you are one of her friends, what is your name?", "Well maybe Bluebeard isn’t such a bad man. Can you give him your name?", "The  Chimere needs to be decapitated today. Can you give him a name before it dies?", "The devil just arrived in a new city. He needs a new name for your ID card.", "If you could be a villain, what would you call yourself?", "Joining the army of Sauron, you’ll need a name to be identified. What is it?", "Welcome to the dark side, before entering Satan’s house, give us your name.", "The Templars welcome you into their community. Before getting your sword, you shall state your name.", "Your warriors defeated my army but I still don’t know your name, what is it again?", "How come we never met, oh son of Cronos, but what do they call you?"))
+
+	(set: $VillainAnswers to (a: (a: "Aria", "Hanna", "Lord"), (a: "Anna", "Clara", "Lara"), (a: "Donald", "Jair", "Marine"), (a: "Artemis", "Lord Voldemort", "Sauron"), (a: "Tom Riddle", "Gandalf the White", "Legolas"), (a: "Jhon", "Sansa", "Rob"), (a: "Kane", "Sinna", "Kunzendorff"), (a: "Gabriel", "Aurelie", "Johan"), (a: "Jabari", "Chaka", "Ursula"), (a: "Lord of the rings", "Night King", "Black Widow")))
+
+	(set: $VillainQuestion to $VillainQuestions's $VillainIndex)
+	(set: $VillainAnswer to $VillainAnswers's $VillainIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $VillainQuestion + $instructions)
+	<script>askQuestion()</script>
+}\
+(print: $VillainQuestion)
+- (print: $VillainAnswer's 1)
+- (print: $VillainAnswer's 2)
+- (print: $VillainAnswer's 3)
+
+::State-Answered-5
+{	<!-- Define $StoryVillain -->
+	(set: $StoryVillain to $answer)
+	(display: "State-Verify")
+}
+
+
+
+
+::State-Ask-6
+{	<!-- Define $StoryPrince -->
+	(set: $PrinceQuestions to (a: "Your father is the king of new york. What is your name?", "You have been charged with naming the new Prince of England. What's his name?", "The Prince fell off his horse and he will only survive if you name him now", "The Prince kissed a frog without consent. The frog needs to make a police report. Help the frog and denounce the Prince by name."))
+
+	(set: $PrinceAnswers to (a: (a: "Theodor", "Karl", "Adorno"), (a: "Strauss", "Bach", "Beethoven"), (a: "Jay Z", "Baco", "Kendrick"), (a: "Polanski", "Bill", "Kanye")))
+
+	(set: $PrinceQuestion to $PrinceQuestions's $PrinceIndex)
+	(set: $PrinceAnswer to $PrinceAnswers's $PrinceIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $PrinceQuestion + $instructions)
+	<script>askQuestion()</script>
+}\
+(print: $PrinceQuestion)
+- (print: $PrinceAnswer's 1)
+- (print: $PrinceAnswer's 2)
+- (print: $PrinceAnswer's 3)
+
+::State-Answered-6
+{	<!-- Define $StoryPrince -->
+	(set: $StoryPrince to $answer)
+	(display: "State-Verify")
+}
+
+
+
+
+::State-Ask-7
+{	<!-- Define $StoryPlace -->
+	(set: $PlaceQuestions to (a: "The lady healer needs to go through one of these places to find a rare plant. She should pass through:", "An endangered tiger is looking for a place to sleep. Please choose for him a safe place", "While the woman was on the mountain everything was magical. Now she needs to look elsewhere, to learn new skills. She must go to:", "The witch wants to marry  the princess. Choose a place for the party.", "You died. Do You remember where?", "The princess killed the prince because he kissed her without a consent. Choose a place to hide his body. ", "You're a free woman,  choose a place to runaway from all your tasks?", "A meteor will hit the earth tomorrow. where would you choose to spend your last hours?", "Your roommates are eating your food without asking permission. where would you hide your last piece of cake", "A cat has mystery places to hide. if you were a cat where would you be now?"))
+
+	(set: $PlaceAnswers to (a: (a: "Amazonia", "Machu Pichu", "Botanical Garden"), (a: "in your room", "Garden", "Dance Club"), (a: "forest", "beach", "desert island"), (a: "elevator", "lake", "sofa"), (a: "Louvre", "Pompidou", "MOMA"), (a: "backyards", "lake", "forest"), (a: "Dakar", "Brazil", "Bali"), (a: "pool", "basement", "belly of a whale"), (a: "under your bed", "in your stomach", "in your closet"), (a: "fridge ", "basement", "tree")))
+
+	(set: $PlaceQuestion to $PlaceQuestions's $PlaceIndex)
+	(set: $PlaceAnswer to $PlaceAnswers's $PlaceIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $PlaceQuestion + $instructions)
+	<script>askQuestion()</script>
+}\
+(print: $PlaceQuestion)
+- (print: $PlaceAnswer's 1)
+- (print: $PlaceAnswer's 2)
+- (print: $PlaceAnswer's 3)
+
+::State-Answered-7
+{	<!-- Define $StoryPlace -->
+	(set: $StoryPlace to $answer)
+	(display: "State-Verify")
+}
+
+
+::State-Ask-8
+{	<!-- Final -->
+	(set: $finished to "true")
+	(set: $phrase to "Give me a minute to write your story")
+	<script>speakPhrase()</script>
+	
+	(display: "Generate-Text")
+}
+Ok. You choices are quite clear. I will now start writing your story.
+
+
+
+::State-Answered-8
+I will now start writing your story.
+
+
+
+::State-Ask-Template
+{
+	(set: $PossibleQuestions to (a: "", "", "", "", "", "", "", "", "", ""))
+
+	(set: $PossibleAnswers to (a: (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", "")))
+
+	(set: $PossibleQuestion to $PossibleQuestions's $PossibleIndex)
+	(set: $PossibleAnswer to $PossibleAnswers's $PossibleIndex)
+
+	(set: $instructions to "Which do you prefer?")
+	(set: $question to $PossibleQuestion + $instructions)
+	<script>askQuestion()</script>
+}\
+(print: $PossibleQuestion)
+- (print: $PossibleAnswer's 1)
+- (print: $PossibleAnswer's 2)
+- (print: $PossibleAnswer's 3)

@@ -44,7 +44,7 @@
 	(set: $hide to (either: "tower", "balcony", "basement"))
 	(set: $assistance to (either: "rescue", "wolf", "stranger"))
 	(set: $cheat to (either: "remaried", "murder", "elope"))
-	
+
 	<!-- State variables -->
 	(set: $generating to "off")
 	(set: $valid to "false")

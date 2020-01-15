@@ -10,6 +10,9 @@ canvas[resize] {
   height: 100%;
 }
 
-video {
+.video {
+  /*
+  display: none;
+  */
   display: none;
 }

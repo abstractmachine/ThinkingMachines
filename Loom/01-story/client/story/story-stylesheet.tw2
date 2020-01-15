@@ -1,0 +1,92 @@
+::StoryCSS [stylesheet]
+
+html, body {
+	border: 0px;
+	margin: 0px;
+}
+
+body {
+	background-color: black;
+}
+
+tw-story {
+	color: white;
+	font-family: "Amstelvar";
+	font-variation-settings: 'wght' 150, 'wdth' 80, 'opsz' 24, 'YTSE' 18;
+}
+
+tw-sidebar {
+	display: none;
+}
+
+img {
+	display: block;
+	position: absolute;
+	left: -7vw;
+	top: 10vw;
+	width: 75vw;
+}
+
+b, em {
+	font-variation-settings: 'wght' 600, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+}
+
+strong {
+	font-variation-settings: 'wght' 600, 'wdth' 200, 'opsz' 24, 'YTSE' 18;
+	animation-name: breathe;
+	animation-iteration-count: infinite;
+	animation-duration: 4000ms;
+	animation-delay: 500ms;
+	animation-timing-function: ease;
+	animation-fill-mode: both;
+}
+
+@keyframes breathe {
+	0% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+	}
+	20% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+	}
+	50% {
+		font-variation-settings: 'wght' 1000, 'wdth' 60, 'opsz' 8, 'YTSE' 18;
+	}
+	80% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+	}
+	100% {
+		font-variation-settings: 'wght' 100, 'wdth' 100, 'opsz' 24, 'YTSE' 18;
+	}
+}
+
+@keyframes backgroundPulse {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    background-color: black;
+  }
+}
+
+@keyframes forgroundPulse {
+  0% {
+	color: white;
+  }
+  50% {
+    color: black;
+  }
+  100% {
+    color: white;
+  }
+}
+
+@font-face {
+	font-family: 'Amstelvar'; /* Source: https://github.com/TypeNetwork/Amstelvar */
+	src: url("fonts/Amstelvar-Roman-VF.ttf") format('truetype'); /* Brochure : https://www.typenetwork.com/brochure/opentype-variable-fonts-moving-right-along/ */
+	font-weight: 100 950;
+	font-stretch: 50% 200%;
+	font-style: normal;
+}

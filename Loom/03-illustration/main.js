@@ -35,9 +35,9 @@ let videoPadding = 20
 let videoScale = 0.75
 
 function preload() {
-  // taille de l'image 1748 x 2480 pixel
-  let maxWidth = windowWidth / 1.5
-  let maxHeight = windowHeight / 1.5
+  // taille de l'image 1748 x 2480 pixel 
+  let maxWidth = windowWidth / 1.0
+  let maxHeight = windowHeight / 1.0
 for (let [key, value] of Object.entries(imagesDict)) {
     loadImage('images/' + value, img => {
       let { width, height } = img
@@ -67,16 +67,36 @@ function draw() {
   clear()
   push()
   tint(255, 255, 255, 127)
-  image(video, videoPadding, videoPadding, video.width * videoScale, video.height * videoScale)
+  let videoWidth = video.width * videoScale
+  let videoHeight = video.height * videoScale
+  let videoLeft = videoPadding
+  let videoTop = windowHeight
+  image(
+    video,
+    videoPadding,
+    videoPadding,
+    video.width * videoScale,
+    video.height * videoScale
+  )
   filter(GRAY)
   pop()
   blendMode(MULTIPLY)
   adaptiveThreshold(video, contourGraphics)
-  image(contourGraphics, videoPadding, videoPadding, video.width * videoScale, video.height * videoScale)
-
+  image(
+    contourGraphics,
+    videoPadding,
+    videoPadding,
+    video.width * videoScale,
+    video.height * videoScale
+  )
+  
   let img = imagesDict[classResult];
   if (img) {
-    image(img, 600, 0);
+    image(
+      img,
+      (windowWidth - img.width) / 2,
+      (windowHeight - img.height) / 2,
+    );
   }
 }
 

@@ -4,11 +4,8 @@
 let twee = document.getElementById("twee_frame").contentWindow
 
 function setup() {
-	setupSpeech()
 	// we're not going to draw anything with P5. We'll let Twee do all the visual communication
 	noCanvas()
-
-	changeState("ready")
 }
 
 function draw() {

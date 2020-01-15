@@ -133,7 +133,7 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
         // See if the thumb shape covers mostly black pixels):
         let thumbColor = scannerRaster.getAverageColor(scannerThumb)
         if (thumbColor && thumbColor.gray < 0.1) {
-          if (++cardDetectionDebounce >= 10) {
+          if (++cardDetectionDebounce >= 10 && window.parent.appStarted) {
             scannerCard.visible = true
             cardDetected = true
             // console.log('Card Added', getOptionsFromScannerBoxes())

@@ -1,3 +1,12 @@
+// Setup socket.io
+const socket = io("http://0.0.0.0:8000/");
+
+socket.on('connect', function(){
+  console.log("socket connected");
+
+  socket.emit("ioEventClient_connection_illustration")
+});
+
 let video;
 let contourGraphics;
 const knnClassifier = ml5.KNNClassifier();
@@ -26,7 +35,7 @@ let videoPadding = 20
 let videoScale = 0.75
 
 function preload() {
-  // taille de l'image 1748 x 2480 pixel 
+  // taille de l'image 1748 x 2480 pixel
   let maxWidth = windowWidth / 1.5
   let maxHeight = windowHeight / 1.5
 for (let [key, value] of Object.entries(imagesDict)) {
@@ -39,11 +48,11 @@ for (let [key, value] of Object.entries(imagesDict)) {
   }
 }
 
-function setup() {  
+function setup() {
   featureExtractor = ml5.featureExtractor('MobileNet', loadMyKNN)
   video = createCapture(VIDEO)
   video.size(640, 480) // resolution
-  video.hide()  
+  video.hide()
   createCanvas(windowWidth, windowHeight)
 
   contourGraphics = createGraphics(video.width, video.height)
@@ -64,7 +73,7 @@ function draw() {
   blendMode(MULTIPLY)
   adaptiveThreshold(video, contourGraphics)
   image(contourGraphics, videoPadding, videoPadding, video.width * videoScale, video.height * videoScale)
-  
+
   let img = imagesDict[classResult];
   if (img) {
     image(img, 600, 0);
@@ -77,13 +86,16 @@ function mousePressed() {
     let image = img.canvas.toDataURL()
     let contour = contourGraphics.canvas.toDataURL()
     console.log('PNGs send to print', image, contour)
+
+    socket.emit("ioEventClient_illustration_newData", {imgBase64: image, contour})
+
   }
 }
 
 function classify() {
-  const numLabels = knnClassifier.getNumLabels();    
-  const features = featureExtractor.infer(video);  
-  knnClassifier.classify(features, gotResults);   
+  const numLabels = knnClassifier.getNumLabels();
+  const features = featureExtractor.infer(video);
+  knnClassifier.classify(features, gotResults);
 }
 
 function gotResults(err, result) {
@@ -91,9 +103,9 @@ function gotResults(err, result) {
     console.error(err);
   }
 
-  if (result.confidencesByLabel) {    
-    if (result.label) {      
-      classResult = result.label            
+  if (result.confidencesByLabel) {
+    if (result.label) {
+      classResult = result.label
     }
   }
   classify();

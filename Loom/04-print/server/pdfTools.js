@@ -20,33 +20,84 @@ export function generatePdf() {
             return hasPngExtension(value) | hasSvgExtension(value)
         })
 
+        const pathOfCoverIllustrationDirectory = path.resolve(storeData.tempData.bookDirectory, "cover/illustration")
+        const pathOfCoverLayoutDirectory = path.resolve(storeData.tempData.bookDirectory, "cover/layout")
+
+
+
+        let arrayOfCover_illustration = []
+        let arrayOfCover_layout = []
+
+        try {
+            arrayOfCover_illustration = await promises.readdir(pathOfCoverIllustrationDirectory)
+        } catch {
+            console.info("no illustration cover")
+        }
+
+        try {
+            arrayOfCover_layout       = await promises.readdir(pathOfCoverLayoutDirectory)
+        } catch {
+            console.info("no layout cover")
+        }
+
         console.log(arrayOfPages)
+        console.log(arrayOfCover_illustration)
+        console.log(arrayOfCover_layout)
 
         const returnedResult = await page.evaluate(dataFromNode => {
 
-            const arrayToReturn = []
+            return new Promise(resolve => {
+                const arrayToReturn = []
 
-            for(const imagePath of dataFromNode.arrayOfPages) {
+                for(const imagePath of dataFromNode.arrayOfPages) {
 
-                const pathInDirectory = `${dataFromNode.bookDirectory}/${imagePath}`
+                    const pathInDirectory = `${dataFromNode.bookDirectory}/${imagePath}`
 
-                const imageElement = document.createElement("img")
-                imageElement.src = pathInDirectory
+                    const imageElement = document.createElement("img")
+                    imageElement.src = pathInDirectory
 
-                const page = document.createElement("div")
-                page.classList.add("page")
+                    const page = document.createElement("div")
+                    page.classList.add("page")
 
-                page.appendChild(imageElement)
+                    page.appendChild(imageElement)
 
-                document.body.appendChild(page)
+                    document.body.appendChild(page)
 
-                arrayToReturn.push(pathInDirectory)
-            }
+                    arrayToReturn.push(pathInDirectory)
+                }
 
-            return arrayToReturn
+                const coverElement = document.querySelector(".cover")
+
+                for(const coverIlluPath of dataFromNode.arrayOfCover_illustration) {
+                    const pathIllustrationImage = `${dataFromNode.bookDirectory}/cover/illustration/${coverIlluPath}`
+
+                    const imageElement = document.createElement("img")
+                    imageElement.src = pathIllustrationImage
+
+                    imageElement.classList.add("illustration")
+
+                    coverElement.appendChild(imageElement)
+                }
+
+                for(const coverLayoutPath of dataFromNode.arrayOfCover_layout) {
+                    const pathIllustrationImage = `${dataFromNode.bookDirectory}/cover/layout/${coverLayoutPath}`
+
+                    const imageElement = document.createElement("img")
+                    imageElement.src = pathIllustrationImage
+
+                    imageElement.classList.add("layout")
+
+                    coverElement.appendChild(imageElement)
+                }
+
+
+                resolve( arrayToReturn )
+            })
         }, {
             bookDirectory: `${bookRoot}/${path.relative("./documents", storeData.tempData.bookDirectory)}`,
             arrayOfPages,
+            arrayOfCover_illustration,
+            arrayOfCover_layout,
         })
 
         console.log(returnedResult)
@@ -65,6 +116,8 @@ export function generatePdf() {
             await browser.close()
         }, 500)
     })
+
+    return path.resolve(storeData.tempData.bookDirectory, './document.pdf')
 }
 
 function hasPngExtension(element) {

@@ -16,3 +16,8 @@ canvas[resize] {
   */
   display: none;
 }
+
+@font-face {
+  font-family: "MatrixBook";
+  src: url("../font/MatrixBook.otf");
+}

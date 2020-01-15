@@ -72,7 +72,11 @@ export async function savePngForCover(pngData) {
 
     const pathOfNewCoverImage = path.resolve(coverDirectoryPath, `${coverFileIndex}cover.png`)
 
-    await promises.writeFile(pathOfNewCoverImage, pngData)
+    const base64Data = pngData.replace(/^data:image\/png;base64,/, "")
+
+    await promises.writeFile(pathOfNewCoverImage, base64Data, {
+        encoding: "base64",
+    })
 }
 
 

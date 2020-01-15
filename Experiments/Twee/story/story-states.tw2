@@ -250,7 +250,7 @@ _______________________
 ::State-Ask-8
 {	<!-- Final -->
 	(set: $finished to "true")
-	(set: $phrase to "Give me a minute to write your story")
+	(set: $phrase to "Give me a minute to write your story. Please leave the card in the scanner while I write.")
 	<script>speakPhrase()</script>
 	
 	(display: "Generate-Text")
@@ -263,21 +263,12 @@ Ok. You choices are quite clear. I will now start writing your story.
 I will now start writing your story.
 
 
-
-::State-Ask-Template
-{
-	(set: $PossibleQuestions to (a: "", "", "", "", "", "", "", "", "", ""))
-
-	(set: $PossibleAnswers to (a: (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", "")))
-
-	(set: $PossibleQuestion to $PossibleQuestions's $PossibleIndex)
-	(set: $PossibleAnswer to $PossibleAnswers's $PossibleIndex)
-
-	(set: $instructions to "Which do you prefer?")
-	(set: $question to $PossibleQuestion + $instructions)
-	<script>askQuestion()</script>
-}\
-(print: $PossibleQuestion)
-- (print: $PossibleAnswer's 1)
-- (print: $PossibleAnswer's 2)
-- (print: $PossibleAnswer's 3)
+::State-Random
+{	<!-- Random -->
+	(set: $finished to "true")
+	(set: $phrase to "I will write a random story for you.")
+	<script>speakPhrase()</script>
+	
+	(display: "Generate-Random")
+}
+Generating story using random values

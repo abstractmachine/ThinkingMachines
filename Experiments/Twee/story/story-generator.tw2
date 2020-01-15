@@ -1,9 +1,54 @@
 ::Generate-Text
 {
-	(set: $StoryTitle to $StoryChoice)
-	(set: $StoryLocation to $StoryPlace)
-	
-	(set: $StoryText to "Choice: " + $StoryChoice + "\n\n" + "Hero: " + $StoryHero + "\n\n" + "Donor: " + $StoryDonor + "\n\n" + "MagicalObject: " + $StoryMagicalObject + "\n\n" + "Helper: " + $StoryHelper + "\n\n" + "Villain: " + $StoryVillain + "\n\n" + "Prince: " + $StoryPrince + "\n\n" + "Place: " + $StoryPlace)
+	(if: $StoryChoice is "blue")[(display: "Generate-Blue")]
+	(else-if: $StoryChoice is "red")[(display: "Generate-Red")]
+	(else-if: $StoryChoice is "pink")[(display: "Generate-Pink")]
+	(else:)[Error. There was no story choice.]
 
 	<script>generateStory()</script>
 }
+
+
+::Generate-Random
+{
+	(display: "Setup-Variables")
+	(display: "Generate-Text")
+}
+
+
+::Generate-Pink
+$Parents wanted to have a (either: “child”, “kingdom”, “gold”)
+When $Parent was having a (either: “bath”, “dinner”, “wine”) $Helper told her she was going to have a (either: “gift”, “flowers”, “chocolate”)
+What $Helper said came true and $Hero was born, $Parents organized a feast inviting (either: “everyone”, “the wolf”, “the witch”) even the $Donors except one.
+The feast was splendid and all $Donors gave $Hero $MagicalObjects (either: “beauty”, “intelligence”, “kindness”)
+When all $Donors where done, $Villain came in mad because she wasn’t invited cursing $Hero saying that she will (either: “prick”, “punch”, “poison”) herself and die.
+The last $Donor came forward and said that $Hero will (either: “fall asleep”, “dance”, “sing”) for a hundred years.
+$Parent decided that all (either: “needles”, “beds”, “microphones”) of the castle should be burned, meanwhile $Hero was loved by everyone.
+The day she turned 15, $Hero went to the (either: “old tower”, “quiet room”, “basement”), where she found $Villain using and old prick. $Villain lured $Hero to use the prick, when she did $Hero (either: “fell asleep”, “died”, “fainted”). When she did everyone around the castle (either: “ran”, “froze”) fell asleep too.
+After long years $Prince heard about the beautiful $Hero story, since many tried to enter the castle without success. Since the 100 years passed the flowers parted to let the prince in. When $Prince saw $Hero, he (either: “kissed”, “slapped”, “cuddled”) her to awaken her.
+Thanks to $Prince all the castle was awake, they celebrated $Hero’s and $Prince marriage (either: “they lived happily ever after”, “they brook up”, “had a fight”.
+
+::Generate-Blue
+$Villain lived in a fair land in France, he was very wealthy and had lots (either: “of young beautiful wives”, “of gold”, “of metal”)
+<script>generateStory()</script>
+
+$Villain was (either: “marrying”, “letting go”, “surprise”) $Hero, who didn’t know what was going to happen to her once she was bound to the man.
+$Villain was going (either: “to travel”, “to hunt”, “to swim”) and asked $Hero not to go in one of the rooms of the castle.
+Not listening what $Villain said, $Hero went into the little room and discovered the bodies of all the wife’s (either: “hanged”, “cutted”, “strangled”) on the walls. Without realizing it $Hero dropped the $MagicalObject staining it in blood.
+$Villain came back and asked $Hero for the keys he gave her. But $MagicalObject was (either: “missing”, “stolen”, “hidden”). Realizing that $Hero didn’t listen and went to the room, $Villain decided to punish her by (either: “killing”, “slicing”, “cutting”) her.
+$Hero went with her sister on the (either: “tower”, “balcony”, basement”) to talk to her. She heard $Helpers coming, but $Villain threatened to kill them all.
+Trying to kill $Hero, Villain was defeated by $Helpers who came to (either: “rescue”, “save”, “help”) their sister before she was killed.
+$Hero (either: “remarried”, “murdered”, “eloped with”) a young honest man and lost all sense of curiosity.
+
+::Generate-Red
+$Hero was given by $Donor a (either: “little", "medium", "large") $MagicalObject, and she never wore anything else.
+$Hero needs to bring (either: “food", "antidote", "verveine") to $Donor that is ill. $Hero goes to the (either: “woods", "desert", "pluton") and meets $Villain on the way.
+$Villain tries to tell $Hero to go to the (either: “valley", "beach", "market") so he can get to the destination before her.
+$Hero gives to $Villain information’s about (either: "lake", "fair", "") where she is going. //$Villain messes with $Hero’s (try to steal time before Hero get to the destination)
+$Villain goes to $Donor’s house (either: "run", "jumps", "sings") and is mistaken by the $Hero
+$Hero gets to $Donor’s house but (either: "knocks", "slams", "slides") at the door but something doesn’t feel right
+$Hero is defeated by the $Villain who (either: "eats", "kills", "lure") her and $Donor
+$Villain thinks he won by (either: "swallowing", "hiding", "biting") $Hero and $Donor. $Helper was (either: "passing”, “looking", "hearing") by realising that something might be wrong. $Helper goes inside and (either: "help", "get", "release") $Hero and $Donor, $Hero get (either: "stones", "knife", "hammer") to defeat $Villain.
+$Hero knows that she can’t trust (either: "strangers", "wolf", "prince")
+
+$Hero returned home

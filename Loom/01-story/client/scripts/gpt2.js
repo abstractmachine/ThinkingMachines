@@ -64,7 +64,7 @@ window.sendNextPrompt = function() {
     // include it in the list of results
     gptResults.push(nextPrompt)
     // remove that item from array
-    gptPrompts.shift()
+    gptPrompts.splice(0,1)
     // send that to gpt
     socket.emit('gpt2-prompt', nextPrompt)
   }
@@ -107,5 +107,9 @@ window.parseResults = function() {
   for(let j=0; j<gptResults.length; j++) {
      gptResults[j] = gptResults[j].substr(0, gptResults[j].lastIndexOf("\.")+1);
   }
+
+  for(let j=0; j<gptResults.length; j++) {
+    console.log(gptResults[j])
+ }
 
 }

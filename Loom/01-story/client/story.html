@@ -213,9 +213,14 @@ window.resetGenerator = function() {
 };
 
 
-window.generatorAddPrompt = function() {
-	let prompt = getVariable("prompt");
-	window.parent.generatorAddPrompt(prompt)
+window.generatorAddPrompts = function() {
+
+	for(let i=1; i <= 10; i++) {
+		let prompt = getVariable("prompt" + i);
+		console.log(prompt)
+		window.parent.generatorAddPrompt(prompt)
+	}
+
 };
 
 
@@ -470,90 +475,78 @@ Generating story using random values...</tw-passagedata><tw-passagedata pid="24"
 	(else-if: $StoryChoice is "red")[(display: "Generate-Red")]
 	(else-if: $StoryChoice is "pink")[(display: "Generate-Pink")]
 
+	&lt;script&gt;generatorAddPrompts()&lt;/script&gt;
 	&lt;script&gt;generateStory()&lt;/script&gt;
 }</tw-passagedata><tw-passagedata pid="25" name="Generate-Random" tags="" position="">{
 	(display: "Setup-Variables")
 	(display: "Generate-Text")
-}</tw-passagedata><tw-passagedata pid="26" name="Generate-Pink" tags="" position="">(set: $prompt to "`$`Hero's parents wanted to have " + $wish + ".")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="26" name="Generate-Pink" tags="" position="">{
+Sleeping Beauty
 
-(set: $prompt to "When `$`Parent was having a " + $day + " `$`Helper told her she was going to have a" + $valentine" + ".")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt1 to "`$`Hero's parents wanted to have " + $wish + ".")
 
-(set: $prompt to "What `$`Helper said came true and `$`Hero was born, `$`Parents organized a feast inviting " + $wedding + " even the `$`Donors except one.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt2 to "When `$`Parent was having a " + $day + " `$`Helper told her she was going to have a " + $valentine + ".")
 
-(set: $prompt to "The feast was splendid and all `$`Donors gave `$`Hero `$`MagicalObjects " + $gift + ".")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt3 to "What `$`Helper said came true and `$`Hero was born, `$`Parents organized a feast inviting " + $wedding + " even the `$`Donors except one.")
 
-(set: $prompt to "When all `$`Donors where done, `$`Villain came in mad because she wasn’t invited cursing `$`Hero saying that she will " + $die + " herself and die.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt4 to "The feast was splendid and all `$`Donors gave `$`Hero `$`MagicalObjects " + $gift + ".")
 
-(set: $prompt to "The last `$`Donor came forward and said that `$`Hero will " + $sunday + " for a hundred years.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt5 to "When all `$`Donors where done, `$`Villain came in mad because she wasn’t invited cursing `$`Hero saying that she will " + $die + " herself and die.")
 
-(set: $prompt to "`$`Parent decided that all " + $defeat + " of the castle should be burned, meanwhile `$`Hero was loved by everyone.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt6 to "The last `$`Donor came forward and said that `$`Hero will " + $sunday + " for a hundred years.")
 
-(set: $prompt to "The day she turned 15, `$`Hero went to the " + $chased+ ", where she found `$`Villain using and old prick. `$`Villain lured `$`Hero to use the prick, when she did `$`Hero "$ + sleep+ ". When she did everyone around the castle "+ $castle + " fell asleep too.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt7 to "`$`Parent decided that all " + $defeat + " of the castle should be burned, meanwhile `$`Hero was loved by everyone.")
 
-(set: $prompt to "After long years `$`Prince heard about the beautiful `$`Hero story, since many tried to enter the castle without success. Since the 100 years passed the flowers parted to let the prince in. When `$`Prince saw `$`Hero, he " + $monster + " her to awaken her.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt8 to "The day she turned 15, `$`Hero went to the " + $chased + ", where she found `$`Villain using an old prick. `$`Villain lured `$`Hero to use the prick, when she did `$`Hero " + $death + ". When she did everyone around the castle " + $chased + " fell asleep too.")
 
-(set: $prompt to "Thanks to `$`Prince all the castle was awake, they celebrated `$`Hero’s and `$`Prince marriage " + $ex+ ".")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;</tw-passagedata><tw-passagedata pid="27" name="Generate-Blue" tags="" position="">(set: $prompt to "`$`Villain lived in a fair land in France, he was very wealthy and had lots "+  $life + ". ")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt9 to "After long years `$`Prince heard about the beautiful `$`Hero story, since many tried to enter the castle without success. Since the 100 years passed the flowers parted to let the prince in. When `$`Prince saw `$`Hero, he " + $monster + " her to awaken her.")
 
-(set: $prompt to "`$`Villain was " + $mariage +" `$`Hero, who didn’t know what was going to happen to her once she was bound to the man.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt10 to "Thanks to `$`Prince all the castle was awake, they celebrated `$`Hero’s and `$`Prince's " + $ex + " marriage.")
+}</tw-passagedata><tw-passagedata pid="27" name="Generate-Blue" tags="" position="">{
 
-(set: $prompt to "`$`Villain was going " + $activity + " and asked `$`Hero not to go in one of the rooms of the castle.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt1 to "`$`Villain lived in a fair land in France, he was very wealthy and had lots "+  $life + ". ")
 
-(set: $prompt to "Not listening what `$`Villain said, `$`Hero went into the little room and discovered the bodies of all the wife’s " + $death + " on the walls. Without realizing it `$`Hero dropped the `$`MagicalObject staining it in blood.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt2 to "`$`Villain was " + $mariage +" `$`Hero, who didn’t know what was going to happen to her once she was bound to the man.")
 
-(set: $prompt to "`$`Villain came back and asked `$`Hero for the keys he gave her. But `$`MagicalObject was " + $rather + ". Realizing that `$`Hero didn’t listen and went to the room, `$`Villain decided to punish her by " + $ennemies + " her.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt3 to "`$`Villain was going " + $activity + " and asked `$`Hero not to go in one of the rooms of the castle.")
 
-(set: $prompt to "`$`Hero went with her sister on the " + $hide + " to talk to her. She heard `$`Helpers coming, but `$`Villain threatened to kill them all.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt4 to "Not listening what `$`Villain said, `$`Hero went into the little room and discovered the bodies of all the wife’s " + $death + " on the walls. Without realizing it `$`Hero dropped the `$`MagicalObject staining it in blood.")
 
-(set: $prompt to "Trying to kill `$`Hero, Villain was defeated by `$`Helpers who came to " + $assistance + " their sister before she was killed.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt5 to "`$`Villain came back and asked `$`Hero for the keys he gave her. But `$`MagicalObject was " + $rather + ". Realizing that `$`Hero didn’t listen and went to the room, `$`Villain decided to punish her by " + $ennemies + " her.")
 
-(set: $prompt to  "`$`Hero " + $cheat + " a young honest man and lost all sense of curiosity.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;</tw-passagedata><tw-passagedata pid="28" name="Generate-Red" tags="" position="">(set: $prompt to "`$`Hero was given by `$`Donor a " + $size+ " `$`MagicalObject, and she never wore anything else.")
+(set: $prompt6 to "`$`Hero went with her sister on the " + $hide + " to talk to her. She heard `$`Helpers coming, but `$`Villain threatened to kill them all.")
 
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt7 to "Trying to kill `$`Hero, Villain was defeated by `$`Helpers who came to " + $assistance + " their sister before she was killed.")
 
-(set: $prompt to "`$`Hero needs to bring " + $death + " to `$`Donor that is ill. `$`Hero goes to the " + $life + " and meets `$`Villain on the way.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt8 to "`$`Hero " + $cheat + " a young honest man and lost all sense of curiosity.")
 
-(set: $prompt to "`$`Villain tries to tell `$`Hero to go to the " + $kill + " so he can get to the destination before her.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt9 to "")
 
-(set: $prompt to "`$`Hero gives to `$`Villain information’s about " + $vacation+ " where she is going. //`$`Villain messes with `$`Hero’s try to steal time before Hero get to the destination")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt10 to "")
 
-(set: $prompt to "`$`Villain goes to `$`Donor’s house " + $time + " and is mistaken by the `$`Hero.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+}</tw-passagedata><tw-passagedata pid="28" name="Generate-Red" tags="" position="">{
 
-(set: $prompt to "`$`Hero gets to `$`Donor’s house but " + $room + " at the door but something doesn’t feel right.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt1 to "`$`Hero was given by `$`Donor a " + $size+ " `$`MagicalObject, and she never wore anything else.")
 
-(set: $prompt to "`$`Hero is defeated by the `$`Villain who " + $enemies + " her and `$`Donor.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt2 to "`$`Hero needs to bring " + $death + " to `$`Donor that is ill. `$`Hero goes to the " + $life + " and meets `$`Villain on the way.")
 
-(set: $prompt to "`$`Villain thinks he won by " + $hide + " `$`Hero and `$`Donor. `$`Helper was " + $birds + " by realising that something might be wrong. `$`Helper goes inside and " + $friends + " `$`Hero and `$`Donor, `$`Hero get " + $weapon + " to defeat `$`Villain.")
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt3 to "`$`Villain tries to tell `$`Hero to go to the " + $kill + " so he can get to the destination before her.")
 
-`$`Hero knows that she can’t trust " + $lost + "
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;
+(set: $prompt4 to "`$`Hero gives to `$`Villain information about " + $vacation+ " where she is going. `$`Villain messes with `$`Hero’s try to steal time before Hero get to the destination")
 
-`$`Hero returned home
-&lt;script&gt;generatorAddPrompt()&lt;/script&gt;</tw-passagedata></tw-storydata>
+(set: $prompt5 to "`$`Villain goes to `$`Donor’s house " + $time + " and is mistaken by the `$`Hero.")
+
+(set: $prompt6 to "`$`Hero gets to `$`Donor’s house but " + $room + " at the door but something doesn’t feel right.")
+
+(set: $prompt7 to "`$`Hero is defeated by the `$`Villain who " + $enemies + " her and `$`Donor.")
+
+(set: $prompt8 to "`$`Villain thinks he won by " + $hide + " `$`Hero and `$`Donor. `$`Helper was " + $birds + " by realising that something might be wrong. `$`Helper goes inside and " + $friends + " `$`Hero and `$`Donor, `$`Hero get " + $weapon + " to defeat `$`Villain.")
+
+(set: $prompt9 to "`$`Hero knows that she can’t trust " + $lost + "")
+
+(set: $prompt10 to "`$`Hero returned home")
+
+}</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**
  * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.

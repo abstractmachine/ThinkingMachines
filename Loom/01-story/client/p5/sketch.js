@@ -35,16 +35,17 @@ function keyPressed() {
 }
 
 function cardAdded(options) {
+	if (cardIsInserted) return
 	setTimeout(() => {
 		// console.log('cardAdded', options)
 		setOptions(options)
 		changeState("inserted")
-	}, 2000)
+	}, 5000)
 }
 
 function cardRemoved() {
-	console.log('cardRemoved')
-	changeState("removed")
+	// console.log('cardRemoved')
+	// changeState("removed")
 }
 
 

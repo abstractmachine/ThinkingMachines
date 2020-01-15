@@ -112,9 +112,14 @@ window.resetGenerator = function() {
 };
 
 
-window.generatorAddPrompt = function() {
-	let prompt = getVariable("prompt");
-	window.parent.generatorAddPrompt(prompt)
+window.generatorAddPrompts = function() {
+
+	for(let i=1; i <= 10; i++) {
+		let prompt = getVariable("prompt" + i);
+		console.log(prompt)
+		window.parent.generatorAddPrompt(prompt)
+	}
+
 };
 
 

@@ -71,11 +71,12 @@ async function main() {
                 sendTextToClients()
 
                 if (newText.length < 1) {
-                    storeData.tempData.bookDirectory = await createBookDirectory()
                     console.info("end of text")
                     io.emit("ioEventServer_end_text")
 
-                     const pdfPath = generatePdf((pdfPath) =>{
+                    const pdfPath = path.resolve(storeData.tempData.bookDirectory, './document.pdf')
+
+                     generatePdf(async () =>{
 
                         console.log("pdfPath: ", pdfPath)
 
@@ -83,6 +84,9 @@ async function main() {
                             .print(pdfPath)
                             .then(console.log)
                             .catch(console.error);
+
+
+                        storeData.tempData.bookDirectory = await createBookDirectory()
                      })
 
 

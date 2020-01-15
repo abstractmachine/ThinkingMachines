@@ -39,6 +39,7 @@ export function fillPathsWithText(paths, text, settings) {
       while (/^ +$/.test(part)) {
         part = parts.shift()
       }
+      if (!part) break
       let start = linePart.bounds.bottomLeft
       let width = linePart.bounds.width
 
@@ -53,7 +54,7 @@ export function fillPathsWithText(paths, text, settings) {
       while (text.bounds.width < width) {
         fittingContent = content
         part = parts.shift()
-        if (!part) continue
+        if (!part) break
         if (/\n/.test(part)) {
           lineBreak = true
           break

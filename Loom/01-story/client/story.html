@@ -198,6 +198,17 @@ window.generateStory = function() {
 	window.parent.sendPrompt(query)
 }
 </script><tw-passagedata pid="1" name="Start" tags="" position="">Press **Start** to load *P5 Speech Engine*.</tw-passagedata><tw-passagedata pid="2" name="Setup-Variables" tags="" position="">{
+	&lt;!-- Variables used to fill in specific characters and objects --&gt;
+	(set: $StoryChoice to (either: "red", "pink", "blue"))
+	(set: $StoryHero to "our hero")
+	(set: $StoryDonor to "the donor")
+	(set: $StoryMagicalObject to "magical object")
+	(set: $StoryHelper to "the helper")
+	(set: $StoryVillain to "the villain")
+	(set: $StoryPrince to "the prince")
+	(set: $StoryPlace to "the place")
+
+	&lt;!-- Variables used to influence the story --&gt;
 	(set: $size to (either: "little", "medium", "large"))
 	(set: $death to (either: "food", "antidote", "verveine"))
 	(set: $life to (either: "the woods", "desert", "pluto"))
@@ -232,11 +243,10 @@ window.generateStory = function() {
 	(set: $assistance to (either: "rescue", "wolf", "stranger"))
 	(set: $cheat to (either: "remaried", "murder", "elope"))
 
-
-	
+	&lt;!-- State variables --&gt;
+	(set: $generating to "off")
 	(set: $valid to "false")
 	(set: $finished to "false")
-	(set: $gpt to "")
 }</tw-passagedata><tw-passagedata pid="3" name="State-Ready" tags="" position="">{
 	(display: "Setup-Variables")
 
@@ -259,7 +269,9 @@ window.generateStory = function() {
 		(if: $counter is 0)[(go-to: "State-Ready")]
 	]
 
-}</tw-passagedata><tw-passagedata pid="4" name="State-Verify" tags="" position="">{
+}
+
+&lt;img src="images/loom-card.gif" /&gt;</tw-passagedata><tw-passagedata pid="4" name="State-Verify" tags="" position="">{
 	(set: $choice to (either: "is an excellent choice", "is an original choice", "is an inspired choice", "is a lovely choice", "is an interresting choice", "is an intruiging choice", "is a curious choice", "is your choice"))
 	(set: $verify to (either: "Do you agree?", "Are you sure?", "Yes or no?", "Shall I use this?"))
 	(set: $question to $answer + " " + $choice + " " + $verify)
@@ -327,7 +339,7 @@ _______________________</tw-passagedata><tw-passagedata pid="10" name="State-Ans
 }</tw-passagedata><tw-passagedata pid="11" name="State-Ask-3" tags="" position="">{	&lt;!-- Define $StoryMagicalObject --&gt;
 	(set: $MagicalObjectQuestions to (a: "What is your fetish object?", "What a surprise! There is a small door that’s locked. Give me an object to open it.", "In the land of Baba Yaga there are objects that fly at night and are standing at sunrise, could you name one?", "The mountain bear have something to give you. choose one of these objects:", "The old healer needs something for her potion, can you help her?", "The forest spirits await you but you need to give them a sacred object", "Someone stole Vasalisa’s magical object, can you choose another for her?", "The wolf was chasing and accidentally found some strange object in the forest", "The devil is behind the flowering apple tree, looking for something that belongs to him"))
 
-	(set: $MagicalObjectAnswers to (a: (a: "a bag", "a broom", "a light"), (a: "a key", "a card", "a print"), (a: "a cup", "a book", "a pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "a crystal", "the moon", "the stars"), (a: "a doll", "magic staff", "chicken foot"), (a: "a sword", "a paper", "herbs"), (a: "a fork", "a coca cola", "glasses")))
+	(set: $MagicalObjectAnswers to (a: (a: "bag", "broom", "light"), (a: "key", "card", "print"), (a: "cup", "book", "pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "crystal", "the moon", "the stars"), (a: "doll", "magic staff", "chicken foot"), (a: "sword", "paper", "herbs"), (a: "fork", "coca cola", "glasses")))
 
 	(set: $MagicalObjectQuestion to $MagicalObjectQuestions's $MagicalObjectIndex)
 	(set: $MagicalObjectAnswer to $MagicalObjectAnswers's $MagicalObjectIndex)
@@ -412,34 +424,57 @@ _______________________</tw-passagedata><tw-passagedata pid="14" name="State-Ans
 	(display: "State-Verify")
 }</tw-passagedata><tw-passagedata pid="21" name="State-Ask-8" tags="" position="">{	&lt;!-- Final --&gt;
 	(set: $finished to "true")
-	(set: $phrase to "Give me a minute to write your story")
+	(set: $phrase to "Give me a minute to write your story. Please leave the card in the scanner while I write.")
 	&lt;script&gt;speakPhrase()&lt;/script&gt;
 	
 	(display: "Generate-Text")
 }
-Ok. You choices are quite clear. I will now start writing your story.</tw-passagedata><tw-passagedata pid="22" name="State-Answered-8" tags="" position="">I will now start writing your story.</tw-passagedata><tw-passagedata pid="23" name="State-Ask-Template" tags="" position="">{
-	(set: $PossibleQuestions to (a: "", "", "", "", "", "", "", "", "", ""))
-
-	(set: $PossibleAnswers to (a: (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", "")))
-
-	(set: $PossibleQuestion to $PossibleQuestions's $PossibleIndex)
-	(set: $PossibleAnswer to $PossibleAnswers's $PossibleIndex)
-
-	(set: $instructions to "Which do you prefer?")
-	(set: $question to $PossibleQuestion + $instructions)
-	&lt;script&gt;askQuestion()&lt;/script&gt;
-}\
-(print: $PossibleQuestion)
-- (print: $PossibleAnswer's 1)
-- (print: $PossibleAnswer's 2)
-- (print: $PossibleAnswer's 3)</tw-passagedata><tw-passagedata pid="24" name="Generate-Text" tags="" position="">{
-	(set: $StoryTitle to $StoryChoice)
-	(set: $StoryLocation to $StoryPlace)
+Ok. You choices are quite clear. I will now start writing your story.</tw-passagedata><tw-passagedata pid="22" name="State-Answered-8" tags="" position="">I will now start writing your story.</tw-passagedata><tw-passagedata pid="23" name="State-Random" tags="" position="">{	&lt;!-- Random --&gt;
+	(set: $finished to "true")
+	(set: $phrase to "I will write a random story for you.")
+	&lt;script&gt;speakPhrase()&lt;/script&gt;
 	
-	(set: $gpt to "Choice: " + $StoryChoice + "\n\n" + "Hero: " + $StoryHero + "\n\n" + "Donor: " + $StoryDonor + "\n\n" + "MagicalObject: " + $StoryMagicalObject + "\n\n" + "Helper: " + $StoryHelper + "\n\n" + "Villain: " + $StoryVillain + "\n\n" + "Prince: " + $StoryPrince + "\n\n" + "Place: " + $StoryPlace)
+	(display: "Generate-Random")
+}
+Generating story using random values...</tw-passagedata><tw-passagedata pid="24" name="Generate-Text" tags="" position="">{
+	(if: $StoryChoice is "blue")[(display: "Generate-Blue")]
+	(else-if: $StoryChoice is "red")[(display: "Generate-Red")]
+	(else-if: $StoryChoice is "pink")[(display: "Generate-Pink")]
+	(else:)[Error. There was no story choice.]
 
 	&lt;script&gt;generateStory()&lt;/script&gt;
-}</tw-passagedata></tw-storydata>
+}</tw-passagedata><tw-passagedata pid="25" name="Generate-Random" tags="" position="">{
+	(display: "Setup-Variables")
+	(display: "Generate-Text")
+}</tw-passagedata><tw-passagedata pid="26" name="Generate-Pink" tags="" position="">$Parents wanted to have a (either: “child”, “kingdom”, “gold”)
+When $Parent was having a (either: “bath”, “dinner”, “wine”) $Helper told her she was going to have a (either: “gift”, “flowers”, “chocolate”)
+What $Helper said came true and $Hero was born, $Parents organized a feast inviting (either: “everyone”, “the wolf”, “the witch”) even the $Donors except one.
+The feast was splendid and all $Donors gave $Hero $MagicalObjects (either: “beauty”, “intelligence”, “kindness”)
+When all $Donors where done, $Villain came in mad because she wasn’t invited cursing $Hero saying that she will (either: “prick”, “punch”, “poison”) herself and die.
+The last $Donor came forward and said that $Hero will (either: “fall asleep”, “dance”, “sing”) for a hundred years.
+$Parent decided that all (either: “needles”, “beds”, “microphones”) of the castle should be burned, meanwhile $Hero was loved by everyone.
+The day she turned 15, $Hero went to the (either: “old tower”, “quiet room”, “basement”), where she found $Villain using and old prick. $Villain lured $Hero to use the prick, when she did $Hero (either: “fell asleep”, “died”, “fainted”). When she did everyone around the castle (either: “ran”, “froze”) fell asleep too.
+After long years $Prince heard about the beautiful $Hero story, since many tried to enter the castle without success. Since the 100 years passed the flowers parted to let the prince in. When $Prince saw $Hero, he (either: “kissed”, “slapped”, “cuddled”) her to awaken her.
+Thanks to $Prince all the castle was awake, they celebrated $Hero’s and $Prince marriage (either: “they lived happily ever after”, “they brook up”, “had a fight”.</tw-passagedata><tw-passagedata pid="27" name="Generate-Blue" tags="" position="">$Villain lived in a fair land in France, he was very wealthy and had lots (either: “of young beautiful wives”, “of gold”, “of metal”)
+&lt;script&gt;generateStory()&lt;/script&gt;
+
+$Villain was (either: “marrying”, “letting go”, “surprise”) $Hero, who didn’t know what was going to happen to her once she was bound to the man.
+$Villain was going (either: “to travel”, “to hunt”, “to swim”) and asked $Hero not to go in one of the rooms of the castle.
+Not listening what $Villain said, $Hero went into the little room and discovered the bodies of all the wife’s (either: “hanged”, “cutted”, “strangled”) on the walls. Without realizing it $Hero dropped the $MagicalObject staining it in blood.
+$Villain came back and asked $Hero for the keys he gave her. But $MagicalObject was (either: “missing”, “stolen”, “hidden”). Realizing that $Hero didn’t listen and went to the room, $Villain decided to punish her by (either: “killing”, “slicing”, “cutting”) her.
+$Hero went with her sister on the (either: “tower”, “balcony”, basement”) to talk to her. She heard $Helpers coming, but $Villain threatened to kill them all.
+Trying to kill $Hero, Villain was defeated by $Helpers who came to (either: “rescue”, “save”, “help”) their sister before she was killed.
+$Hero (either: “remarried”, “murdered”, “eloped with”) a young honest man and lost all sense of curiosity.</tw-passagedata><tw-passagedata pid="28" name="Generate-Red" tags="" position="">$Hero was given by $Donor a (either: “little", "medium", "large") $MagicalObject, and she never wore anything else.
+$Hero needs to bring (either: “food", "antidote", "verveine") to $Donor that is ill. $Hero goes to the (either: “woods", "desert", "pluton") and meets $Villain on the way.
+$Villain tries to tell $Hero to go to the (either: “valley", "beach", "market") so he can get to the destination before her.
+$Hero gives to $Villain information’s about (either: "lake", "fair", "") where she is going. //$Villain messes with $Hero’s (try to steal time before Hero get to the destination)
+$Villain goes to $Donor’s house (either: "run", "jumps", "sings") and is mistaken by the $Hero
+$Hero gets to $Donor’s house but (either: "knocks", "slams", "slides") at the door but something doesn’t feel right
+$Hero is defeated by the $Villain who (either: "eats", "kills", "lure") her and $Donor
+$Villain thinks he won by (either: "swallowing", "hiding", "biting") $Hero and $Donor. $Helper was (either: "passing”, “looking", "hearing") by realising that something might be wrong. $Helper goes inside and (either: "help", "get", "release") $Hero and $Donor, $Hero get (either: "stones", "knife", "hammer") to defeat $Villain.
+$Hero knows that she can’t trust (either: "strangers", "wolf", "prince")
+
+$Hero returned home</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _toConsumableArray(arr){if(Array.isArray(arr)){for(var i=0,arr2=Array(arr.length);i<arr.length;i++)arr2[i]=arr[i];return arr2}return Array.from(arr)}var _slicedToArray=function(){function sliceIterator(arr,i){var _arr=[],_n=!0,_d=!1,_e=void 0;try{for(var _s,_i=arr[Symbol.iterator]();!(_n=(_s=_i.next()).done)&&(_arr.push(_s.value),!i||_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{!_n&&_i["return"]&&_i["return"]()}finally{if(_d)throw _e}}return _arr}return function(arr,i){if(Array.isArray(arr))return arr;if(Symbol.iterator in Object(arr))return sliceIterator(arr,i);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol?"symbol":typeof obj};!function(){/**
  * @license almond 0.3.1 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.

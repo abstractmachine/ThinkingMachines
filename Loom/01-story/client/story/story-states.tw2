@@ -23,6 +23,8 @@
 
 }
 
+<img src="images/loom-card.gif" />
+
 ::State-Verify
 {
 	(set: $choice to (either: "is an excellent choice", "is an original choice", "is an inspired choice", "is a lovely choice", "is an interresting choice", "is an intruiging choice", "is a curious choice", "is your choice"))
@@ -120,7 +122,7 @@ _______________________
 {	<!-- Define $StoryMagicalObject -->
 	(set: $MagicalObjectQuestions to (a: "What is your fetish object?", "What a surprise! There is a small door that’s locked. Give me an object to open it.", "In the land of Baba Yaga there are objects that fly at night and are standing at sunrise, could you name one?", "The mountain bear have something to give you. choose one of these objects:", "The old healer needs something for her potion, can you help her?", "The forest spirits await you but you need to give them a sacred object", "Someone stole Vasalisa’s magical object, can you choose another for her?", "The wolf was chasing and accidentally found some strange object in the forest", "The devil is behind the flowering apple tree, looking for something that belongs to him"))
 
-	(set: $MagicalObjectAnswers to (a: (a: "a bag", "a broom", "a light"), (a: "a key", "a card", "a print"), (a: "a cup", "a book", "a pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "a crystal", "the moon", "the stars"), (a: "a doll", "magic staff", "chicken foot"), (a: "a sword", "a paper", "herbs"), (a: "a fork", "a coca cola", "glasses")))
+	(set: $MagicalObjectAnswers to (a: (a: "bag", "broom", "light"), (a: "key", "card", "print"), (a: "cup", "book", "pen"), (a: "nose hair", "rotten nail", "fish skeleton"), (a: "cauldron", "mouse tail", "spoon"), (a: "crystal", "the moon", "the stars"), (a: "doll", "magic staff", "chicken foot"), (a: "sword", "paper", "herbs"), (a: "fork", "coca cola", "glasses")))
 
 	(set: $MagicalObjectQuestion to $MagicalObjectQuestions's $MagicalObjectIndex)
 	(set: $MagicalObjectAnswer to $MagicalObjectAnswers's $MagicalObjectIndex)
@@ -248,7 +250,7 @@ _______________________
 ::State-Ask-8
 {	<!-- Final -->
 	(set: $finished to "true")
-	(set: $phrase to "Give me a minute to write your story")
+	(set: $phrase to "Give me a minute to write your story. Please leave the card in the scanner while I write.")
 	<script>speakPhrase()</script>
 	
 	(display: "Generate-Text")
@@ -261,21 +263,12 @@ Ok. You choices are quite clear. I will now start writing your story.
 I will now start writing your story.
 
 
-
-::State-Ask-Template
-{
-	(set: $PossibleQuestions to (a: "", "", "", "", "", "", "", "", "", ""))
-
-	(set: $PossibleAnswers to (a: (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", ""), (a: "", "", "")))
-
-	(set: $PossibleQuestion to $PossibleQuestions's $PossibleIndex)
-	(set: $PossibleAnswer to $PossibleAnswers's $PossibleIndex)
-
-	(set: $instructions to "Which do you prefer?")
-	(set: $question to $PossibleQuestion + $instructions)
-	<script>askQuestion()</script>
-}\
-(print: $PossibleQuestion)
-- (print: $PossibleAnswer's 1)
-- (print: $PossibleAnswer's 2)
-- (print: $PossibleAnswer's 3)
+::State-Random
+{	<!-- Random -->
+	(set: $finished to "true")
+	(set: $phrase to "I will write a random story for you.")
+	<script>speakPhrase()</script>
+	
+	(display: "Generate-Random")
+}
+Generating story using random values...

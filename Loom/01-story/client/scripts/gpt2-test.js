@@ -1,7 +1,9 @@
 const socket = io()
 
 document.querySelector('#write').addEventListener('click', () => {
-  socket.emit('gpt2-prompt', 'Hello World')
+  let phrase = '$Hero entered $Place using $MagicalObject and stood there as';
+  console.log(phrase)
+  socket.emit('gpt2-prompt', phrase)
 })
 
 socket.on('gpt2-response', message => {

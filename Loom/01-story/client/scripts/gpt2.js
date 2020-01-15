@@ -1,4 +1,5 @@
 const socket = io()
+const socketPrint = io("http://loom-illustration.local:8000")
 
 let gptPrompts = []
 let gptResults = []
@@ -80,7 +81,7 @@ window.generationDone = function() {
   let story = gptResults.join(" ")
   console.log(story)
 
-  // socket.emit('story', story)
+  socketPrint.emit('story', story)
 
   changeState("ready")
 

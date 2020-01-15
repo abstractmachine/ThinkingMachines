@@ -14,7 +14,7 @@ let fontSize = 12
 
 let textSettings = {
   leading: fontSize * 1.2, // <- this is another word for line-height
-  fontSize,
+  fontSize: 19,
   fontFamily: 'Helvetica Neue',
   fontWeight: 'normal',
   fillColor: 'black',

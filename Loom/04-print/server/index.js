@@ -8,6 +8,10 @@ import path from "path"
 import {getTempData, saveTempDataToFile} from "./tempDataTools.js"
 import {generatePdf} from "./pdfTools.js"
 
+
+import printer from "pdf-to-printer";
+import {createBookDirectory} from "./fromClientDataUtils.js"
+
 //-----
 // settings
 //-----
@@ -67,10 +71,20 @@ async function main() {
                 sendTextToClients()
 
                 if (newText.length < 1) {
+                    storeData.tempData.bookDirectory = await createBookDirectory()
                     console.info("end of text")
                     io.emit("ioEventServer_end_text")
 
-                    generatePdf()
+                     const pdfPath = generatePdf((pdfPath) =>{
+
+                        console.log("pdfPath: ", pdfPath)
+
+                        printer
+                            .print(pdfPath)
+                            .then(console.log)
+                            .catch(console.error);
+                     })
+
 
                 } else {
 

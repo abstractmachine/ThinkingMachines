@@ -3,7 +3,7 @@ import {promises} from "fs"
 import {storeData} from "./index.js"
 import path from "path"
 
-export function generatePdf() {
+export function generatePdf(pdfGenerated) {
 
     const bookRoot = "book"
 
@@ -114,10 +114,10 @@ export function generatePdf() {
 
 
             await browser.close()
+
+            pdfGenerated(path.resolve(storeData.tempData.bookDirectory, './document.pdf'))
         }, 500)
     })
-
-    return path.resolve(storeData.tempData.bookDirectory, './document.pdf')
 }
 
 function hasPngExtension(element) {

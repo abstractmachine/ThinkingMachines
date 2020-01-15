@@ -1,5 +1,5 @@
 import {storeData} from "./index.js"
-import {savePage_pngFormat, savePage_svgFormat, saveSvgForCover} from "./fromClientDataUtils.js"
+import {savePage_pngFormat, savePage_svgFormat, savePngForCover, saveSvgForCover} from "./fromClientDataUtils.js"
 
 export function startClientSocketInteractions(socket) {
     socket.on("ioEventClient_connection_layout", async () => {
@@ -11,19 +11,27 @@ export function startClientSocketInteractions(socket) {
 
         console.info('Socket', socket.id, 'send data')
 
-        await savePage_svgFormat(data.textSvg)
+        if(data !== null) {
+            await savePage_svgFormat(data.textSvg)
 
-        await saveSvgForCover(data.pathSvg)
+            await saveSvgForCover(data.pathSvg)
 
-        storeData.currentText = data.unconsumedText
+            storeData.currentText = data.unconsumedText
+        }
     })
 
     // illustration
+    socket.on("ioEventClient_connection_illustration", () => {
+        console.info("new client connection: illustration")
+    })
+
     socket.on("ioEventClient_illustration_newData", async data => {
-        console.log(data.imgBase64)
         await savePage_pngFormat({
-            pngDataBase64: data.imgBase64
+            pngDataBase64: data.imgBase64,
         })
+
+        await savePngForCover(data.contour)
+
     })
 }
 

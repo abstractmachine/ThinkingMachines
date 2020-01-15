@@ -10,22 +10,8 @@
 </head>
 
 <body>
-
-	<div id="start"><button onclick="start();">Start</button></div>
-	<div id="twee_div" style="display:none;"><iframe id="twee_frame" src="story.html"></iframe></div>
+	<div id="twee_div"><iframe id="twee_frame" src="story.html"></iframe></div>
 	<div id="scanner_div"><iframe id="scanner_frame" src="scanner.html"></iframe></div>
-
-	<script>
-		function start() {
-			// deactivate start button
-			document.getElementById("start").style.display = "none"
-			// activate twee engine
-			document.getElementById("twee_div").style.display = "block"
-			// start the sound engine in P5
-			setupSpeech()
-		}
-	</script>
-
 	<!-- P5 stuff -->
 	<script src="p5/p5.min.js"></script>
 	<script src="p5/addons/p5.speech.js"></script>
@@ -37,7 +23,6 @@
 	<!-- Socket.io stuff -->
   <script src="lib/socket.io.js"></script>
   <script src="scripts/gpt2.js"></script>
-
 </body>
 
 </html>

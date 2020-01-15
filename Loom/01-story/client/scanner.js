@@ -137,7 +137,7 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
             scannerCard.visible = true
             cardDetected = true
             // console.log('Card Added', getOptionsFromScannerBoxes())
-            // window.parent.cardAdded(getOptionsFromScannerBoxes())
+            window.parent.cardAdded(getOptionsFromScannerBoxes())
             scannerCanvas.style.display = 'block'
           }
         }
@@ -150,7 +150,7 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
         cardDetected = false
         cardDetectionDebounce = 0
         // console.log('Card Removed')
-        // window.parent.cardRemoved()
+        window.parent.cardRemoved()
       }
     }
     src.delete()

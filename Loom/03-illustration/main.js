@@ -70,13 +70,13 @@ function draw() {
   let videoWidth = video.width * videoScale
   let videoHeight = video.height * videoScale
   let videoLeft = videoPadding
-  let videoTop = windowHeight
+  let videoTop = windowHeight - videoHeight - videoPadding
   image(
     video,
-    videoPadding,
-    videoPadding,
-    video.width * videoScale,
-    video.height * videoScale
+    videoLeft,
+    videoTop,
+    videoWidth,
+    videoHeight
   )
   filter(GRAY)
   pop()
@@ -84,10 +84,10 @@ function draw() {
   adaptiveThreshold(video, contourGraphics)
   image(
     contourGraphics,
-    videoPadding,
-    videoPadding,
-    video.width * videoScale,
-    video.height * videoScale
+    videoLeft,
+    videoTop,
+    videoWidth,
+    videoHeight
   )
   
   let img = imagesDict[classResult];

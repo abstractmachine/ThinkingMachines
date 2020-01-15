@@ -30,6 +30,7 @@ function stateReady() {
 	resetStory()
 	// tell Twee to go to the Ready screen
 	twee.goToPassage('State-Ready')
+	showScanner(true)
 }
 
 

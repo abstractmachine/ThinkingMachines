@@ -91,6 +91,7 @@ window.parseResults = function() {
 
   // filter out backticks
   for(let j=0; j<gptResults.length; j++) {
+    if (gptResults[j] == null) continue;
       gptResults[j] = gptResults[j].replace(/`/g, '')
   }
 
@@ -99,6 +100,7 @@ window.parseResults = function() {
     // go through each result
     for(let j=0; j<gptResults.length; j++) {
 
+      if (gptResults[j] == null) continue;
       gptResults[j] = gptResults[j].split(k).join(replacements[k])
 
     }
@@ -107,6 +109,7 @@ window.parseResults = function() {
   // remove the dangling part after the last period
   // go through each result
   for(let j=0; j<gptResults.length; j++) {
+    if (gptResults[j] == null) continue;
      gptResults[j] = gptResults[j].substr(0, gptResults[j].lastIndexOf("\.")+1);
   }
 

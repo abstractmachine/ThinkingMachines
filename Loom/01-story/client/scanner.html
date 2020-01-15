@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Scanner</title>
     <style>
+      html,
       body {
         padding: 0;
         margin: 0;
+        overflow: hidden;
+      }
+      body {
+        transform-origin: 50vw 50vh;
+      	transform: rotate(90deg) scale(0.5) translateX(50%) 
       }
       #layers {
         position: relative;
@@ -30,6 +36,7 @@
         display: none;
       }
     </style>
+    <canvas id="scanner-canvas" width="1280" height="720"></canvas>
     <div id="layers">
       <video id="video"></video>
       <canvas id="video-canvas" width="1280" height="720"></canvas>
@@ -38,7 +45,6 @@
     <!--
     <canvas id="video-debug" width="1280" height="720"></canvas>
     -->
-    <canvas id="scanner-canvas" width="1280" height="720"></canvas>
     <svg id="scanner-grid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 536.75 264.62">
       <rect fill="none" stroke="none" width="535.75" height="263.62"/>
       <path id="thumb" d="M536.8,152.1c-10.9,0-19.8-8.8-19.8-19.8s8.8-19.8,19.8-19.8" fill="black"/>

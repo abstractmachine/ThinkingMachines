@@ -55,7 +55,7 @@ export function generatePdf() {
             await page.pdf({
                 format: "A4",
                 landscape: true,
-                path: './document.pdf',
+                path: path.resolve(storeData.tempData.bookDirectory, './document.pdf'),
                 printBackground: true,
             })
 

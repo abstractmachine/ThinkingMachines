@@ -29,7 +29,7 @@ let crop = {
   left: 100
 }
 
-let text = `coucou`
+let text = ""
 
 
 // Setup socket.io
@@ -44,8 +44,7 @@ socket.on('connect', function(){
 
 socket.on('ioEventServer_send_text', currentText => {
   console.log("current text:", currentText)
-  // text = "coucouc"
-  // console.log(text)
+  text = currentText
 })
 
 

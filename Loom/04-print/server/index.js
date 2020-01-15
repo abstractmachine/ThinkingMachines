@@ -59,20 +59,21 @@ async function main() {
             onTextContentChange: async (newText, tempData) => {
                 console.info("text has changed")
 
-                if (newText.length > 0) {
-                    sendTextToClients()
+                await saveTempDataToFile({
+                    tempFilePath: tempDataFilePath,
+                    tempData: tempData,
+                })
 
-                    await saveTempDataToFile({
-                        tempFilePath: tempDataFilePath,
-                        tempData: tempData,
-                    })
-                } else {
+                sendTextToClients()
+
+                if (newText.length < 1) {
+                    console.info("end of text")
                     io.emit("ioEventServer_end_text")
 
-                    await saveTempDataToFile({
-                        tempFilePath: tempDataFilePath,
-                        tempData: tempData,
-                    })
+                    generatePdf()
+
+                } else {
+
                 }
 
             },
@@ -102,8 +103,6 @@ async function main() {
         console.info("new connection")
         startClientSocketInteractions(socket)
     })
-
-    generatePdf()
 
 }
 

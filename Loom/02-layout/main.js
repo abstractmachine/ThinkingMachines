@@ -34,7 +34,10 @@ let text = ""
 
 // Setup socket.io
 //var socket = io('http://socketchat.alda.prossel.info/');
-const socket = io("http://0.0.0.0:8000/");
+
+
+//const socket = io("http://0.0.0.0:8000/");
+const socket = io("http://loom-illustration.local:8000/");
 
 socket.on('connect', function(){
   console.log("socket connected");

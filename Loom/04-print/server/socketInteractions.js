@@ -2,6 +2,14 @@ import {storeData} from "./index.js"
 import {savePage_pngFormat, savePage_svgFormat, savePngForCover, saveSvgForCover} from "./fromClientDataUtils.js"
 
 export function startClientSocketInteractions(socket) {
+    socket.on("story", async data => {
+        console.info(data)
+
+        storeData.currentText = data
+
+        //sendTextToClients()
+    })
+
     socket.on("ioEventClient_connection_layout", async () => {
         console.info("new client connection: text layout")
         sendTextToClients()

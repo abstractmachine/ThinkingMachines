@@ -22,8 +22,6 @@
 
 ::Generate-Pink
 {
-Sleeping Beauty
-
 (set: $prompt1 to "`$`Hero's parents wanted to have " + $wish + ".")
 
 (set: $prompt2 to "When `$`Parent was having a " + $day + " `$`Helper told her she was going to have a " + $valentine + ".")

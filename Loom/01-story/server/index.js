@@ -37,7 +37,14 @@ gpt2.stdout.on('data', data => {
       console.log('GPT-2 is ready!')
     }
   } else if (gpt2Socket) {
-    const text = data.match(/={20,} SAMPLE 1 ={20,}([\s\S]*?)={20,}/)[1].trim()
+    let text = ''
+
+    try {
+    text = data.match(/={20,} SAMPLE 1 ={20,}([\s\S]*?)={20,}/)[1].trim()
+    } catch {
+
+    } finally {}
+
     console.log('gpt2-response:', text)
     gpt2Socket.emit('gpt2-response', text)
     gpt2Socket = null

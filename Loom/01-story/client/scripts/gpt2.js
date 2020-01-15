@@ -78,8 +78,10 @@ window.generationDone = function() {
   parseResults();
 
   let story = gptResults.join(" ")
-
   console.log(story)
+
+  // socket.emit('story', story)
+
   changeState("ready")
 
 }
@@ -109,7 +111,7 @@ window.parseResults = function() {
   }
 
   for(let j=0; j<gptResults.length; j++) {
-    console.log(gptResults[j])
+    // console.log(gptResults[j])
  }
 
 }

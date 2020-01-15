@@ -58,7 +58,7 @@
 <script>generatorAddPrompt()</script>
 
 (set: $prompt to "`$`Villain was going " + $activity + " and asked `$`Hero not to go in one of the rooms of the castle.")
-<script>generategeneratorAddPromptPrompt()</script>
+<script>generatorAddPrompt()</script>
 
 (set: $prompt to "Not listening what `$`Villain said, `$`Hero went into the little room and discovered the bodies of all the wife’s " + $death + " on the walls. Without realizing it `$`Hero dropped the `$`MagicalObject staining it in blood.")
 <script>generatorAddPrompt()</script>

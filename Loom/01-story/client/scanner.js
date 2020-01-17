@@ -127,8 +127,11 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
       scannerRaster.drawImage(tempCanvas)
       scannerRaster.position = scannerScope.view.center
       scannerCard.bounds = scannerRaster.bounds
-      // Scale a little bit, to better match the actual bitmap positions:
+      // Move and scale a little bit, to better match the actual bitmap positions:
+      // NOTE: This was fine-tuned by hand to work well with the printed out cards
+      // and may need further tweaking should the design change again.
       scannerCard.scale(1.005, 1.02)
+      scannerCard.translate(-8, 0)
       if (!cardDetected) {
         // See if the thumb shape covers mostly black pixels):
         let thumbColor = scannerRaster.getAverageColor(scannerThumb)

@@ -103,8 +103,12 @@ function findCountourAndWarpImage(video, tempCanvas, videoCanvas, debugCanvas) {
     // Convert the countours to Paper.js paths
     overlayScope.activate()
     overlayScope.project.clear()
-    let paths = convertContoursToPaths(contours, 32, 64, {
-      strokeColor: 'red'
+    let paths = convertContoursToPaths(contours, {
+      minArea: 32,
+      approxPolyEpsilon: 64,
+      pathProperties: {
+        strokeColor: 'red'
+      }
     })
     hierarchy.delete()
     contours.delete()
@@ -235,7 +239,12 @@ function getOptionsFromScannerBoxes() {
   return options
 }
 
-function convertContoursToPaths(contours, minArea = 0, approxPolyEpsilon = 0, pathProperties = {}) {
+function convertContoursToPaths(contours, options = {}) {
+  let {
+    minArea = 0,
+    approxPolyEpsilon = 0,
+    pathProperties = {}
+  } = options
   let paths = []
   for (let i = 0; i < contours.size(); i++) {
     let contour = contours.get(i)

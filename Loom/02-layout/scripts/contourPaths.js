@@ -21,8 +21,8 @@ export function findContourPaths(options) {
     let ctx = canvas.getContext('2d')
     ctx.save()
     if (flip) {
-      ctx.translate(0, canvas.height)
-      ctx.scale(1, -1)
+      ctx.translate(canvas.width, canvas.height)
+      ctx.scale(-1, -1)
     }
     ctx.drawImage(
       video,

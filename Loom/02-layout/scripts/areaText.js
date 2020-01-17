@@ -39,7 +39,7 @@ export function fillPathsWithText(paths, text, settings) {
       while (/^ +$/.test(part)) {
         part = parts.shift()
       }
-      if (!part) break
+      if (part === undefined) break
       let start = linePart.bounds.bottomLeft
       let width = linePart.bounds.width
 
@@ -54,7 +54,7 @@ export function fillPathsWithText(paths, text, settings) {
       while (text.bounds.width < width) {
         fittingContent = content
         part = parts.shift()
-        if (!part) break
+        if (part === undefined) break
         if (/\n/.test(part)) {
           lineBreak = true
           break
@@ -77,7 +77,7 @@ export function fillPathsWithText(paths, text, settings) {
 
   // Return the text that wasn't consumed yet
   let unconsumedText = parts.join('')
-  return { textItems, unconsumedText }
+  return { textItems, unconsumedText }
 }
 
 export function setContent(textItem, content) {

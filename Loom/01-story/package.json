@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "module": "index.js",
   "scripts": {
-    "prepare": "pika-web",
     "start": "node server/index.js",
     "dev": "nodemon --watch ./server --exec 'npm run start'"
   },
@@ -21,16 +20,6 @@
     "paper": "^0.12.4",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
-  },
-  "devDependencies": {
-    "@pika/web": "^0.6.1"
-  },
-  "@pika/web": {
-    "webDependencies": [
-      "socket.io-client/dist/socket.io.js",
-      "paper/dist/paper-full.js",
-      "p5/lib/p5.js"
-    ]
   },
   "browserslist": ">0.75%, not ie 11, not op_mini all"
 }

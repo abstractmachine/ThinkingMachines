@@ -12,8 +12,6 @@ server.use(serve('./client', {
     res.setHeader('Feature-Policy', `camera 'self'`)
   }
 }))
-// Server the web-modules, built by Pika
-server.use(mount('/web_modules', serve('./web_modules')))
 
 let gpt2Ready = false
 let gpt2Socket = null

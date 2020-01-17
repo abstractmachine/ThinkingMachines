@@ -50,44 +50,11 @@ export function findContourPaths(options) {
     src.delete()
     contours.delete()
     hierarchy.delete()
-    // paths = filterContourPaths(paths, canvas)
     return paths
   }
   catch (error) {
     console.error(error)
   }
-}
-
-export function filterContourPaths(paths, canvas) {
-  let results = []
-  for (const path of paths) {
-    let remove = false
-    for (const curve of path.curves) {
-      if (curve.isStraight() && curve.length > 10) {
-        let point = curve.point1
-        console.log(point, curve.isHorizontal(), curve.isVertical())
-        if (
-          curve.isHorizontal() && (
-            point.y === 0 ||
-            point.y === canvas.width - 1
-          ) ||
-          curve.isVertical() && (
-            point.x === 0 ||
-            point.x === canvas.height - 1
-          )
-          ) {
-          remove = true
-          break
-        }
-      }
-    }
-    if (remove) {
-      path.remove()
-    } else {
-      results.push(path)
-    }
-  }
-  return results
 }
 
 export function convertContoursToPaths(contours, options = {}) {

@@ -35,16 +35,18 @@ gpt2.stdout.on('data', data => {
       console.log('GPT-2 is ready!')
     }
   } else if (gpt2Socket) {
-    let text = ''
-
-    try {
-    text = data.match(/={20,} SAMPLE 1 ={20,}([\s\S]*?)={20,}/)[1].trim()
-    } catch {
-
-    } finally {}
-
-    console.log('gpt2-response:', text)
-    gpt2Socket.emit('gpt2-response', text)
+    let match = data.match(/={20,} SAMPLE 1 ={20,}([\s\S]*?)={20,}/)
+    if (match) {
+      let text = match[1].trim()
+      console.log('gpt2-response:', text)
+      gpt2Socket.emit('gpt2-response', text)
+    } else {
+      console.error('gpt2-parser-error: Could not parse response', data)
+      // Emit an empty string anyway, so client can stop waiting.
+      // TODO: Once we get such a case, look at the logged data and figure out
+      // why it can't be parsed.
+      gpt2Socket.emit('gpt2-response', '')
+    }
     gpt2Socket = null
   }
 })

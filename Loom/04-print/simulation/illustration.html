@@ -13,9 +13,8 @@
 
 <button id="sendButton">save image</button>
 
-<script type="module">
-    import io from "../web_modules/socket.io-client/dist/socket.io.js"
-
+<script src="lib/socket.io.js"></script>
+<script>
     const socket = io("http://0.0.0.0:8000/")
 
     console.log(socket)

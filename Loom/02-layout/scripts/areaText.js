@@ -4,7 +4,7 @@ export function fillPathsWithText(paths, text, settings) {
   let lines = []
 
   for (let path of paths) {
-    // For each path, create basseline grid for text, and intersect it with the
+    // For each path, create baseline grid for text, and intersect it with the
     // path geometry to receive the parts of the grid that lie inside the path:
     let bounds = path.bounds
     let leading = settings.leading
@@ -19,7 +19,6 @@ export function fillPathsWithText(paths, text, settings) {
       lines.push(line.intersect(path, { trace: false }))
       line.remove()
     }
-
   }
 
   // Split text text at white-space characters as well as silent hyphens as

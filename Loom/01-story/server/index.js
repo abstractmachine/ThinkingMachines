@@ -5,7 +5,7 @@ import KoaSocketServer from './KoaSocketServer.js'
 import { spawn } from 'child_process'
 
 const io = new IOServer()
-const server = new KoaSocketServer({ io })
+const server = new KoaSocketServer({ io, host: '127.0.0.1' })
 
 server.use(serve('./client', {
   setHeaders(res) {

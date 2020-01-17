@@ -14,10 +14,17 @@ export async function captureVideo(video) {
   return false
 }
 
-export function findContourPaths(video, canvas, crop, contourProperties, pathProperties) {
+export function findContourPaths(options) {
   try {
     // Draw current video frame to canvas.
-    canvas.getContext('2d').drawImage(
+    let { video, canvas, crop, flip } = options
+    let ctx = canvas.getContext('2d')
+    ctx.save()
+    if (flip) {
+      ctx.translate(0, canvas.height)
+      ctx.scale(1, -1)
+    }
+    ctx.drawImage(
       video,
       // Source:
       crop.left,
@@ -30,6 +37,7 @@ export function findContourPaths(video, canvas, crop, contourProperties, pathPro
       canvas.width,
       canvas.height
     )
+    ctx.restore()
     // Use some thresholding on the frame, then find contours:
     let hierarchy = new cv.Mat()
     let contours = new cv.MatVector()
@@ -38,7 +46,7 @@ export function findContourPaths(video, canvas, crop, contourProperties, pathPro
     cv.threshold(src, src, 110, 255, cv.THRESH_BINARY_INV)
     cv.findContours(src, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
     // Convert the countours to Paper.js paths
-    let paths = convertContoursToPaths(contours, contourProperties, pathProperties)
+    let paths = convertContoursToPaths(contours, options)
     src.delete()
     contours.delete()
     hierarchy.delete()
@@ -82,9 +90,13 @@ export function filterContourPaths(paths, canvas) {
   return results
 }
 
-export function convertContoursToPaths(contours, contourProperties = {}, pathProperties = {}) {
+export function convertContoursToPaths(contours, options = {}) {
   let paths = []
-  let { minArea = 0, approxPolyEpsilon = 0 } = contourProperties
+  let {
+    minArea = 0,
+    approxPolyEpsilon = 0,
+    pathProperties = {}
+  } = options
   for (let i = 0; i < contours.size(); i++) {
     let contour = contours.get(i)
     if (cv.contourArea(contour) > minArea) {

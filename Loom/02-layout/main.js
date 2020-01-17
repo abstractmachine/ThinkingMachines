@@ -29,6 +29,8 @@ let crop = {
   left: 100
 }
 
+let flip = true
+
 let text = ""
 
 
@@ -76,19 +78,18 @@ async function setupVideo() {
       view.center = canvasSize.divide(2)
       project.clear()
       let pathLayer = project.activeLayer
-      let paths = findContourPaths(
+      let paths = findContourPaths({
         video,
         canvas,
         crop,
-        {
-          minArea: 32,
-          approxPolyEpsilon: 1
-        },
-        {
+        flip,
+        minArea: 32,
+        approxPolyEpsilon: 1,
+        pathProperties: {
           strokeColor: 'black',
           strokeScaling: false
         }
-      )
+      })
 
       if(text.length > 0) {
         let textLayer = new Layer()

@@ -5,7 +5,7 @@ import KoaSocketServer from './KoaSocketServer.js'
 import {StoreData} from "./StoreData.js"
 import {sendTextToClients, startClientSocketInteractions} from "./socketInteractions.js"
 import path from "path"
-import {getTempData, saveTempDataToFile} from "./tempDataTools.js"
+import {generateDefaultDate, generateDefaultText, getTempData, saveTempDataToFile} from "./tempDataTools.js"
 import {generatePdf} from "./pdfTools.js"
 
 
@@ -76,7 +76,12 @@ async function main() {
 
                     // const pdfPath = path.resolve(storeData.tempData.bookDirectory, './document.pdf')
 
-                    storeData.tempData.bookDirectory = await createBookDirectory()
+                    storeData.tempData = {
+                        date: generateDefaultDate(),
+                        currentText: generateDefaultText(),
+                        bookDirectory: await createBookDirectory(),
+                        pageIndex: 0,
+                    }
 
                     // generatePdf(async () => {
                     //

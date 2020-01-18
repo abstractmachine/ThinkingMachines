@@ -74,21 +74,19 @@ async function main() {
                     console.info("end of text")
                     io.emit("ioEventServer_end_text")
 
-                    const pdfPath = path.resolve(storeData.tempData.bookDirectory, './document.pdf')
+                    // const pdfPath = path.resolve(storeData.tempData.bookDirectory, './document.pdf')
 
-                     generatePdf(async () =>{
+                    storeData.tempData.bookDirectory = await createBookDirectory()
 
-                        console.log("pdfPath: ", pdfPath)
-
-                        printer
-                            .print(pdfPath)
-                            .then(console.log)
-                            .catch(console.error);
-
-
-                        storeData.tempData.bookDirectory = await createBookDirectory()
-                     })
-
+                    // generatePdf(async () => {
+                    //
+                    //     console.log("pdfPath: ", pdfPath)
+                    //
+                    //     printer
+                    //         .print(pdfPath)
+                    //         .then(console.log)
+                    //         .catch(console.error)
+                    // })
 
                 } else {
 

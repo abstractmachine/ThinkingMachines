@@ -12,6 +12,14 @@ export class StoreData {
         return this.#tempData
     }
 
+    /**
+     * @param value {TempData}
+     */
+    set tempData(value) {
+        console.info("all tempdata updated")
+        this.#tempData = value
+    }
+
     get pathOfCurrentBookDirectory() {return this.tempData.bookDirectory}
     set pathOfCurrentBookDirectory(value) {
         this.#tempData.bookDirectory = value
@@ -56,7 +64,7 @@ export class StoreData {
         this.onTextContentChange = onTextContentChange
         this.onNewPageAdded = onNewPageAdded
 
-        this.#tempData = tempData
+        this.tempData = tempData
 
     }
 }

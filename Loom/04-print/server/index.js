@@ -74,24 +74,12 @@ async function main() {
                     console.info("end of text")
                     io.emit("ioEventServer_end_text")
 
-                    // const pdfPath = path.resolve(storeData.tempData.bookDirectory, './document.pdf')
-
                     storeData.tempData = {
                         date: generateDefaultDate(),
                         currentText: generateDefaultText(),
                         bookDirectory: await createBookDirectory(),
                         pageIndex: 0,
                     }
-
-                    // generatePdf(async () => {
-                    //
-                    //     console.log("pdfPath: ", pdfPath)
-                    //
-                    //     printer
-                    //         .print(pdfPath)
-                    //         .then(console.log)
-                    //         .catch(console.error)
-                    // })
 
                 } else {
 

@@ -70,21 +70,6 @@ async function main() {
 
                 sendTextToClients()
 
-                if (newText.length < 1) {
-                    console.info("end of text")
-                    io.emit("ioEventServer_end_text")
-
-                    storeData.tempData = {
-                        date: generateDefaultDate(),
-                        currentText: generateDefaultText(),
-                        bookDirectory: await createBookDirectory(),
-                        pageIndex: 0,
-                    }
-
-                } else {
-
-                }
-
             },
             onNewPageAdded: async (newIndex, tempData) => {
                 console.info("page added", newIndex, tempData)
@@ -93,6 +78,8 @@ async function main() {
                     tempFilePath: tempDataFilePath,
                     tempData: tempData,
                 })
+
+                await updateBookStatus(tempData)
             },
             tempData: await getTempData(tempDataFilePath)
         }
@@ -113,6 +100,31 @@ async function main() {
         startClientSocketInteractions(socket)
     })
 
+}
+
+/**
+ * @param tempData {TempData}
+ */
+async function updateBookStatus(tempData) {
+    if (tempData.currentText.length < 1 && tempData.illustrationPageCounter >= 4) {
+        console.info("end of text")
+        // io.emit("ioEventServer_end_text")
+
+        generatePdf(async () => {
+            console.log("pdfGenerated")
+
+            storeData.tempData = {
+                date: generateDefaultDate(),
+                currentText: generateDefaultText(),
+                bookDirectory: await createBookDirectory(),
+                pageIndex: 0,
+                illustrationPageCounter: 0,
+            }
+
+        })
+    } else {
+
+    }
 }
 
 main().then(

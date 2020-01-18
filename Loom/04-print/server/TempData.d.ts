@@ -3,4 +3,5 @@ declare class TempData {
   currentText: string
   bookDirectory: string
   pageIndex: number
+  illustrationPageCounter: number
 }

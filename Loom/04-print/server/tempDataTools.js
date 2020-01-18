@@ -14,7 +14,8 @@ export async function getTempData(fileDataPath) {
         date:           generateDefaultDate(),
         currentText:    generateDefaultText(),
         bookDirectory:  await createBookDirectory(),
-        pageIndex:      0
+        pageIndex:      0,
+        illustrationPageCounter: 0,
     }
 }
 
@@ -99,7 +100,7 @@ export async function getRestoredData({fileDataPath}) {
  * @return {Promise<void>}
  */
 export function saveTempDataToFile({tempFilePath, tempData}) {
-    console.log("data saved", tempFilePath)
+    // console.log("data saved", tempFilePath)
     writeFileSync(tempFilePath, JSON.stringify(tempData) )
 }
 

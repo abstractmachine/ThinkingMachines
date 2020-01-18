@@ -34,6 +34,9 @@ export function startClientSocketInteractions(socket) {
     })
 
     socket.on("ioEventClient_illustration_newData", async data => {
+
+        storeData.tempData.illustrationPageCounter ++
+
         await savePage_pngFormat({
             pngDataBase64: data.imgBase64,
         })

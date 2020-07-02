@@ -27,5 +27,5 @@ folk/model-11024.index
 folk/model-11024.meta
 folk/vocab.bpe
 
-télécharger ce dossier ici
+télécharger ce dossier [ici](https://drive.google.com/drive/folders/1jE_imvd98v-_Kn0zDSwnKKYRBygf3rFh?usp=sharing)
 

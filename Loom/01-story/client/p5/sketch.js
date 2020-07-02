@@ -12,13 +12,21 @@ function draw() {
 }
 
 function keyPressed() {
-	
+
 	switch(key) {
 
-		// card was inserted
-		case ('c'):
-		changeState("inserted")
-		break;
+		// card was inserted Scan
+		case ('s'):
+			changeState("inserted")
+			break;
+
+		// todo: Douglas déclancher ce choix dans Twin
+		case ('a'):
+			console.log("choix: a")
+			break;
+		case ('b'):
+			console.log("choix: b")
+			break;
 
 		// card was inserted
 		case ('x'):
@@ -27,8 +35,9 @@ function keyPressed() {
 
 		// force generation of the story
 		case ('g'):
-		changeState("random")
-		break;
+			console.log("random generated")
+			changeState("random")
+			break;
 
 	}
 

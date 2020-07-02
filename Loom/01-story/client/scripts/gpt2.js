@@ -1,5 +1,6 @@
 const socket = io()
-const socketPrint = io("http://loom-illustration.local:8000")
+// const socketPrint = io("http://loom-illustration.local:8000")
+const socketPrint = io("http://0.0.0.0:8000")
 
 let gptPrompts = []
 let gptResults = []
@@ -55,10 +56,12 @@ window.generateStory = function() {
 
 window.sendNextPrompt = function() {
 
+  console.log("sendNextPrompt: " + gptPrompts.length)
+
   if (gptPrompts.length == 0) {
 
     generationDone()
-  
+
   } else {
     // get the first item
     let nextPrompt = gptPrompts[0]
@@ -70,14 +73,14 @@ window.sendNextPrompt = function() {
     socket.emit('gpt2-prompt', nextPrompt)
   }
 
-  
+
 }
 
 
 window.generationDone = function() {
 
   parseResults();
-
+  console.log("salut salut machin")
   let story = gptResults.join(" ")
   console.log(story)
 

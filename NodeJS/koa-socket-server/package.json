@@ -20,7 +20,7 @@
     "p5": "^0.10.2",
     "paper": "^0.12.4",
     "puppeteer": "^2.0.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
